@@ -1,0 +1,49 @@
+<com.example.obligatorio.ui.DashboardLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_weight="1"
+    android:background="#f8f9fe" >
+    <!--  News Feed Button -->
+    <Button
+        android:id="@+id/btn_create_list"
+        style="@style/DashboardButton"        
+        android:background="@drawable/button_crear_lista"
+        android:text="Crear Lista" />
+ 
+    <!--  Friends Button -->
+    <Button
+        android:id="@+id/btn_check_list"
+        style="@style/DashboardButton"        
+        android:background="@drawable/button_check_list"
+        android:text="Lista Actual" />
+ 
+    <!--  Messages Button -->
+    <Button
+        android:id="@+id/btn_map"
+        style="@style/DashboardButton"        
+        android:background="@drawable/button_map"
+        android:text="Direccion" />
+ 
+    <!--  Places Button -->
+    <Button
+        android:id="@+id/btn_store"
+        style="@style/DashboardButton"        
+        android:background="@drawable/button_store"
+        android:text="Establecimiento" />
+ 
+    <!--  Events Button -->
+    <Button
+        android:id="@+id/btn_history"
+        style="@style/DashboardButton"        
+        android:background="@drawable/button_history"
+        android:text="Historial" />
+ 
+    <!--  Photos Button -->
+<!--     <Button -->
+<!--         android:id="@+id/btn_photos" -->
+<!--         style="@style/DashboardButton" -->
+<!--         android:drawableTop="@drawable/btn_photos" -->
+<!--         android:text="Photos" /> -->
+ 
+</com.example.obligatorio.ui.DashboardLayout>

@@ -1,0 +1,9 @@
+<resources>
+
+    <string name="app_name">Obligatorio</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_principal">Principal</string>
+    <string name="dir">Direccion Actual</string>
+    <string name="crear">Crear Lista</string>
+
+</resources>
