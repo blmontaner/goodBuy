@@ -23,6 +23,7 @@ public class ProductosAdaptadorCantidad extends ArrayAdapter<Producto> {
 		this.context = context;
 		this.productos = pros;
 		//commentario prueba
+		//asdadsa
 	}
 
 	static class ProductoCantidadViewHolder {
