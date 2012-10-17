@@ -22,6 +22,7 @@ public class ProductosAdaptadorCantidad extends ArrayAdapter<Producto> {
 		super(context, R.layout.activity_actual_items, pros);
 		this.context = context;
 		this.productos = pros;
+		//commentario prueba
 	}
 
 	static class ProductoCantidadViewHolder {
