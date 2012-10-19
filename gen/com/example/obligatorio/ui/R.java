@@ -28,8 +28,9 @@ public final class R {
         public static final int logo=0x7f02000e;
         public static final int map=0x7f02000f;
         public static final int map_hover=0x7f020010;
-        public static final int store=0x7f020011;
-        public static final int store_hover=0x7f020012;
+        public static final int marcador_google_maps=0x7f020011;
+        public static final int store=0x7f020012;
+        public static final int store_hover=0x7f020013;
     }
     public static final class id {
         public static final int LblEspecificacion=0x7f070027;
