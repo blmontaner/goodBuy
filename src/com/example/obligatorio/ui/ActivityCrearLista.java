@@ -6,7 +6,7 @@ import java.util.concurrent.ExecutionException;
 
 import com.example.obligatorio.adapters.ProductosAdaptador;
 import com.example.obligatorio.dominio.Producto;
-import com.example.obligatorio.servicio.BajarProJSON;
+import com.example.obligatorio.servicio.WebServiceInteraction;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -39,8 +39,8 @@ public class ActivityCrearLista extends Activity {
 
 		
 		 try {
-		 productos = (new BajarProJSON()
-		 .execute("http://goodbuyserver-nspace.rhcloud.com/rest/productos/catalogoProductos"))
+		 productos = (new WebServiceInteraction()
+		 .execute("https://kitchensink-nspace.rhcloud.com/rest/productos/catalogoProductos"))
 		 .get();
 		
 		 } catch (InterruptedException e) {

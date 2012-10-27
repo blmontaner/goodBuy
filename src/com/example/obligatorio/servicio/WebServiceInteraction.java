@@ -15,7 +15,7 @@ import android.util.Log;
 
 //http://miguelangellv.wordpress.com/2011/01/31/creando-tareas-asincronas-en-android-con-asynctask/
 //Guia REST Android.pdf
-public class BajarProJSON extends AsyncTask<String, Void, ArrayList<Producto>> {
+public class WebServiceInteraction extends AsyncTask<String, Void, ArrayList<Producto>> {
 	// para un futuro se podria poner el PROGRESSDIALOG
 	// private final ProgressDialog dialog = new ProgressDialog(
 	// AllOffersListActivity.this);
@@ -58,8 +58,7 @@ public class BajarProJSON extends AsyncTask<String, Void, ArrayList<Producto>> {
 					pro.SetNombre(aux[0]);
 					String[] subAux = aux[1].split(" \\(");
 					pro.SetMarca(subAux[0]);
-					pro.SetEspecificacion(subAux[1].substring(0,
-							subAux[1].length() - 1));// saco el ultimo
+					pro.SetEspecificacion(subAux[1].substring(0,subAux[1].length() - 1));// saco el ultimo
 														// parentesis
 					productos.add(pro);
 				}
