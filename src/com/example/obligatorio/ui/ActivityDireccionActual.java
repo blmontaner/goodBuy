@@ -13,7 +13,11 @@ import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 
 import android.location.Address;
+import android.location.Criteria;
 import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,10 +26,11 @@ import android.widget.Toast;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
-public class ActivityDireccionActual extends MapActivity {
-	//http://wptrafficanalyzer.in/blog/add-marker-on-touched-location-using-google-map-in-android-example/
+public class ActivityDireccionActual extends MapActivity implements
+		LocationListener {
+	// http://wptrafficanalyzer.in/blog/add-marker-on-touched-location-using-google-map-in-android-example/
 	private MapView mapView;
-	//private TextView tvLocation;
+	// private TextView tvLocation;
 
 	// Handles Taps on the Google Map
 	Handler h = new Handler() {
@@ -57,12 +62,30 @@ public class ActivityDireccionActual extends MapActivity {
 
 		// map.getController().setCenter(getPoint(-34.903819, -56.190463));
 		mapView.getController().setZoom(17);
-		// map.setBuiltInZoomControls(true);
-		int latitudeORT = -34903819;
-
-		int longitudeORT = -56190463;
-
-		showLocation(latitudeORT, longitudeORT);
+		// map.setBuiltInZoomControls(true);		
+		
+		// Getting LocationManager object from System Service LOCATION_SERVICE
+        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+ 
+        // Creating a criteria object to retrieve provider
+        Criteria criteria = new Criteria();
+ 
+        // Getting the name of the best provider
+        String provider = locationManager.getBestProvider(criteria, true);
+ 
+        // Getting Current Location
+        Location location = locationManager.getLastKnownLocation(provider);
+ 
+      //  List<String> provedores = locationManager.getAllProviders();
+        if(location!=null){
+            onLocationChanged(location);
+        }else{
+        	int latitudeORT = -34903819;
+        	int longitudeORT = -56190463;
+        	showLocation(latitudeORT, longitudeORT);
+        }
+ 
+        locationManager.requestLocationUpdates(provider, 20000, 0, this);  
 
 	}
 
@@ -105,15 +128,13 @@ public class ActivityDireccionActual extends MapActivity {
 		// Redraws the map
 		mapView.invalidate();
 
-		
-		//esto se puede sacar porque demora mucho sino mepa...
+		// esto se puede sacar porque demora mucho sino mepa...
 		Context contexto = mapView.getContext();
 
-		Geocoder geoCoder = new Geocoder(contexto,
-				Locale.getDefault());
+		Geocoder geoCoder = new Geocoder(contexto, Locale.getDefault());
 		try {
-			List<Address> direcciones = geoCoder.getFromLocation(latitude/1e6,
-					longitude/1e6, 1);
+			List<Address> direcciones = geoCoder.getFromLocation(
+					latitude / 1e6, longitude / 1e6, 1);
 
 			String dir = "";
 			if (direcciones.size() > 0) {
@@ -131,6 +152,33 @@ public class ActivityDireccionActual extends MapActivity {
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
+	}
+
+	@Override
+	public void onLocationChanged(Location localizacion) {
+		// TODO Auto-generated method stub
+		showLocation((int) (localizacion.getLatitude() * 1E6),
+				(int) (localizacion.getLongitude() * 1E6));
+		// (int)(latitude * 1E6), (int)(longitude*1E6));
+
+	}
+
+	@Override
+	public void onProviderDisabled(String provider) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onProviderEnabled(String provider) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+		// TODO Auto-generated method stub
+
 	}
 
 }
