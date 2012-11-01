@@ -4,12 +4,7 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-        <!-- Include Action Bar -->
-        <include
-        android:layout_height="31dp"
-        layout="@layout/actionbar_layout" />
-
- 
+         
         <!--  Include Fragmented dashboard -->
         <include
         android:layout_width="fill_parent"
@@ -19,6 +14,9 @@
    
  
         <!--  Include Footer -->
-        <include layout="@layout/footer_layout"/>
+        <include 
+		android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+		layout="@layout/footer_layout"/>
  
 </LinearLayout>

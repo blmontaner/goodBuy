@@ -1,6 +1,7 @@
 package com.example.obligatorio.servicio;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.example.obligatorio.dominio.Establecimiento;
@@ -16,6 +17,11 @@ public class ListaResultado implements Serializable{
 	
 	private List<ProductoCantidadPrecio> productosPrecios;	
 	private double total;
+	private Establecimiento est;
+	
+	public ListaResultado(){
+		productosPrecios = new ArrayList<ProductoCantidadPrecio>();
+	}
 	
 	public List<ProductoCantidadPrecio> getProductosPrecios() {
 		return productosPrecios;
@@ -25,6 +31,14 @@ public class ListaResultado implements Serializable{
 		this.productosPrecios = productosPrecios;
 	}
 	
+	public Establecimiento getEst() {
+		return est;
+	}
+
+	public void setEst(Establecimiento est) {
+		this.est = est;
+	}
+
 	public double getTotal() {
 		double ret = 0;
 		for(ProductoCantidadPrecio p : getProductosPrecios()){
@@ -37,19 +51,21 @@ public class ListaResultado implements Serializable{
 		this.total = total;
 	}
 	
-	public void addProductoCantidadPrecio(ListaPedido.ProductoCantidad pp,double precio,Establecimiento est){
-		this.productosPrecios.add(new ListaResultado.ProductoCantidadPrecio(pp, precio,est));
+	public void addProductoCantidadPrecio(ProductoCantidadPrecio pcp){
+		this.productosPrecios.add(pcp);
+	}
+	
+	public void addProductoCantidadPrecio(ListaPedido.ProductoCantidad pp,double precio){
+		this.productosPrecios.add(new ListaResultado.ProductoCantidadPrecio(pp, precio));
 	}
 
 	public class ProductoCantidadPrecio implements Serializable{
 		private ListaPedido.ProductoCantidad prodCantidad;
 		private double precioProducto;
-		private Establecimiento est;
-		
-		public ProductoCantidadPrecio(ListaPedido.ProductoCantidad pc, double precio, Establecimiento est){
+				
+		public ProductoCantidadPrecio(ListaPedido.ProductoCantidad pc, double precio){
 			this.prodCantidad = pc;
 			this.precioProducto = precio;
-			this.est = est;
 		}
 		
 		public ListaPedido.ProductoCantidad getProdCantidad() {
@@ -64,16 +80,10 @@ public class ListaResultado implements Serializable{
 		public void setPrecioProducto(double precioProducto) {
 			this.precioProducto = precioProducto;
 		}
-		public Establecimiento getEst() {
-			return est;
-		}
 
-		public void setEst(Establecimiento est) {
-			this.est = est;
+		@Override
+		public String toString() {
+			return "Prod Cant"+prodCantidad.toString()+" precioProducto: "+precioProducto;
 		}
-
-		
 	}
-
-
 }

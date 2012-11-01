@@ -65,6 +65,7 @@ public final class R {
         public static final int btn_check_list=0x7f07002b;
         public static final int btn_create_list=0x7f07002a;
         public static final int btn_history=0x7f07002e;
+        public static final int btn_history2=0x7f07002f;
         public static final int btn_map=0x7f07002c;
         public static final int btn_store=0x7f07002d;
         public static final int checkBox2=0x7f070005;
@@ -74,7 +75,7 @@ public final class R {
         public static final int listView1=0x7f07000a;
         public static final int listaPorCantidad=0x7f070001;
         public static final int mapview=0x7f070007;
-        public static final int menu_settings=0x7f07002f;
+        public static final int menu_settings=0x7f070030;
         public static final int producto=0x7f070009;
         public static final int textView1=0x7f070000;
         public static final int tvCantidad=0x7f070006;

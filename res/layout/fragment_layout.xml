@@ -53,6 +53,12 @@
         android:gravity="bottom|center_horizontal"
         android:paddingBottom="4dp"
         android:text="Historial" />
+ 	 <Button
+        android:id="@+id/btn_history2"
+        style="@style/DashboardButton"        
+        android:gravity="bottom|center_horizontal"
+        android:paddingBottom="4dp"
+        android:text="" />
  
     <!--  Photos Button -->
 <!--     <Button -->
