@@ -11,6 +11,7 @@ import com.example.obligatorio.servicio.ListaPedido.ProductoCantidad;
 import com.example.obligatorio.servicio.WebServiceInteraction;
 import com.example.obligatorio.sistema.Sistema;
 
+import BaseDeDatos.BaseDeDatos;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -28,6 +29,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 public class ActivityCrearLista extends Activity {
 
@@ -35,6 +38,7 @@ public class ActivityCrearLista extends Activity {
 	private static final int MENU_VERLISTA = Menu.FIRST + 1;
 	ListaPedido lp;
 	private ArrayList<Producto> productos= new ArrayList<Producto>();
+	private SQLiteDatabase baseDatos;   
 	// private ArrayList<Producto> seleccionados;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -43,39 +47,40 @@ public class ActivityCrearLista extends Activity {
 		
 		lp = new ListaPedido();
 		
-		 try {
-		 productos = (new WebServiceInteraction()
-		 .execute("https://kitchensink-nspace.rhcloud.com/rest/productos/catalogoProductos"))
-		 .get();
+		 BaseDeDatos base = new BaseDeDatos(this);
+		 productos = (ArrayList<Producto>) base.getAllProducts();
+		//productos = (ArrayList<Producto>) BaseDeDatos.getInstance(this).getAllProducts();
+//		//todos los productos
+//		Cursor cursor= baseDatos.query("productos",new String[] {"id","nombre","marca", "especificacion"},
+//				null,null,null,null,null);
+//      //  startManagingCursor(cursor);
+//	    cursor.moveToFirst();
+//		while (!cursor.isAfterLast()) {
+//		      Producto pro = cursorToProducto(cursor);
+//		      productos.add(pro);
+//		      cursor.moveToNext();
+//		    }
+//		    // Make sure to close the cursor
+//		    cursor.close();
 		
-		 } catch (InterruptedException e) {
-		 // TODO Auto-generated catch block
-		 e.printStackTrace();
-		 } catch (ExecutionException e) {
-		 // TODO Auto-generated catch block
-		 e.printStackTrace();
-		 }
+//		String selectQuery = "SELECT  * FROM productos";
+//		SQLiteDatabase db = this.getWritableDatabase();
+//		    Cursor cursor = db.rawQuery(selectQuery, null);
+		
+		
+//		 try {
+//		 productos = (new WebServiceInteraction()
+//		 .execute("https://kitchensink-nspace.rhcloud.com/rest/productos/catalogoProductos"))
+//		 .get();
+//		
+//		 } catch (InterruptedException e) {
+//		 // TODO Auto-generated catch block
+//		 e.printStackTrace();
+//		 } catch (ExecutionException e) {
+//		 // TODO Auto-generated catch block
+//		 e.printStackTrace();
+//		 }
 
-		// productos = new ArrayList<Producto>();
-//		productos.add(new Producto("ANombre 1", "Marca 1", "Especificacion 1"));
-//		productos.add(new Producto("bombre 2", "Marca 2", "Especificacion 2"));
-//		productos.add(new Producto("bombre 3", "Marca 3", "Especificacion 3"));
-//		productos.add(new Producto("cmbre 4", "Marca 4", "Especificacion 4"));
-//		productos.add(new Producto("cmbre 5", "Marca 5", "Especificacion 5"));
-//		productos.add(new Producto("ombre 6", "Marca 6", "Especificacion 6"));
-//		productos.add(new Producto("Eombre 6", "Marca 6", "Especificacion 6"));
-//		productos.add(new Producto("Eombre 6", "Marca 6", "Especificacion 6"));
-//		productos.add(new Producto("Fombre 6", "Marca 6", "Especificacion 6"));
-//		productos.add(new Producto("Fombre 6", "Marca 6", "Especificacion 6"));
-//		productos.add(new Producto("Fombre 6", "Marca 6", "Especificacion 6"));
-//		productos.add(new Producto("Gombre 6", "Marca 6", "Especificacion 6"));
-//		productos.add(new Producto("Gombre 6", "Marca 6", "Especificacion 6"));
-//		productos.add(new Producto("Gombre 6", "Marca 6", "Especificacion 6"));
-//		productos.add(new Producto("Pombre 6", "Marca 6", "Especificacion 6"));
-//		productos.add(new Producto("Pombre 6", "Marca 6", "Especificacion 6"));
-//		productos.add(new Producto("Rombre 6", "Marca 6", "Especificacion 6"));
-//		productos.add(new Producto("Xombre 6", "Marca 6", "Especificacion 6"));
-//		productos.add(new Producto("Zombre 6", "Marca 6", "Especificacion 6"));
 
 		final ProductosAdaptador adaptador = new ProductosAdaptador(this,
 				productos);
@@ -143,6 +148,16 @@ public class ActivityCrearLista extends Activity {
 		});
 
 	}
+
+//	private Producto cursorToProducto(Cursor cursor) {
+//		Producto pro = new Producto();
+//		pro.setId(cursor.getInt(0));
+//		pro.SetNombre(cursor.getString(1));
+//		pro.SetMarca(cursor.getString(2));
+//		pro.SetEspecificacion(cursor.getString(3));
+//		return pro;
+//		
+//	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
