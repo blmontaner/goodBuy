@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.obligatorio.dominio.Producto;
+import com.example.obligatorio.servicio.ListaPedido.ProductoCantidad;
 import com.example.obligatorio.ui.R;
 
 import android.app.Activity;
@@ -13,12 +14,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class ProductosAdaptadorCantidad extends ArrayAdapter<Producto> {
+public class ProductosAdaptadorCantidad extends ArrayAdapter<ProductoCantidad> {
 
 	private Activity context;
-	private List<Producto> productos;
+	private List<ProductoCantidad> productos;
 
-	public ProductosAdaptadorCantidad(Activity context, List<Producto> pros) {
+	public ProductosAdaptadorCantidad(Activity context, List<ProductoCantidad> pros) {
 		super(context, R.layout.activity_actual_items, pros);
 		this.context = context;
 		this.productos = pros;
@@ -58,9 +59,9 @@ public class ProductosAdaptadorCantidad extends ArrayAdapter<Producto> {
 			holder = (ProductoCantidadViewHolder) item.getTag();
 
 		}
-		holder.nombreTextView.setText(productos.get(position).GetNombre());
-		holder.marcaTextView.setText(productos.get(position).GetMarca());
-		holder.especificacionTextView.setText(productos.get(position)
+		holder.nombreTextView.setText(productos.get(position).getProducto().GetNombre());
+		holder.marcaTextView.setText(productos.get(position).getProducto().GetMarca());
+		holder.especificacionTextView.setText(productos.get(position).getProducto()
 				.GetEspecificacion());
 		holder.cantidadTextView.setText(productos.get(position).getCantidad()
 				+ "");

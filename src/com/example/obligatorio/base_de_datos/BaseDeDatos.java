@@ -46,6 +46,7 @@ public class BaseDeDatos extends SQLiteOpenHelper {
 		// +
 		// " nombre text not null, marca text not null , especificacion text not null);"
 		db.execSQL(CREATE_PRODUCTOS_TABLE);
+		
 	}
 
 	// Upgrading database
@@ -114,7 +115,8 @@ public class BaseDeDatos extends SQLiteOpenHelper {
 				productos.add(pro);
 			} while (cursor.moveToNext());
 		}
-
+		cursor.close();
+		db.close();
 		// return Product list
 		return productos;
 	}
@@ -162,6 +164,8 @@ public class BaseDeDatos extends SQLiteOpenHelper {
 				 count++;
 			 };
 		}
+		cursor.close();
+		db.close();
 		return count;
 	}
 	public void deleteAllProducts(){

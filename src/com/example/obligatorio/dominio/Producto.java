@@ -1,5 +1,7 @@
 package com.example.obligatorio.dominio;
 
+import com.example.obligatorio.servicio.ListaPedido;
+
 public class Producto {
 	private int id;
 	private String nombre;
@@ -76,4 +78,5 @@ public class Producto {
 	public void setEnListaActual(boolean estaEnListaActual) {
 		this.estaEnListaActual = estaEnListaActual;
 	}
+	
 }
