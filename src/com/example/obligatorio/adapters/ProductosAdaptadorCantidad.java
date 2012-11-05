@@ -1,6 +1,7 @@
 package com.example.obligatorio.adapters;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 import com.example.obligatorio.dominio.Producto;
@@ -16,9 +17,9 @@ import android.widget.TextView;
 public class ProductosAdaptadorCantidad extends ArrayAdapter<Producto> {
 
 	private Activity context;
-	private ArrayList<Producto> productos;
+	private List<Producto> productos;
 
-	public ProductosAdaptadorCantidad(Activity context, ArrayList<Producto> pros) {
+	public ProductosAdaptadorCantidad(Activity context, List<Producto> pros) {
 		super(context, R.layout.activity_actual_items, pros);
 		this.context = context;
 		this.productos = pros;

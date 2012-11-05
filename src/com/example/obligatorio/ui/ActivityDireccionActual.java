@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import com.example.obligatorio.dominio.Direccion;
 import com.example.obligatorio.maps.LocalizacionActualOverlay;
+import com.example.obligatorio.sistema.Sistema;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -140,6 +142,7 @@ public class ActivityDireccionActual extends MapActivity implements
 			if (direcciones.size() > 0) {
 				for (int i = 0; i < direcciones.get(0).getMaxAddressLineIndex(); i++)
 					dir += direcciones.get(0).getAddressLine(i) + "\n";
+				
 			}
 
 			Toast.makeText(contexto, dir, Toast.LENGTH_SHORT).show();
@@ -154,28 +157,27 @@ public class ActivityDireccionActual extends MapActivity implements
 		return false;
 	}
 
-	@Override
 	public void onLocationChanged(Location localizacion) {
 		// TODO Auto-generated method stub
 		showLocation((int) (localizacion.getLatitude() * 1E6),
 				(int) (localizacion.getLongitude() * 1E6));
+		Direccion dir = new Direccion();
+		dir.setLatLong(localizacion.getLongitude(), localizacion.getLatitude());
+		Sistema.getInstance().setCurrentDir(dir);
 		// (int)(latitude * 1E6), (int)(longitude*1E6));
 
 	}
 
-	@Override
 	public void onProviderDisabled(String provider) {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public void onProviderEnabled(String provider) {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 		// TODO Auto-generated method stub
 

@@ -1,6 +1,7 @@
 package com.example.obligatorio.servicio;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.example.obligatorio.dominio.Direccion;
@@ -17,6 +18,10 @@ public class ListaPedido implements Serializable{
 	private Direccion dir;
 	private List<ProductoCantidad> productos;
 	
+	public ListaPedido(){
+		productos = new ArrayList<ProductoCantidad>();
+	}
+	
 	public Direccion getDir() {
 		return dir;
 	}
@@ -30,11 +35,26 @@ public class ListaPedido implements Serializable{
 	public void setPedidos(List<ProductoCantidad> productos) {
 		this.productos = productos;
 	}
+	public List<Producto> getProds(){
+		List<Producto> ret = new ArrayList<Producto>();
+		
+		for(ProductoCantidad p : getProductos()){
+			ret.add(p.getProducto());
+		}
+		
+		return ret;
+		
+	}
 
-	public class ProductoCantidad implements Serializable{
+	public static class ProductoCantidad implements Serializable{
 		private Producto producto;
 		private int cantidad;
 		public ProductoCantidad(){}
+		
+		public ProductoCantidad(Producto producto,int cantidad){
+			this.producto = producto;
+			this.cantidad = cantidad;
+		}
 		
 		public Producto getProducto() {
 			return producto;

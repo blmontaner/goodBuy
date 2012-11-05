@@ -7,7 +7,6 @@ import java.util.List;
 import com.example.obligatorio.dominio.Establecimiento;
 
 
-
 public class ListaResultado implements Serializable{
 
 	/**
@@ -59,7 +58,7 @@ public class ListaResultado implements Serializable{
 		this.productosPrecios.add(new ListaResultado.ProductoCantidadPrecio(pp, precio));
 	}
 
-	public class ProductoCantidadPrecio implements Serializable{
+	public static class ProductoCantidadPrecio implements Serializable{
 		private ListaPedido.ProductoCantidad prodCantidad;
 		private double precioProducto;
 				

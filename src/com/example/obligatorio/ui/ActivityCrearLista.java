@@ -6,7 +6,10 @@ import java.util.concurrent.ExecutionException;
 
 import com.example.obligatorio.adapters.ProductosAdaptador;
 import com.example.obligatorio.dominio.Producto;
+import com.example.obligatorio.servicio.ListaPedido;
+import com.example.obligatorio.servicio.ListaPedido.ProductoCantidad;
 import com.example.obligatorio.servicio.WebServiceInteraction;
+import com.example.obligatorio.sistema.Sistema;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -30,13 +33,15 @@ public class ActivityCrearLista extends Activity {
 
 	private static final int MENU_TERMINAR = Menu.FIRST;
 	private static final int MENU_VERLISTA = Menu.FIRST + 1;
+	ListaPedido lp;
 	private ArrayList<Producto> productos= new ArrayList<Producto>();
 	// private ArrayList<Producto> seleccionados;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_productos);
-
+		
+		lp = new ListaPedido();
 		
 		 try {
 		 productos = (new WebServiceInteraction()
@@ -83,13 +88,14 @@ public class ActivityCrearLista extends Activity {
 
 			public void onItemClick(AdapterView<?> arg0, View rowView,
 					int index, long arg3) {
-				// TODO Auto-generated method stub
-
+				
+				
 				if (productos.get(index).isEnListaActual()) {
 					productos.get(index).setEnListaActual(false);
-
+					
 					// seleccionados.remove(productos.get(index));
 				} else {
+					lp.getProductos().add(new ProductoCantidad(productos.get(index),1));
 					productos.get(index).setEnListaActual(true);
 					// seleccionados.add(productos.get(index));
 
@@ -147,6 +153,7 @@ public class ActivityCrearLista extends Activity {
 
 	/* Handles item selections */
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Sistema.getInstance().setListaPedActual(lp);
 		switch (item.getItemId()) {
 		case MENU_VERLISTA:
 			Intent abrir = new Intent(this, ActivityListaActual.class);
