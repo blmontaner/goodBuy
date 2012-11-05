@@ -11,10 +11,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.R.integer;
 import android.app.Activity;
+import android.graphics.Color;
 
 public class ActivityListaActual extends Activity {
 
@@ -43,20 +45,24 @@ public class ActivityListaActual extends Activity {
 	}
 
 	public void Suma(View v) {
-		// LayoutInflater inflater = this.getLayoutInflater();
-		// v = inflater.inflate(R.layout.activity_actual_items,
-		// null);
-		//
-		// TextView valor= (TextView) v.findViewById(R.id.tvCantidad);
-		TextView valor = (TextView) findViewById(R.id.tvCantidad);
-		// Button btn = (Button) findViewById(v.getId());
+		LinearLayout vwParentRow = (LinearLayout)v.getParent();
+		TextView valor = (TextView)vwParentRow.getChildAt(2);
 		int suma = Integer.parseInt(valor.getText().toString()) + 1;
 		valor.setText(suma + "");
+		//http://androidforbeginners.blogspot.com/2010/03/clicking-buttons-in-listview-row.html
+		
+		
+        
+        //TextView child = (TextView)vwParentRow.getChildAt(2);
+       // int c = Color.BLUE;
+        
+       // vwParentRow.setBackgroundColor(c); 
+       // vwParentRow.refreshDrawableState(); 
 	}
 
 	public void Resta(View v) {
-		TextView valor = (TextView) findViewById(R.id.tvCantidad);
-		// Button btn = (Button) findViewById(v.getId());
+		LinearLayout vwParentRow = (LinearLayout)v.getParent();
+		TextView valor = (TextView)vwParentRow.getChildAt(2);
 		int resta = Integer.parseInt(valor.getText().toString());
 		if (resta > 0) {
 			resta--;

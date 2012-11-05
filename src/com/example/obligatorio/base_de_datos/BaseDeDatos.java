@@ -1,4 +1,4 @@
-package BaseDeDatos;
+package com.example.obligatorio.base_de_datos;
 
 import java.util.ArrayList;
 import java.util.List;

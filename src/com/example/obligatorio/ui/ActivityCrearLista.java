@@ -5,13 +5,13 @@ import java.util.concurrent.ExecutionException;
 
 
 import com.example.obligatorio.adapters.ProductosAdaptador;
+import com.example.obligatorio.base_de_datos.BaseDeDatos;
 import com.example.obligatorio.dominio.Producto;
 import com.example.obligatorio.servicio.ListaPedido;
 import com.example.obligatorio.servicio.ListaPedido.ProductoCantidad;
 import com.example.obligatorio.servicio.WebServiceInteraction;
 import com.example.obligatorio.sistema.Sistema;
 
-import BaseDeDatos.BaseDeDatos;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -98,7 +98,7 @@ public class ActivityCrearLista extends Activity {
 				if (productos.get(index).isEnListaActual()) {
 					productos.get(index).setEnListaActual(false);
 					
-					// seleccionados.remove(productos.get(index));
+					///////////lp.getProds() remove el item !!!
 				} else {
 					lp.getProductos().add(new ProductoCantidad(productos.get(index),1));
 					productos.get(index).setEnListaActual(true);

@@ -3,10 +3,10 @@ package com.example.obligatorio.ui;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+import com.example.obligatorio.base_de_datos.BaseDeDatos;
 import com.example.obligatorio.dominio.Producto;
 import com.example.obligatorio.servicio.WebServiceInteraction;
 
-import BaseDeDatos.BaseDeDatos;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;

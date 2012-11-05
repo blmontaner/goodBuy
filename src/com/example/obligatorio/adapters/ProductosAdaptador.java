@@ -53,7 +53,7 @@ public class ProductosAdaptador extends ArrayAdapter<Producto> {
 	public Producto getItem(int arg0) {
 		return productos.get(arg0);
 	}
-
+	private int[] colors = new int[] { 0x30FF0000, 0x300000FF };
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View item = convertView;
@@ -84,8 +84,13 @@ public class ProductosAdaptador extends ArrayAdapter<Producto> {
 		holder.especificacionTextView.setText(productos.get(position)
 				.GetEspecificacion());
 		holder.enLista.setChecked(productos.get(position).isEnListaActual());
-		return item;
 		// http://www.sgoliver.net/blog/?p=1431
+		
+		//http://eureka.ykyuen.info/2010/03/15/android-%E2%80%93-applying-alternate-row-color-in-listview-with-simpleadapter/
+		int colorPos = position % colors.length;
+		item.setBackgroundColor(colors[colorPos]);
+		return item;
+		
 	}
 
 	public int getIndiceLetra(String letra) {
