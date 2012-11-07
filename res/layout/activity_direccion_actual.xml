@@ -3,6 +3,7 @@
     android:id="@+id/mapview"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:apiKey="0HfFFpHLl3Ss2KasHYYYb2UUfthzBPoljr33mXQ"
+    android:apiKey="0G975GLT8VUUs8iuAdnHRclvc9Ynr4AG9hKjV8Q"
     android:clickable="true" />
-<!-- android:apiKey="0G975GLT8VUUs8iuAdnHRclvc9Ynr4AG9hKjV8Q" -->
+<!-- "0G975GLT8VUUs8iuAdnHRclvc9Ynr4AG9hKjV8Q" GUSTAVO-->
+<!-- "0HfFFpHLl3Ss2KasHYYYb2UUfthzBPoljr33mXQ" BRUNO -->

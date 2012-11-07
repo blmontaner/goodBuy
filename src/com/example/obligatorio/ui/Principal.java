@@ -6,6 +6,7 @@ import java.util.concurrent.ExecutionException;
 import com.example.obligatorio.base_de_datos.BaseDeDatos;
 import com.example.obligatorio.dominio.Producto;
 import com.example.obligatorio.servicio.WebServiceInteractionObtenerProductos;
+import com.example.obligatorio.sistema.Sistema;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -93,11 +94,9 @@ public class Principal extends Activity implements OnClickListener {
 		});
 
 		// ////////BASE DE DATOS
-		// BaseDeDatos base = BaseDeDatos.getInstance(this);
-		BaseDeDatos base = new BaseDeDatos(this);
-		// abrirBasedatos();
+		Sistema.getInstance().setContextoBaseDeDatos(this); //esto solo lo hago una vez en el codigo.
+		BaseDeDatos base = Sistema.getInstance().getBaseDeDatos();
 		ArrayList<Producto> productos = new ArrayList<Producto>();
-		//base.deleteAllProducts();
 		if (base.getProductCount() == 0) {
 			try {
 				productos = (new WebServiceInteractionObtenerProductos()

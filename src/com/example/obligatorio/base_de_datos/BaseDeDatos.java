@@ -3,6 +3,7 @@ package com.example.obligatorio.base_de_datos;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.obligatorio.dominio.Direccion;
 import com.example.obligatorio.dominio.Producto;
 
 import android.content.ContentValues;
@@ -28,6 +29,13 @@ public class BaseDeDatos extends SQLiteOpenHelper {
 	private static final String KEY_MARCA = "marca";
 	private static final String KEY_ESPECIFICACION = "especificacion";
 
+	// Tabla direccion
+	private static final String TABLE_DIR = "direccion";
+
+	// Columnas direccion
+	private static final String KEY_LON = "longitud";
+	private static final String KEY_LAT = "latitud";
+
 	public BaseDeDatos(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
@@ -39,14 +47,15 @@ public class BaseDeDatos extends SQLiteOpenHelper {
 				+ TABLE_PRODUCTS + " (" + KEY_ID + " INTEGER PRIMARY KEY,"
 				+ KEY_NOMBRE + " TEXT, " + KEY_MARCA + " TEXT,"
 				+ KEY_ESPECIFICACION + " TEXT)";
-		// TABLE_PRODUCTS ,KEY_ID,KEY_NOMBRE,KEY_MARCA,KEY_ESPECIFICACION);
 
-		// "create table if not exists "
-		// + " producto (id integer primary key"// autoincrement, "
-		// +
-		// " nombre text not null, marca text not null , especificacion text not null);"
 		db.execSQL(CREATE_PRODUCTOS_TABLE);
-		
+
+		String CREATE_DIRECCION_TABLE = "CREATE TABLE IF NOT EXISTS "
+				+ TABLE_DIR + " (" + KEY_LON + " DOUBLE ," + KEY_LAT
+				+ " DOUBLE)";
+
+		db.execSQL(CREATE_DIRECCION_TABLE);
+
 	}
 
 	// Upgrading database
@@ -62,6 +71,50 @@ public class BaseDeDatos extends SQLiteOpenHelper {
 	/**
 	 * All CRUD(Create, Read, Update, Delete) Operations
 	 */
+	// Adding new Direccion
+	public void addDireccion(Direccion dir) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.execSQL("delete from " + TABLE_DIR); // borro la dir vieja.
+
+		ContentValues values = new ContentValues();
+		values.put(KEY_LON, dir.getLongitud());
+		values.put(KEY_LAT, dir.getLatitud());
+
+		// Inserting Row
+		db.insert(TABLE_DIR, null, values);
+		db.close(); // Closing database connection
+	}
+
+	// Getting Direccion Actual
+	public Direccion getDireccionActual() {
+		String selectQuery = "SELECT * FROM " + TABLE_DIR;
+
+		SQLiteDatabase db = this.getWritableDatabase();
+		Cursor cursor = db.rawQuery(selectQuery, null);
+		Direccion dir = new Direccion();
+		if (cursor.moveToFirst()) {
+			dir.setLongitud(cursor.getDouble(0));
+			dir.setLatitud(cursor.getDouble(1));
+		}
+		cursor.close();
+		db.close();
+		return dir;
+	}
+
+	// hay Direccion Actual
+	public Boolean isDireccionActualSeted() {
+		String selectQuery = "SELECT * FROM " + TABLE_DIR;
+
+		SQLiteDatabase db = this.getWritableDatabase();
+		Cursor cursor = db.rawQuery(selectQuery, null);
+		int count = 0;
+		if (cursor.moveToFirst()) {
+			count++;
+		}
+		cursor.close();
+		db.close();
+		return (count!=0);
+	}
 
 	// Adding new PRODUCTO
 	public void addProducto(Producto producto) {
@@ -146,29 +199,31 @@ public class BaseDeDatos extends SQLiteOpenHelper {
 
 	// Getting Product Count
 	public int getProductCount() {
-//		String countQuery = "SELECT  * FROM " + TABLE_PRODUCTS;
-//		SQLiteDatabase db = this.getReadableDatabase();
-//		Cursor cursor = db.rawQuery(countQuery, null);
-//		cursor.close();
-//
-//		// return count
-//		return cursor.getCount();
+		// String countQuery = "SELECT  * FROM " + TABLE_PRODUCTS;
+		// SQLiteDatabase db = this.getReadableDatabase();
+		// Cursor cursor = db.rawQuery(countQuery, null);
+		// cursor.close();
+		//
+		// // return count
+		// return cursor.getCount();
 		String selectQuery = "SELECT * FROM " + TABLE_PRODUCTS;
 
 		SQLiteDatabase db = this.getWritableDatabase();
 		Cursor cursor = db.rawQuery(selectQuery, null);
-		int count =0;
+		int count = 0;
 		// looping through all rows and adding to list
 		if (cursor.moveToFirst()) {
-			 while (cursor.moveToNext()){
-				 count++;
-			 };
+			while (cursor.moveToNext()) {
+				count++;
+			}
+			;
 		}
 		cursor.close();
 		db.close();
 		return count;
 	}
-	public void deleteAllProducts(){
+
+	public void deleteAllProducts() {
 		SQLiteDatabase db = this.getWritableDatabase();
 		db.execSQL("delete from " + TABLE_PRODUCTS);
 	}

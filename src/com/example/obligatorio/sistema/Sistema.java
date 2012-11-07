@@ -3,6 +3,9 @@ package com.example.obligatorio.sistema;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Context;
+
+import com.example.obligatorio.base_de_datos.BaseDeDatos;
 import com.example.obligatorio.dominio.Direccion;
 import com.example.obligatorio.servicio.ListaPedido;
 import com.example.obligatorio.servicio.ListaResultado;
@@ -15,8 +18,17 @@ public class Sistema {
 	private List<ListaResultado> listaResultados;
 	private Direccion currentDir;
 	public final static String URL_PEDIDO_RESULTADO = "https://kitchensink-nspace.rhcloud.com/rest/productos/pedidoLista";
+	private BaseDeDatos base;
 	
 	
+	public BaseDeDatos getBaseDeDatos() {
+		return base;
+	}
+
+	public void setBase(BaseDeDatos base) {
+		this.base = base;
+	}
+
 	private Sistema(){
 		listaPedActual = new ListaPedido();
 		listaResActual = new ListaResultado();
@@ -28,6 +40,10 @@ public class Sistema {
 			instance = new Sistema();
 		}		
 		return instance;
+	}
+	
+	public void setContextoBaseDeDatos(Context contexto){
+		base = new BaseDeDatos(contexto);
 	}
 
 	public ListaResultado getListaResActual() {
@@ -60,6 +76,7 @@ public class Sistema {
 
 	public void setCurrentDir(Direccion currentDir) {
 		this.currentDir = currentDir;
+		base.addDireccion(currentDir);
 	}
 	
 }

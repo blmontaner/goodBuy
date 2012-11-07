@@ -39,7 +39,7 @@ public class ActivityCrearLista extends Activity {
 	private static final int MENU_VERLISTA = Menu.FIRST + 1;
 	ListaPedido lp;
 	private ArrayList<Producto> productos= new ArrayList<Producto>();
-	private SQLiteDatabase baseDatos;   
+	//private SQLiteDatabase baseDatos;   
 	// private ArrayList<Producto> seleccionados;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -48,7 +48,7 @@ public class ActivityCrearLista extends Activity {
 		
 		lp = new ListaPedido();
 		
-		 BaseDeDatos base = new BaseDeDatos(this);
+		 BaseDeDatos base = Sistema.getInstance().getBaseDeDatos();
 		 productos = (ArrayList<Producto>) base.getAllProducts();
 		//productos = (ArrayList<Producto>) BaseDeDatos.getInstance(this).getAllProducts();
 //		//todos los productos

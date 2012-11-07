@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import com.example.obligatorio.base_de_datos.BaseDeDatos;
 import com.example.obligatorio.dominio.Direccion;
 import com.example.obligatorio.maps.LocalizacionActualOverlay;
 import com.example.obligatorio.sistema.Sistema;
@@ -76,25 +77,34 @@ public class ActivityDireccionActual extends MapActivity implements
 		// Getting the name of the best provider
 		String provider = locationManager.getBestProvider(criteria, true);
 
-		if (provider != null) {
+		
+
+		if (provider != null) {// tengo gps
 			// Getting Current Location
 			Location location = locationManager.getLastKnownLocation(provider);
 
 			if (location != null) {
-				onLocationChanged(location);
+				onLocationChanged(location); // muestra dir del gps
 			} else {
-				int latitudeORT = -34903819;
-				int longitudeORT = -56190463;
-				showLocation(latitudeORT, longitudeORT);
+				LoadLocation();
 			}
-
 			locationManager.requestLocationUpdates(provider, 20000, 0, this);
+		} else {
+			LoadLocation();
+		}
+
+	}
+
+	private void LoadLocation() {
+		BaseDeDatos db = Sistema.getInstance().getBaseDeDatos();
+		if (db.isDireccionActualSeted()) {
+			Direccion dir = db.getDireccionActual();
+			showLocation( (int)(dir.getLatitud()* 1e6), (int)(dir.getLongitud()* 1e6));
 		} else {
 			int latitudeORT = -34903819;
 			int longitudeORT = -56190463;
 			showLocation(latitudeORT, longitudeORT);
 		}
-
 	}
 
 	private void showLocation(int latitude, int longitude) {
@@ -155,6 +165,9 @@ public class ActivityDireccionActual extends MapActivity implements
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		Direccion dir = new Direccion();
+		dir.setLatLong(latitude / 1e6, longitude / 1e6);
+		Sistema.getInstance().setCurrentDir(dir);
 
 	}
 
@@ -163,15 +176,14 @@ public class ActivityDireccionActual extends MapActivity implements
 		return false;
 	}
 
-	public void onLocationChanged(Location localizacion) {
+	public void onLocationChanged(Location localizacion) {//es para el gps
 		// TODO Auto-generated method stub
 		showLocation((int) (localizacion.getLatitude() * 1E6),
 				(int) (localizacion.getLongitude() * 1E6));
-		Direccion dir = new Direccion();
-		dir.setLatLong(localizacion.getLongitude(), localizacion.getLatitude());
-		Sistema.getInstance().setCurrentDir(dir);
+	//	Direccion dir = new Direccion();
+	//	dir.setLatLong(localizacion.getLongitude(), localizacion.getLatitude());
+	//	Sistema.getInstance().setCurrentDir(dir);
 		// (int)(latitude * 1E6), (int)(longitude*1E6));
-
 	}
 
 	public void onProviderDisabled(String provider) {
