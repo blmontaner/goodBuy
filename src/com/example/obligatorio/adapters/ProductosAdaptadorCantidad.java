@@ -1,5 +1,6 @@
 package com.example.obligatorio.adapters;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.example.obligatorio.dominio.Producto;
@@ -18,12 +19,11 @@ public class ProductosAdaptadorCantidad extends ArrayAdapter<ProductoCantidad> {
 	private Activity context;
 	private List<ProductoCantidad> productos;
 
-	public ProductosAdaptadorCantidad(Activity context, List<ProductoCantidad> pros) {
+	public ProductosAdaptadorCantidad(Activity context,
+			List<ProductoCantidad> pros) {
 		super(context, R.layout.activity_actual_items, pros);
 		this.context = context;
 		this.productos = pros;
-		// commentario prueba
-		// asdadsa
 	}
 
 	static class ProductoCantidadViewHolder {
@@ -35,7 +35,6 @@ public class ProductosAdaptadorCantidad extends ArrayAdapter<ProductoCantidad> {
 
 	private int[] colors = new int[] { 0x30FF0000, 0x300000FF };
 
-	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View item = convertView;
 		ProductoCantidadViewHolder holder;
@@ -59,10 +58,14 @@ public class ProductosAdaptadorCantidad extends ArrayAdapter<ProductoCantidad> {
 			holder = (ProductoCantidadViewHolder) item.getTag();
 
 		}
-		holder.nombreTextView.setText(productos.get(position).getProducto().GetNombre());
-		holder.marcaTextView.setText(productos.get(position).getProducto().GetMarca());
-		holder.especificacionTextView.setText(productos.get(position).getProducto()
-				.GetEspecificacion());
+		holder.nombreTextView.setText(productos.get(position).getProducto()
+				.GetNombre());
+		holder.marcaTextView.setText(productos.get(position).getProducto()
+				.GetMarca());
+		holder.especificacionTextView.setText(productos.get(position)
+				.getProducto().GetEspecificacion());
+		holder.cantidadTextView.setText(productos.get(position).getCantidad()
+				+ "");
 
 		int colorPos = position % colors.length;
 		item.setBackgroundColor(colors[colorPos]);
