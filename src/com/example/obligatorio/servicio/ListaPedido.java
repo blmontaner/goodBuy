@@ -45,6 +45,10 @@ public class ListaPedido implements Serializable{
 		return ret;
 		
 	}
+	public void eliminarProducto(Producto pro){
+		this.productos.remove(new ProductoCantidad(pro,1));
+	}
+	
 
 	public static class ProductoCantidad implements Serializable{
 		private Producto producto;
@@ -68,7 +72,10 @@ public class ListaPedido implements Serializable{
 		public void setCantidad(int cantidad) {
 			this.cantidad = cantidad;
 		}
-		
+		@Override public boolean equals(Object other) {
+			ProductoCantidad aux = ((ProductoCantidad)other);
+			return this.getProducto().getId() == aux.getProducto().getId();
+		   }
 	}
 
 }

@@ -63,30 +63,37 @@ public class ActivityDireccionActual extends MapActivity implements
 
 		// map.getController().setCenter(getPoint(-34.903819, -56.190463));
 		mapView.getController().setZoom(17);
-		// map.setBuiltInZoomControls(true);		
-		
+		// map.setBuiltInZoomControls(true);
+
 		// Getting LocationManager object from System Service LOCATION_SERVICE
-        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
- 
-        // Creating a criteria object to retrieve provider
-        Criteria criteria = new Criteria();
- 
-        // Getting the name of the best provider
-        String provider = locationManager.getBestProvider(criteria, true);
- 
-        // Getting Current Location
-        Location location = locationManager.getLastKnownLocation(provider);
- 
-      //  List<String> provedores = locationManager.getAllProviders();
-        if(location!=null){
-            onLocationChanged(location);
-        }else{
-        	int latitudeORT = -34903819;
-        	int longitudeORT = -56190463;
-        	showLocation(latitudeORT, longitudeORT);
-        }
- 
-        locationManager.requestLocationUpdates(provider, 20000, 0, this);  
+		LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+		// Creating a criteria object to retrieve provider
+		Criteria criteria = new Criteria();
+
+		// List<String> provedores = locationManager.getAllProviders();
+
+		// Getting the name of the best provider
+		String provider = locationManager.getBestProvider(criteria, true);
+
+		if (provider != null) {
+			// Getting Current Location
+			Location location = locationManager.getLastKnownLocation(provider);
+
+			if (location != null) {
+				onLocationChanged(location);
+			} else {
+				int latitudeORT = -34903819;
+				int longitudeORT = -56190463;
+				showLocation(latitudeORT, longitudeORT);
+			}
+
+			locationManager.requestLocationUpdates(provider, 20000, 0, this);
+		} else {
+			int latitudeORT = -34903819;
+			int longitudeORT = -56190463;
+			showLocation(latitudeORT, longitudeORT);
+		}
 
 	}
 
@@ -141,7 +148,7 @@ public class ActivityDireccionActual extends MapActivity implements
 			if (direcciones.size() > 0) {
 				for (int i = 0; i < direcciones.get(0).getMaxAddressLineIndex(); i++)
 					dir += direcciones.get(0).getAddressLine(i) + "\n";
-				
+
 			}
 
 			Toast.makeText(contexto, dir, Toast.LENGTH_SHORT).show();

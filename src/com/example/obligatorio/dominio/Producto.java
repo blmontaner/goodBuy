@@ -80,4 +80,5 @@ public class Producto {
 	public void setEnListaActual(boolean estaEnListaActual) {
 		this.estaEnListaActual = estaEnListaActual;
 	}
+	
 }

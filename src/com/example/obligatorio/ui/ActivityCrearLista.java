@@ -99,7 +99,7 @@ public class ActivityCrearLista extends Activity {
 				if (productos.get(index).isEnListaActual()) {
 					productos.get(index).setEnListaActual(false);
 					
-					///////////lp.getProds() remove el item !!!
+					lp.eliminarProducto(productos.get(index));
 				} else {
 					lp.getProductos().add(new ProductoCantidad(productos.get(index),1));
 					productos.get(index).setEnListaActual(true);
