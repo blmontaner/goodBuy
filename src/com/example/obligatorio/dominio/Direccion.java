@@ -78,10 +78,12 @@ public class Direccion implements Serializable{
 		this.calle = val;
 	}
 	
+	@Override
 	public String toString() {		
 		return " dirEst: "+this.calle +" ciuEst: "+ this.ciudad+ " depEst: "+this.departamento+" lat: "+ this.latitud+" long: "+this.longitud;
 	}
 	
+	@Override
 	public boolean equals(Object obj) {	
 		return this.getDireccionDeBusqueda().equals(((Direccion) obj).getDireccionDeBusqueda());
 	}

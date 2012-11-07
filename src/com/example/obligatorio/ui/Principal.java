@@ -5,14 +5,11 @@ import java.util.concurrent.ExecutionException;
 
 import com.example.obligatorio.base_de_datos.BaseDeDatos;
 import com.example.obligatorio.dominio.Producto;
-import com.example.obligatorio.servicio.WebServiceInteraction;
+import com.example.obligatorio.servicio.WebServiceInteractionObtenerProductos;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -30,6 +27,7 @@ public class Principal extends Activity implements OnClickListener {
 	// +
 	// " nombre text not null, marca text not null , especificacion text not null);";
 
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dashboard_layout);
@@ -102,7 +100,7 @@ public class Principal extends Activity implements OnClickListener {
 		//base.deleteAllProducts();
 		if (base.getProductCount() == 0) {
 			try {
-				productos = (new WebServiceInteraction()
+				productos = (new WebServiceInteractionObtenerProductos()
 						.execute("https://kitchensink-nspace.rhcloud.com/rest/productos/catalogoProductos"))
 						.get();
 

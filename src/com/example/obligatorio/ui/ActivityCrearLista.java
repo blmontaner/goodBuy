@@ -1,20 +1,21 @@
 package com.example.obligatorio.ui;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
-
+import java.util.List;
 
 import com.example.obligatorio.adapters.ProductosAdaptador;
 import com.example.obligatorio.base_de_datos.BaseDeDatos;
 import com.example.obligatorio.dominio.Producto;
 import com.example.obligatorio.servicio.ListaPedido;
 import com.example.obligatorio.servicio.ListaPedido.ProductoCantidad;
-import com.example.obligatorio.servicio.WebServiceInteraction;
+import com.example.obligatorio.servicio.ListaResultado;
+import com.example.obligatorio.servicio.WebServiceInteractionObtenerResultado;
 import com.example.obligatorio.sistema.Sistema;
 
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,8 +29,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 public class ActivityCrearLista extends Activity {
@@ -167,8 +168,10 @@ public class ActivityCrearLista extends Activity {
 	}
 
 	/* Handles item selections */
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Sistema.getInstance().setListaPedActual(lp);
+		final List<ListaResultado> ppp = new ArrayList<ListaResultado>(); 
 		switch (item.getItemId()) {
 		case MENU_VERLISTA:
 			Intent abrir = new Intent(this, ActivityListaActual.class);
@@ -178,7 +181,32 @@ public class ActivityCrearLista extends Activity {
 			// http://www.bogotobogo.com/Android/android10Menus.php
 			return true;
 		case MENU_TERMINAR:
-			// hacer algo.....
+			
+			
+				final ProgressDialog pd = ProgressDialog.show(this,
+						"Procesando",
+						"Se estan bucando los datos",true, false);
+						new Thread(new Runnable(){
+						public void run(){
+							try{
+							 WebServiceInteractionObtenerResultado.work();
+									//().execute("https://kitchensink-nspace.rhcloud.com/rest/productos/catalogoProductos")).get();
+							}catch(Exception ex){
+								Log.e("Ex", ex.getMessage());
+							}
+						pd.dismiss();
+						}
+						}).start();
+			
+			
+			Intent res = new Intent(this, ActivityResultado.class);
+			// abrir.putExtra("direccion", et1.getText().toString());
+			startActivity(res);
+			
+//			productos = (new WebServiceInteractionObtenerProductos()
+//			.execute("https://kitchensink-nspace.rhcloud.com/rest/productos/catalogoProductos"))
+//			.get();
+			
 			return true;
 		}
 		return false;
@@ -205,5 +233,4 @@ public class ActivityCrearLista extends Activity {
 		}
 
 	}
-
 }

@@ -33,9 +33,12 @@ public final class R {
         public static final int store_hover=0x7f020013;
     }
     public static final class id {
+        public static final int LblDireccion=0x7f07002d;
         public static final int LblEspecificacion=0x7f070029;
+        public static final int LblEstablecimiento=0x7f07002c;
         public static final int LblMarca=0x7f070028;
         public static final int LblNombre=0x7f070027;
+        public static final int LblTotal=0x7f07002e;
         public static final int LetraA=0x7f07000d;
         public static final int LetraB=0x7f07000e;
         public static final int LetraC=0x7f07000f;
@@ -62,22 +65,23 @@ public final class R {
         public static final int LetraX=0x7f070024;
         public static final int LetraY=0x7f070025;
         public static final int LetraZ=0x7f070026;
-        public static final int btn_check_list=0x7f07002d;
-        public static final int btn_create_list=0x7f07002c;
-        public static final int btn_history=0x7f070030;
-        public static final int btn_history2=0x7f070031;
-        public static final int btn_map=0x7f07002e;
-        public static final int btn_store=0x7f07002f;
+        public static final int btn_check_list=0x7f070031;
+        public static final int btn_create_list=0x7f070030;
+        public static final int btn_history=0x7f070034;
+        public static final int btn_history2=0x7f070035;
+        public static final int btn_map=0x7f070032;
+        public static final int btn_store=0x7f070033;
         public static final int button1=0x7f070007;
         public static final int button2=0x7f070008;
         public static final int checkBox2=0x7f070005;
         public static final int chkEstado=0x7f07002a;
-        public static final int home_root=0x7f07002b;
+        public static final int home_root=0x7f07002f;
         public static final int listHistorial=0x7f07000a;
         public static final int listView1=0x7f07000c;
         public static final int listaPorCantidad=0x7f070001;
+        public static final int listaResultados=0x7f07002b;
         public static final int mapview=0x7f070009;
-        public static final int menu_settings=0x7f070032;
+        public static final int menu_settings=0x7f070036;
         public static final int producto=0x7f07000b;
         public static final int textView1=0x7f070000;
         public static final int tvCantidad=0x7f070006;
@@ -95,9 +99,11 @@ public final class R {
         public static final int activity_principal=0x7f030006;
         public static final int activity_productos=0x7f030007;
         public static final int activity_productos_items=0x7f030008;
-        public static final int dashboard_layout=0x7f030009;
-        public static final int footer_layout=0x7f03000a;
-        public static final int fragment_layout=0x7f03000b;
+        public static final int activity_resultado=0x7f030009;
+        public static final int activity_resultado_item=0x7f03000a;
+        public static final int dashboard_layout=0x7f03000b;
+        public static final int footer_layout=0x7f03000c;
+        public static final int fragment_layout=0x7f03000d;
     }
     public static final class menu {
         public static final int activity_principal=0x7f060000;

@@ -23,7 +23,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Context;
 import android.graphics.drawable.Drawable;

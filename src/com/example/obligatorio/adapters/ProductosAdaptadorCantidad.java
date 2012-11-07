@@ -1,6 +1,5 @@
 package com.example.obligatorio.adapters;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.example.obligatorio.dominio.Producto;
@@ -35,6 +34,7 @@ public class ProductosAdaptadorCantidad extends ArrayAdapter<Producto> {
 
 	private int[] colors = new int[] { 0x30FF0000, 0x300000FF };
 
+	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View item = convertView;
 		ProductoCantidadViewHolder holder;
@@ -62,8 +62,6 @@ public class ProductosAdaptadorCantidad extends ArrayAdapter<Producto> {
 		holder.marcaTextView.setText(productos.get(position).GetMarca());
 		holder.especificacionTextView.setText(productos.get(position)
 				.GetEspecificacion());
-		holder.cantidadTextView.setText(productos.get(position).getCantidad()
-				+ "");
 
 		int colorPos = position % colors.length;
 		item.setBackgroundColor(colors[colorPos]);

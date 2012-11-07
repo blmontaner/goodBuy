@@ -15,7 +15,7 @@ import android.util.Log;
 
 //http://miguelangellv.wordpress.com/2011/01/31/creando-tareas-asincronas-en-android-con-asynctask/
 //Guia REST Android.pdf
-public class WebServiceInteraction extends AsyncTask<String, Void, ArrayList<Producto>> {
+public class WebServiceInteractionObtenerProductos extends AsyncTask<String, Void, ArrayList<Producto>> {
 	// para un futuro se podria poner el PROGRESSDIALOG
 	// private final ProgressDialog dialog = new ProgressDialog(
 	// AllOffersListActivity.this);

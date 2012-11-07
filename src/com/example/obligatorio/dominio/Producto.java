@@ -1,12 +1,16 @@
 package com.example.obligatorio.dominio;
 
+import com.google.gson.annotations.Expose;
+
 public class Producto {
 	private int id;
 	private String nombre;
-	private String marca;
-	private String especificacion;
-	private int cantidad;
-	private boolean estaEnListaActual;
+	private String codigo;
+	
+	private transient String marca;
+	private transient String especificacion;
+	private transient int cantidad;
+	private transient boolean estaEnListaActual;
 
 	public String GetNombre() {
 		return nombre;

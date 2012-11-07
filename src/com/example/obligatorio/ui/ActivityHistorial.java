@@ -2,10 +2,6 @@ package com.example.obligatorio.ui;
 
 import java.util.ArrayList;
 
-import com.example.obligatorio.sistema.Sistema;
-
-
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;

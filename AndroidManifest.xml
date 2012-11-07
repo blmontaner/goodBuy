@@ -47,6 +47,7 @@
             android:name="ActivityHistorial"
             android:label="Historial de compras" >
         </activity>
+        <activity android:label="Resultado" android:name="ActivityResultado"></activity>
     </application>
 
 </manifest>

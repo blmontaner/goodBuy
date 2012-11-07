@@ -14,6 +14,7 @@ public class Sistema {
 	private ListaPedido listaPedActual;
 	private List<ListaResultado> listaResultados;
 	private Direccion currentDir;
+	public final static String URL_PEDIDO_RESULTADO = "https://kitchensink-nspace.rhcloud.com/rest/productos/pedidoLista";
 	
 	
 	private Sistema(){

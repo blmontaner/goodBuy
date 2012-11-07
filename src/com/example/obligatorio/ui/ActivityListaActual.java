@@ -1,6 +1,5 @@
 package com.example.obligatorio.ui;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.example.obligatorio.adapters.ProductosAdaptadorCantidad;
@@ -8,15 +7,11 @@ import com.example.obligatorio.dominio.Producto;
 import com.example.obligatorio.sistema.Sistema;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.R.integer;
 import android.app.Activity;
-import android.graphics.Color;
 
 public class ActivityListaActual extends Activity {
 

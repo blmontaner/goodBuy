@@ -1,25 +1,13 @@
 package com.example.obligatorio.maps;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
-import android.content.Context;
-import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.MotionEvent;
-import android.widget.Toast;
-
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapView;
-import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 
 public class LocalizacionActualOverlay extends ItemizedOverlay<OverlayItem> {
