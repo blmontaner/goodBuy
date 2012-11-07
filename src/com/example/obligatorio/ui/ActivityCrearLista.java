@@ -2,6 +2,7 @@ package com.example.obligatorio.ui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import com.example.obligatorio.adapters.ProductosAdaptador;
 import com.example.obligatorio.base_de_datos.BaseDeDatos;
@@ -9,6 +10,7 @@ import com.example.obligatorio.dominio.Producto;
 import com.example.obligatorio.servicio.ListaPedido;
 import com.example.obligatorio.servicio.ListaPedido.ProductoCantidad;
 import com.example.obligatorio.servicio.ListaResultado;
+import com.example.obligatorio.servicio.WebServiceInteractionObtenerProductos;
 import com.example.obligatorio.servicio.WebServiceInteractionObtenerResultado;
 import com.example.obligatorio.sistema.Sistema;
 
@@ -38,50 +40,17 @@ public class ActivityCrearLista extends Activity {
 	private static final int MENU_TERMINAR = Menu.FIRST;
 	private static final int MENU_VERLISTA = Menu.FIRST + 1;
 	ListaPedido lp;
-	private ArrayList<Producto> productos= new ArrayList<Producto>();
-	//private SQLiteDatabase baseDatos;   
-	// private ArrayList<Producto> seleccionados;
+	private ArrayList<Producto> productos = new ArrayList<Producto>();
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_productos);
-		
-		lp = new ListaPedido();
-		
-		 BaseDeDatos base = Sistema.getInstance().getBaseDeDatos();
-		 productos = (ArrayList<Producto>) base.getAllProducts();
-		//productos = (ArrayList<Producto>) BaseDeDatos.getInstance(this).getAllProducts();
-//		//todos los productos
-//		Cursor cursor= baseDatos.query("productos",new String[] {"id","nombre","marca", "especificacion"},
-//				null,null,null,null,null);
-//      //  startManagingCursor(cursor);
-//	    cursor.moveToFirst();
-//		while (!cursor.isAfterLast()) {
-//		      Producto pro = cursorToProducto(cursor);
-//		      productos.add(pro);
-//		      cursor.moveToNext();
-//		    }
-//		    // Make sure to close the cursor
-//		    cursor.close();
-		
-//		String selectQuery = "SELECT  * FROM productos";
-//		SQLiteDatabase db = this.getWritableDatabase();
-//		    Cursor cursor = db.rawQuery(selectQuery, null);
-		
-		
-//		 try {
-//		 productos = (new WebServiceInteraction()
-//		 .execute("https://kitchensink-nspace.rhcloud.com/rest/productos/catalogoProductos"))
-//		 .get();
-//		
-//		 } catch (InterruptedException e) {
-//		 // TODO Auto-generated catch block
-//		 e.printStackTrace();
-//		 } catch (ExecutionException e) {
-//		 // TODO Auto-generated catch block
-//		 e.printStackTrace();
-//		 }
 
+		lp = new ListaPedido();
+
+		BaseDeDatos base = Sistema.getInstance().getBaseDeDatos();
+		productos = (ArrayList<Producto>) base.getAllProducts();
 
 		final ProductosAdaptador adaptador = new ProductosAdaptador(this,
 				productos);
@@ -94,14 +63,14 @@ public class ActivityCrearLista extends Activity {
 
 			public void onItemClick(AdapterView<?> arg0, View rowView,
 					int index, long arg3) {
-				
-				
+
 				if (productos.get(index).isEnListaActual()) {
 					productos.get(index).setEnListaActual(false);
-					
+
 					lp.eliminarProducto(productos.get(index));
 				} else {
-					lp.getProductos().add(new ProductoCantidad(productos.get(index),1));
+					lp.getProductos().add(
+							new ProductoCantidad(productos.get(index), 1));
 					productos.get(index).setEnListaActual(true);
 					// seleccionados.add(productos.get(index));
 
@@ -150,15 +119,15 @@ public class ActivityCrearLista extends Activity {
 
 	}
 
-//	private Producto cursorToProducto(Cursor cursor) {
-//		Producto pro = new Producto();
-//		pro.setId(cursor.getInt(0));
-//		pro.SetNombre(cursor.getString(1));
-//		pro.SetMarca(cursor.getString(2));
-//		pro.SetEspecificacion(cursor.getString(3));
-//		return pro;
-//		
-//	}
+	// private Producto cursorToProducto(Cursor cursor) {
+	// Producto pro = new Producto();
+	// pro.setId(cursor.getInt(0));
+	// pro.SetNombre(cursor.getString(1));
+	// pro.SetMarca(cursor.getString(2));
+	// pro.SetEspecificacion(cursor.getString(3));
+	// return pro;
+	//
+	// }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -171,7 +140,7 @@ public class ActivityCrearLista extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Sistema.getInstance().setListaPedActual(lp);
-		final List<ListaResultado> ppp = new ArrayList<ListaResultado>(); 
+		final List<ListaResultado> ppp = new ArrayList<ListaResultado>();
 		switch (item.getItemId()) {
 		case MENU_VERLISTA:
 			Intent abrir = new Intent(this, ActivityListaActual.class);
@@ -181,32 +150,44 @@ public class ActivityCrearLista extends Activity {
 			// http://www.bogotobogo.com/Android/android10Menus.php
 			return true;
 		case MENU_TERMINAR:
-			
-			
-				final ProgressDialog pd = ProgressDialog.show(this,
-						"Procesando",
-						"Se estan bucando los datos",true, false);
-						new Thread(new Runnable(){
-						public void run(){
-							try{
-							 WebServiceInteractionObtenerResultado.work();
-									//().execute("https://kitchensink-nspace.rhcloud.com/rest/productos/catalogoProductos")).get();
-							}catch(Exception ex){
-								Log.e("Ex", ex.getMessage());
-							}
-						pd.dismiss();
-						}
-						}).start();
-			
-			
+
+			// final ProgressDialog pd = ProgressDialog.show(this, "Procesando",
+			// "Se estan bucando los datos", true, false);
+			// new Thread(new Runnable() {
+			// public void run() {
+			// try {
+			// WebServiceInteractionObtenerResultado.work();
+			// //
+			// ().execute("https://kitchensink-nspace.rhcloud.com/rest/productos/catalogoProductos")).get();
+			// } catch (Exception ex) {
+			// Log.e("Ex", ex.getMessage());
+			// }
+			// pd.dismiss();
+			// }
+			// }).start();
+
+			// WebServiceInteractionObtenerResultado.work(); //CON ESTA LINEA NO
+			// FUNCIONA.
+//			ProgressDialog dialog = new ProgressDialog(this);
+//			dialog.setMessage("Se estan bucando los datos...");
+//			dialog.setTitle("Procesando");
+//			dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+//			dialog.setCancelable(false);
+
+			WebServiceInteractionObtenerResultado thread = new WebServiceInteractionObtenerResultado();
+//			thread.setDialog(dialog);
+			thread.execute();
+
+			try {
+				Thread.sleep(1000 * 10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 			Intent res = new Intent(this, ActivityResultado.class);
-			// abrir.putExtra("direccion", et1.getText().toString());
 			startActivity(res);
-			
-//			productos = (new WebServiceInteractionObtenerProductos()
-//			.execute("https://kitchensink-nspace.rhcloud.com/rest/productos/catalogoProductos"))
-//			.get();
-			
+
 			return true;
 		}
 		return false;

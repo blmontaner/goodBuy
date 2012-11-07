@@ -33,12 +33,12 @@ public final class R {
         public static final int store_hover=0x7f020013;
     }
     public static final class id {
-        public static final int LblDireccion=0x7f07002d;
+        public static final int LblDireccionRES=0x7f07002d;
         public static final int LblEspecificacion=0x7f070029;
-        public static final int LblEstablecimiento=0x7f07002c;
+        public static final int LblEstablecimientoRES=0x7f07002c;
         public static final int LblMarca=0x7f070028;
         public static final int LblNombre=0x7f070027;
-        public static final int LblTotal=0x7f07002e;
+        public static final int LblTotalRES=0x7f07002e;
         public static final int LetraA=0x7f07000d;
         public static final int LetraB=0x7f07000e;
         public static final int LetraC=0x7f07000f;

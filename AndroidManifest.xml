@@ -9,7 +9,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:icon="@drawable/ic_launcher"
@@ -47,7 +47,10 @@
             android:name="ActivityHistorial"
             android:label="Historial de compras" >
         </activity>
-        <activity android:label="Resultado" android:name="ActivityResultado"></activity>
+        <activity
+            android:name="ActivityResultado"
+            android:label="Resultado" >
+        </activity>
     </application>
 
 </manifest>

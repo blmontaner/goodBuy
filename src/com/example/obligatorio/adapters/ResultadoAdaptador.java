@@ -38,14 +38,14 @@ public class ResultadoAdaptador extends ArrayAdapter<ListaResultado> {
 		if (convertView == null) {
 
 			LayoutInflater inflater = context.getLayoutInflater();
-			item = inflater.inflate(R.layout.activity_actual_items, null);
+			item = inflater.inflate(R.layout.activity_resultado_item, null);
 
 			holder = new ResultadoViewHolder();
-			holder.establecimientoTextView = (TextView) item.findViewById(R.id.LblEstablecimiento);
+			holder.establecimientoTextView = (TextView) item.findViewById(R.id.LblEstablecimientoRES);
 			// preg sobre que tengan los mismos nombres , lbl y tv
-			holder.direccionTextView = (TextView) item.findViewById(R.id.LblDireccion);
+			holder.direccionTextView = (TextView) item.findViewById(R.id.LblDireccionRES);
 			holder.totalTextView = (TextView) item
-					.findViewById(R.id.LblTotal);
+					.findViewById(R.id.LblTotalRES);
 
 			item.setTag(holder);
 		} else {

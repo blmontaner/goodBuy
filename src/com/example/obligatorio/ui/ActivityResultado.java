@@ -8,10 +8,7 @@ import com.example.obligatorio.sistema.Sistema;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class ActivityResultado extends Activity {
 
