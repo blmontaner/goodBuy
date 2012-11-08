@@ -18,6 +18,7 @@ public class Sistema {
 	private List<ListaResultado> listaResultados;
 	private Direccion currentDir;
 	public final static String URL_PEDIDO_RESULTADO = "https://kitchensink-nspace.rhcloud.com/rest/productos/pedidoLista";
+	public final static String URL_ESTABLECIMIENTOS = "https://kitchensink-nspace.rhcloud.com/rest/productos/establecimientos";
 	private BaseDeDatos base;
 	
 	
@@ -75,7 +76,7 @@ public class Sistema {
 	}
 
 	public void setCurrentDir(Direccion currentDir) {
-		this.currentDir = currentDir;
+		this.currentDir = currentDir;//se podria ir esto.
 		//this.getListaPedActual().setDir(currentDir);
 		base.addDireccion(currentDir);
 	}

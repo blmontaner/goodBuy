@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.obligatorio.dominio.Direccion;
+import com.example.obligatorio.dominio.Establecimiento;
 import com.example.obligatorio.dominio.Producto;
 
 import android.content.ContentValues;
@@ -15,7 +16,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class BaseDeDatos extends SQLiteOpenHelper {
 
 	// Database Version
-	private static final int DATABASE_VERSION = 2;
+	private static final int DATABASE_VERSION = 4;
 
 	// Database Name
 	private static final String DATABASE_NAME = "GoodBuy";
@@ -35,6 +36,12 @@ public class BaseDeDatos extends SQLiteOpenHelper {
 	// Columnas direccion
 	private static final String KEY_LON = "longitud";
 	private static final String KEY_LAT = "latitud";
+
+	// Tabla establecimiento
+	private static final String TABLE_ESTABLECIMIENTO = "establecimiento";
+
+	// Columnas establecimiento
+	// uso las que estas def arriba
 
 	public BaseDeDatos(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -56,6 +63,16 @@ public class BaseDeDatos extends SQLiteOpenHelper {
 
 		db.execSQL(CREATE_DIRECCION_TABLE);
 
+		// private long id;
+		// private String nombre;
+		// private Direccion direccion;
+		String CREATE_ESTABLECIMIENTO_TABLE = "CREATE TABLE if not exists "
+				+ TABLE_ESTABLECIMIENTO + " (" + KEY_ID + " LONG PRIMARY KEY,"
+				+ KEY_NOMBRE + " TEXT, " + KEY_LON + " DOUBLE ," + KEY_LAT
+				+ " DOUBLE)";
+		System.out.println(CREATE_ESTABLECIMIENTO_TABLE);
+		db.execSQL(CREATE_ESTABLECIMIENTO_TABLE);
+
 	}
 
 	// Upgrading database
@@ -63,7 +80,8 @@ public class BaseDeDatos extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		// Drop older table if existed
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCTS);
-
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_DIR);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_ESTABLECIMIENTO);
 		// Create tables again
 		onCreate(db);
 	}
@@ -113,7 +131,7 @@ public class BaseDeDatos extends SQLiteOpenHelper {
 		}
 		cursor.close();
 		db.close();
-		return (count!=0);
+		return (count != 0);
 	}
 
 	// Adding new PRODUCTO
@@ -226,6 +244,38 @@ public class BaseDeDatos extends SQLiteOpenHelper {
 	public void deleteAllProducts() {
 		SQLiteDatabase db = this.getWritableDatabase();
 		db.execSQL("delete from " + TABLE_PRODUCTS);
+	}
+
+	public int getEstablecimientoCount() {
+		String selectQuery = "SELECT * FROM " + TABLE_ESTABLECIMIENTO;
+
+		SQLiteDatabase db = this.getWritableDatabase();
+		Cursor cursor = db.rawQuery(selectQuery, null);
+		int count = 0;
+		// looping through all rows and adding to list
+		if (cursor.moveToFirst()) {
+			while (cursor.moveToNext()) {
+				count++;
+			}
+			;
+		}
+		cursor.close();
+		db.close();
+		return count;
+	}
+
+	public void addEstablecimiento(Establecimiento est) {
+		SQLiteDatabase db = this.getWritableDatabase();
+
+		ContentValues values = new ContentValues();
+		values.put(KEY_ID, est.getId());
+		values.put(KEY_NOMBRE, est.getNombre());
+		values.put(KEY_LAT, est.getDireccion().getLatitud());
+		values.put(KEY_LON, est.getDireccion().getLongitud());
+
+		// Inserting Row
+		db.insert(TABLE_ESTABLECIMIENTO, null, values);
+		db.close(); // Closing database connection
 	}
 
 }
