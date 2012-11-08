@@ -71,11 +71,12 @@ public class Sistema {
 	}
 
 	public Direccion getCurrentDir() {
-		return currentDir;
+		return base.getDireccionActual();
 	}
 
 	public void setCurrentDir(Direccion currentDir) {
 		this.currentDir = currentDir;
+		//this.getListaPedActual().setDir(currentDir);
 		base.addDireccion(currentDir);
 	}
 	

@@ -1,7 +1,16 @@
 package com.example.obligatorio.ui;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -11,6 +20,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,12 +36,16 @@ import android.widget.Toast;
 
 import com.example.obligatorio.adapters.ProductosAdaptador;
 import com.example.obligatorio.base_de_datos.BaseDeDatos;
+import com.example.obligatorio.dominio.Direccion;
 import com.example.obligatorio.dominio.Producto;
 import com.example.obligatorio.servicio.ListaPedido;
 import com.example.obligatorio.servicio.ListaPedido.ProductoCantidad;
 import com.example.obligatorio.servicio.ListaResultado;
 import com.example.obligatorio.servicio.WebServiceInteractionObtenerResultado;
 import com.example.obligatorio.sistema.Sistema;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 public class ActivityCrearLista extends Activity {
 
@@ -39,11 +53,9 @@ public class ActivityCrearLista extends Activity {
 	private static final int MENU_VERLISTA = Menu.FIRST + 1;
 	ListaPedido lp;
 	private ArrayList<Producto> productos = new ArrayList<Producto>();
-	public ProgressDialog dialog ;
-	
-	
-	public Handler responseHandler ;
-	
+	public ProgressDialog dialog;
+
+	public Handler responseHandler;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -123,7 +135,6 @@ public class ActivityCrearLista extends Activity {
 
 	}
 
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, MENU_VERLISTA, 0, "Ver Lista");
@@ -145,39 +156,86 @@ public class ActivityCrearLista extends Activity {
 			// http://www.bogotobogo.com/Android/android10Menus.php
 			return true;
 		case MENU_TERMINAR:
-			
-			dialog.setMessage("Se estan bucando los datos...");
-			dialog.setTitle("Procesando");
-			dialog.setCancelable(false);			
-			dialog.show();
-	        final Thread thread = new Thread(new Runnable() {    
-	            public void run() {
-	    			WebServiceInteractionObtenerResultado.work();
-	                responseHandler.sendEmptyMessage(0);
-	            }
-	        });
-	        
-	        thread.start();
-		    }
-			final Intent in = new Intent(this, ActivityResultado.class);
-		    responseHandler = new Handler() 
-		        {                               
-		            public void handleMessage(Message msg)  
-		            {
-		                super.handleMessage(msg);
-		                try 
-		                {
-		                	dialog.dismiss();
-		                	
-		     		        startActivity(in);
-		                } 
-		                catch (Exception e) 
-		                {
-		                    e.printStackTrace();
-		                }                       
-		            }
-		        };
 
+//			dialog.setMessage("Se estan bucando los datos...");
+//			dialog.setTitle("Procesando");
+//			dialog.setCancelable(false);
+//			dialog.show();
+//			final Thread thread = new Thread(new Runnable() {
+//				public void run() {
+//					WebServiceInteractionObtenerResultado.work();
+//					responseHandler.sendEmptyMessage(0);
+//				}
+//			});
+//
+//			thread.start();
+//
+//			final Intent in = new Intent(this, ActivityResultado.class);
+//			responseHandler = new Handler() {
+//				public void handleMessage(Message msg) {
+//					super.handleMessage(msg);
+//					try {
+//						dialog.dismiss();
+//
+//						startActivity(in);
+//					} catch (Exception e) {
+//						e.printStackTrace();
+//					}
+//				}
+//			};
+			final ProgressDialog pd = ProgressDialog.show(this,"Procesando","Se estan bucando los datos...",true, false);
+			final Intent in = new Intent(this, ActivityResultado.class);
+			new Thread(new Runnable(){
+				public void run(){
+					TraerEstablecimientos();
+					startActivity(in);
+				pd.dismiss();
+				}
+
+				private void TraerEstablecimientos() {
+					ListaResultado listaRes;
+					List<ListaResultado> res = null;
+
+					try {
+						HttpClient httpClient = new DefaultHttpClient();
+						HttpPost post = new HttpPost(Sistema.URL_PEDIDO_RESULTADO);
+						post.setHeader("Content-type", "application/json");
+						Gson gson = new GsonBuilder()
+								.excludeFieldsWithoutExposeAnnotation().create();
+
+						ListaPedido lp = Sistema.getInstance().getListaPedActual();
+						//Direccion dir = new Direccion();
+						// /"latitud":,"longitud":
+						//dir.setLatLong(-34.9079606, -56.157705);
+						lp.setDir(Sistema.getInstance().getCurrentDir());
+						StringEntity request = new StringEntity(new Gson().toJson(lp),
+								HTTP.UTF_8);
+						System.out.println("==================");
+						System.out.println(new Gson().toJson(lp));
+						System.out.println("==================");
+						post.setEntity(request);
+
+						HttpResponse resp = httpClient.execute(post);
+
+						String respString = EntityUtils.toString(resp.getEntity());
+						System.out.println("==================");
+						System.out.println(respString);
+						System.out.println("==================");
+						Type type = new TypeToken<List<ListaResultado>>() {
+						}.getType();
+						res = new Gson().fromJson(respString, type);
+						Sistema.getInstance().setListaResultados(res);
+						System.out.println("==========>>>>Resutls Size "
+								+ Sistema.getInstance().getListaResultados().size());
+						System.out.println("==================END");
+						
+					} catch (Exception e) {
+						Log.e("error", e.getMessage());
+					}
+				}
+				}).start(); 
+			return true;
+		}
 		return false;
 	}
 
