@@ -149,4 +149,5 @@ public class WebServiceInteractionObtenerResultado extends
 		}
 
 	}
+	
 }

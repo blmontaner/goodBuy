@@ -17,15 +17,13 @@ public class ActivityResultado extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.activity_resultado);
-	    
+	    System.out.println("RESUTLADOOOOOOOOO");
 	 // Find the list view component in your layout.
 	    
 	    // obtain data
 	    List<ListaResultado> data = Sistema.getInstance().getListaResultados();
 	    System.out.println("RESUTLADOOOOOOOOO");
-	    for(ListaResultado lr : data){
-	    	System.out.println(lr.toString());
-	    }
+	   
 
 	    // use a list adapter to render your list item in your list view!!
 	    // The item is rendered using the list_item.xml layout.

@@ -2,22 +2,15 @@ package com.example.obligatorio.ui;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
-import com.example.obligatorio.adapters.ProductosAdaptador;
-import com.example.obligatorio.base_de_datos.BaseDeDatos;
-import com.example.obligatorio.dominio.Producto;
-import com.example.obligatorio.servicio.ListaPedido;
-import com.example.obligatorio.servicio.ListaPedido.ProductoCantidad;
-import com.example.obligatorio.servicio.ListaResultado;
-import com.example.obligatorio.servicio.WebServiceInteractionObtenerProductos;
-import com.example.obligatorio.servicio.WebServiceInteractionObtenerResultado;
-import com.example.obligatorio.sistema.Sistema;
-
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,10 +23,15 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
+
+import com.example.obligatorio.adapters.ProductosAdaptador;
+import com.example.obligatorio.base_de_datos.BaseDeDatos;
+import com.example.obligatorio.dominio.Producto;
+import com.example.obligatorio.servicio.ListaPedido;
+import com.example.obligatorio.servicio.ListaPedido.ProductoCantidad;
+import com.example.obligatorio.servicio.ListaResultado;
+import com.example.obligatorio.servicio.WebServiceInteractionObtenerResultado;
+import com.example.obligatorio.sistema.Sistema;
 
 public class ActivityCrearLista extends Activity {
 
@@ -41,13 +39,19 @@ public class ActivityCrearLista extends Activity {
 	private static final int MENU_VERLISTA = Menu.FIRST + 1;
 	ListaPedido lp;
 	private ArrayList<Producto> productos = new ArrayList<Producto>();
+	public ProgressDialog dialog ;
+	
+	
+	public Handler responseHandler ;
+	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_productos);
-
+		dialog = new ProgressDialog(this);
 		lp = new ListaPedido();
+		responseHandler = new Handler();
 
 		BaseDeDatos base = Sistema.getInstance().getBaseDeDatos();
 		productos = (ArrayList<Producto>) base.getAllProducts();
@@ -119,15 +123,6 @@ public class ActivityCrearLista extends Activity {
 
 	}
 
-	// private Producto cursorToProducto(Cursor cursor) {
-	// Producto pro = new Producto();
-	// pro.setId(cursor.getInt(0));
-	// pro.SetNombre(cursor.getString(1));
-	// pro.SetMarca(cursor.getString(2));
-	// pro.SetEspecificacion(cursor.getString(3));
-	// return pro;
-	//
-	// }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -150,46 +145,39 @@ public class ActivityCrearLista extends Activity {
 			// http://www.bogotobogo.com/Android/android10Menus.php
 			return true;
 		case MENU_TERMINAR:
+			
+			dialog.setMessage("Se estan bucando los datos...");
+			dialog.setTitle("Procesando");
+			dialog.setCancelable(false);			
+			dialog.show();
+	        final Thread thread = new Thread(new Runnable() {    
+	            public void run() {
+	    			WebServiceInteractionObtenerResultado.work();
+	                responseHandler.sendEmptyMessage(0);
+	            }
+	        });
+	        
+	        thread.start();
+		    }
+			final Intent in = new Intent(this, ActivityResultado.class);
+		    responseHandler = new Handler() 
+		        {                               
+		            public void handleMessage(Message msg)  
+		            {
+		                super.handleMessage(msg);
+		                try 
+		                {
+		                	dialog.dismiss();
+		                	
+		     		        startActivity(in);
+		                } 
+		                catch (Exception e) 
+		                {
+		                    e.printStackTrace();
+		                }                       
+		            }
+		        };
 
-			// final ProgressDialog pd = ProgressDialog.show(this, "Procesando",
-			// "Se estan bucando los datos", true, false);
-			// new Thread(new Runnable() {
-			// public void run() {
-			// try {
-			// WebServiceInteractionObtenerResultado.work();
-			// //
-			// ().execute("https://kitchensink-nspace.rhcloud.com/rest/productos/catalogoProductos")).get();
-			// } catch (Exception ex) {
-			// Log.e("Ex", ex.getMessage());
-			// }
-			// pd.dismiss();
-			// }
-			// }).start();
-
-			// WebServiceInteractionObtenerResultado.work(); //CON ESTA LINEA NO
-			// FUNCIONA.
-//			ProgressDialog dialog = new ProgressDialog(this);
-//			dialog.setMessage("Se estan bucando los datos...");
-//			dialog.setTitle("Procesando");
-//			dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-//			dialog.setCancelable(false);
-
-			WebServiceInteractionObtenerResultado thread = new WebServiceInteractionObtenerResultado();
-//			thread.setDialog(dialog);
-			thread.execute();
-
-			try {
-				Thread.sleep(1000 * 10);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			Intent res = new Intent(this, ActivityResultado.class);
-			startActivity(res);
-
-			return true;
-		}
 		return false;
 	}
 
