@@ -2,6 +2,7 @@ package com.example.obligatorio.ui;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
@@ -14,6 +15,7 @@ import org.apache.http.util.EntityUtils;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,8 +31,10 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SectionIndexer;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +50,7 @@ import com.example.obligatorio.sistema.Sistema;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.woozzu.android.widget.IndexableListView;
 
 public class ActivityCrearLista extends Activity {
 
@@ -53,17 +58,17 @@ public class ActivityCrearLista extends Activity {
 	private static final int MENU_VERLISTA = Menu.FIRST + 1;
 	ListaPedido lp;
 	private ArrayList<Producto> productos = new ArrayList<Producto>();
-	public ProgressDialog dialog;
+	//public ProgressDialog dialog;
 
-	public Handler responseHandler;
+	//public Handler responseHandler;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_productos);
-		dialog = new ProgressDialog(this);
+		//dialog = new ProgressDialog(this);
 		lp = new ListaPedido();
-		responseHandler = new Handler();
+		//responseHandler = new Handler();
 
 		BaseDeDatos base = Sistema.getInstance().getBaseDeDatos();
 		productos = (ArrayList<Producto>) base.getAllProducts();
@@ -71,9 +76,10 @@ public class ActivityCrearLista extends Activity {
 		final ProductosAdaptador adaptador = new ProductosAdaptador(this,
 				productos);
 
-		final ListView lstOpciones = (ListView) findViewById(R.id.listView1);
+		final IndexableListView lstOpciones = (IndexableListView) findViewById(R.id.listView1);
 
 		lstOpciones.setAdapter(adaptador);
+		lstOpciones.setFastScrollEnabled(true);
 
 		lstOpciones.setOnItemClickListener(new OnItemClickListener() {
 
@@ -260,4 +266,5 @@ public class ActivityCrearLista extends Activity {
 		}
 
 	}
+	
 }
