@@ -23,7 +23,7 @@ public class ProductosAdaptador extends ArrayAdapter<Producto> implements
 	private Activity context;
 	private ArrayList<Producto> productos;
 	private ArrayList<Producto> productosOriginales;
-	private String mSections = "#ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	private String mSections = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 	public ProductosAdaptador(Activity context, ArrayList<Producto> pros) {
 		super(context, R.layout.activity_productos_items);
