@@ -40,7 +40,7 @@ public class ActivityListaActual extends Activity {
 
 	public void Suma(View v) {
 		LinearLayout vwParentRow = (LinearLayout) v.getParent();
-		TextView valor = (TextView) vwParentRow.getChildAt(2);
+		TextView valor = (TextView) vwParentRow.getChildAt(3);
 		int suma = Integer.parseInt(valor.getText().toString()) + 1;
 		valor.setText(suma + "");
 		// http://androidforbeginners.blogspot.com/2010/03/clicking-buttons-in-listview-row.html
@@ -50,11 +50,12 @@ public class ActivityListaActual extends Activity {
 
 		// vwParentRow.setBackgroundColor(c);
 		// vwParentRow.refreshDrawableState();
+
 	}
 
 	public void Resta(View v) {
 		LinearLayout vwParentRow = (LinearLayout) v.getParent();
-		TextView valor = (TextView) vwParentRow.getChildAt(2);
+		TextView valor = (TextView) vwParentRow.getChildAt(3);
 		int resta = Integer.parseInt(valor.getText().toString());
 		if (resta > 0) {
 			resta--;

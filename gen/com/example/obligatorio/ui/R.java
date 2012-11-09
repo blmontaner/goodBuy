@@ -46,7 +46,7 @@ public final class R {
         public static final int btn_history2=0x7f07001b;
         public static final int btn_map=0x7f070018;
         public static final int btn_store=0x7f070019;
-        public static final int button1=0x7f070007;
+        public static final int button1=0x7f070006;
         public static final int button2=0x7f070008;
         public static final int checkBox2=0x7f070005;
         public static final int chkEstado=0x7f070010;
@@ -59,7 +59,7 @@ public final class R {
         public static final int menu_settings=0x7f07001c;
         public static final int producto=0x7f07000b;
         public static final int textView1=0x7f070000;
-        public static final int tvCantidad=0x7f070006;
+        public static final int tvCantidad=0x7f070007;
         public static final int tvEspecificacion=0x7f070004;
         public static final int tvMarca=0x7f070003;
         public static final int tvNombre=0x7f070002;
