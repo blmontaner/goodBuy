@@ -19,6 +19,7 @@ public class Sistema {
 	private Direccion currentDir;
 	public final static String URL_PEDIDO_RESULTADO = "https://kitchensink-nspace.rhcloud.com/rest/productos/pedidoLista";
 	public final static String URL_ESTABLECIMIENTOS = "https://kitchensink-nspace.rhcloud.com/rest/productos/establecimientos";
+	public static final String URL_PRODUCTOS = "https://kitchensink-nspace.rhcloud.com/rest/productos/catalogoProductos";
 	private BaseDeDatos base;
 	
 	

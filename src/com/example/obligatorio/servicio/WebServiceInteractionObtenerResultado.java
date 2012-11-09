@@ -25,7 +25,8 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.GsonBuilder;
 
 //import com.google.gson.reflect.TypeToken;
-
+//http://miguelangellv.wordpress.com/2011/01/31/creando-tareas-asincronas-en-android-con-asynctask/
+//Guia REST Android.pdf
 public class WebServiceInteractionObtenerResultado extends
 		AsyncTask<Void, Float, List<ListaResultado>> {
 

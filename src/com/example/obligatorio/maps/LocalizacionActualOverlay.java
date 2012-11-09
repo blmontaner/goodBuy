@@ -1,6 +1,9 @@
 package com.example.obligatorio.maps;
 
 import java.util.ArrayList;
+
+import android.app.AlertDialog;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,11 +17,12 @@ public class LocalizacionActualOverlay extends ItemizedOverlay<OverlayItem> {
 
 	private ArrayList<OverlayItem> puntos = new ArrayList<OverlayItem>();
 	private Handler handler;
-
-	public LocalizacionActualOverlay(Drawable defaultMarker, Handler h) {
+	private Context mContext;
+	public LocalizacionActualOverlay(Drawable defaultMarker, Handler h,Context contexto) {
 		super(boundCenterBottom(defaultMarker));
 		// Handler object instantiated in the class MainActivity
 		this.handler = h;
+		this.mContext = contexto;
 	}
 
 	@Override
@@ -42,46 +46,37 @@ public class LocalizacionActualOverlay extends ItemizedOverlay<OverlayItem> {
 	@Override
 	public boolean onTap(GeoPoint point, MapView map) {
 
-//		try {
+		// try {
 
-			// Creating a Message object to send to Handler
-			Message message = new Message();
+		// Creating a Message object to send to Handler
+		Message message = new Message();
 
-			// Creating a Bundle object to set in Message object
-			Bundle data = new Bundle();
+		// Creating a Bundle object to set in Message object
+		Bundle data = new Bundle();
 
-			// Setting latitude in Bundle object
-			data.putInt("latitude", point.getLatitudeE6());
+		// Setting latitude in Bundle object
+		data.putInt("latitude", point.getLatitudeE6());
 
-			// Setting longitude in the Bundle object
-			data.putInt("longitude", point.getLongitudeE6());
+		// Setting longitude in the Bundle object
+		data.putInt("longitude", point.getLongitudeE6());
 
-			// Setting the Bundle object in the Message object
-			message.setData(data);
+		// Setting the Bundle object in the Message object
+		message.setData(data);
 
-			// Sending Message object to handler
-			handler.sendMessage(message);
-
-//			Context contexto = map.getContext();
-//
-//			Geocoder geoCoder = new Geocoder(contexto, Locale.getDefault());
-//			List<Address> direcciones = geoCoder.getFromLocation(
-//					point.getLatitudeE6() / 1E6, point.getLongitudeE6() / 1E6,
-//					1);
-//
-//			String dir = "";
-//			if (direcciones.size() > 0) {
-//				for (int i = 0; i < direcciones.get(0).getMaxAddressLineIndex(); i++)
-//					dir += direcciones.get(0).getAddressLine(i) + "\n";
-//			}
-//
-//			Toast.makeText(contexto, dir, Toast.LENGTH_SHORT).show();
-
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+		// Sending Message object to handler
+		handler.sendMessage(message);
 
 		return super.onTap(point, map);
+	}
+
+	@Override
+	protected boolean onTap(int index) {
+		OverlayItem item = puntos.get(index);
+		AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+		dialog.setTitle(item.getTitle());
+		dialog.setMessage(item.getSnippet());
+		dialog.show();
+		return true;
 	}
 
 }

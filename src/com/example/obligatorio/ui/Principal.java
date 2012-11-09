@@ -113,47 +113,52 @@ public class Principal extends Activity implements OnClickListener {
 		});
 
 		// ////////BASE DE DATOS
-		Sistema.getInstance().setContextoBaseDeDatos(this); // esto solo lo hago
-															// una vez en el
-															// codigo.
+		Sistema.getInstance().setContextoBaseDeDatos(this);
+		// esto solo lo hago una vez en el codigo.
 		final BaseDeDatos base = Sistema.getInstance().getBaseDeDatos();
-		ArrayList<Producto> productos = new ArrayList<Producto>();
-		if (base.getProductCount() == 0) {
-			try {
-				productos = (new WebServiceInteractionObtenerProductos()
-						.execute("https://kitchensink-nspace.rhcloud.com/rest/productos/catalogoProductos"))
-						.get();
+		// ArrayList<Producto> productos = new ArrayList<Producto>();
+		// if (base.getProductCount() == 0) {
+		// try {
+		// productos = (new WebServiceInteractionObtenerProductos()
+		// .execute("https://kitchensink-nspace.rhcloud.com/rest/productos/catalogoProductos"))
+		// .get();
+		//
+		// } catch (InterruptedException e) {
+		// e.printStackTrace();
+		// } catch (ExecutionException e) {
+		// e.printStackTrace();
+		// }
+		// for (Producto pro : productos) {
+		// base.addProducto(pro);
+		// }
+		// }
+		
+		final Boolean sinEstablecimientos = base.getEstablecimientoCount() == 0;
+		final Boolean sinProductos = base.getProductCount() == 0;
 
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} catch (ExecutionException e) {
-				e.printStackTrace();
-			}
-			for (Producto pro : productos) {
-				base.addProducto(pro);
-				// insertarFila(pro);
-			}
+		if (sinEstablecimientos || sinProductos) {
+			final ProgressDialog pd = ProgressDialog.show(this, "Descargando",
+					"Se estan cargando los datos...", true, false);
+			new Thread(new Runnable() {
+				public void run() {
+					if (sinEstablecimientos) {
+						for (Establecimiento est : WebServiceInteraction
+								.ObtenerEstablecimientos()) {
+							base.addEstablecimiento(est);
+						}
+					}
+					if (sinProductos) {
+						for (Producto pro : WebServiceInteraction
+								.ObtenerProductos()) {
+							base.addProducto(pro);
+						}
+					}
+
+					pd.dismiss();
+				}
+
+			}).start();
 		}
-//no borrar!!!
-//		// lo de arriba lo voy a cambiar despues
-//		// final ArrayList<Establecimiento> establecimientos = new
-//		// ArrayList<Establecimiento>();
-//		final ProgressDialog pd = ProgressDialog.show(this, "Procesando",
-//				"Se estan bucando los datos...", true, false);
-//		// final Intent in = new Intent(this, ActivityResultado.class);
-//		if (base.getEstablecimientoCount() == 0) {
-//			new Thread(new Runnable() {
-//				public void run() {
-//					for (Establecimiento est : WebServiceInteraction
-//							.ObtenerEstablecimientos()) {
-//						base.addEstablecimiento(est);
-//					}
-//					// startActivity(in);
-//					pd.dismiss();
-//				}
-//
-//			}).start();
-//		}
 	}
 
 	public void onClick(View arg0) {

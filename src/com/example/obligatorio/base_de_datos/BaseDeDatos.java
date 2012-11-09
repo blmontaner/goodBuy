@@ -16,7 +16,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class BaseDeDatos extends SQLiteOpenHelper {
 
 	// Database Version
-	private static final int DATABASE_VERSION = 4;
+	private static final int DATABASE_VERSION = 7;
 
 	// Database Name
 	private static final String DATABASE_NAME = "GoodBuy";
@@ -41,8 +41,10 @@ public class BaseDeDatos extends SQLiteOpenHelper {
 	private static final String TABLE_ESTABLECIMIENTO = "establecimiento";
 
 	// Columnas establecimiento
-	// uso las que estas def arriba
-
+	private static final String KEY_DEPARTAMENTO = "departamento";
+	private static final String KEY_CIUDAD = "ciudad";
+	private static final String KEY_CALLE= "calle";
+	
 	public BaseDeDatos(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
@@ -63,14 +65,11 @@ public class BaseDeDatos extends SQLiteOpenHelper {
 
 		db.execSQL(CREATE_DIRECCION_TABLE);
 
-		// private long id;
-		// private String nombre;
-		// private Direccion direccion;
 		String CREATE_ESTABLECIMIENTO_TABLE = "CREATE TABLE if not exists "
 				+ TABLE_ESTABLECIMIENTO + " (" + KEY_ID + " LONG PRIMARY KEY,"
 				+ KEY_NOMBRE + " TEXT, " + KEY_LON + " DOUBLE ," + KEY_LAT
-				+ " DOUBLE)";
-		System.out.println(CREATE_ESTABLECIMIENTO_TABLE);
+				+ " DOUBLE ,"+ KEY_DEPARTAMENTO + " TEXT,"+ KEY_CIUDAD + " TEXT,"+ KEY_CALLE + " TEXT)";
+	
 		db.execSQL(CREATE_ESTABLECIMIENTO_TABLE);
 
 	}
@@ -272,6 +271,9 @@ public class BaseDeDatos extends SQLiteOpenHelper {
 		values.put(KEY_NOMBRE, est.getNombre());
 		values.put(KEY_LAT, est.getDireccion().getLatitud());
 		values.put(KEY_LON, est.getDireccion().getLongitud());
+		values.put(KEY_DEPARTAMENTO, est.getDireccion().getDepartamento());
+		values.put(KEY_CIUDAD, est.getDireccion().getCiudad());
+		values.put(KEY_CALLE, est.getDireccion().getCalle());
 
 		// Inserting Row
 		db.insert(TABLE_ESTABLECIMIENTO, null, values);
@@ -294,6 +296,9 @@ public class BaseDeDatos extends SQLiteOpenHelper {
 				est.setNombre(cursor.getString(1));
 				Direccion dir = new Direccion();
 				dir.setLatLong(cursor.getDouble(3), cursor.getDouble(2));
+				dir.setDepartamento(cursor.getString(4));
+				dir.setCiudad(cursor.getString(5));
+				dir.setCalle(cursor.getString(6));
 				est.setDireccion(dir);
 				establecimientos.add(est);
 			} while (cursor.moveToNext());

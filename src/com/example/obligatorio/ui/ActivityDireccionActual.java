@@ -121,7 +121,7 @@ public class ActivityDireccionActual extends MapActivity implements
 
 		// Creating an ItemizedOverlay
 		LocalizacionActualOverlay locationOverlay = new LocalizacionActualOverlay(
-				drawable, h);
+				drawable, h,this);
 
 		// Getting the MapController
 		MapController mc = mapView.getController();
@@ -133,7 +133,7 @@ public class ActivityDireccionActual extends MapActivity implements
 		mc.animateTo(p);
 
 		// Creating an OverlayItem to mark the point
-		OverlayItem overlayItem = new OverlayItem(p, "Item", "Item");
+		OverlayItem overlayItem = new OverlayItem(p, "Dirección Actual", null);
 
 		// Adding the OverlayItem in the LocationOverlay
 		locationOverlay.agregarPuntos(overlayItem);

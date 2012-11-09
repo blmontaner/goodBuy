@@ -50,9 +50,8 @@ public class ActivityEstablecimiento extends MapActivity implements
 		List<Establecimiento> establecimientos = Sistema.getInstance()
 				.getBaseDeDatos().getAllEstablecimientos();
 		for (Establecimiento est : establecimientos) {
-			lat = (int) (est.getDireccion().getLatitud() * 1e6);
-			lon = (int) (est.getDireccion().getLongitud() * 1e6);
-			showLocation(lat, lon);
+			
+			showLocation(est);
 		}
 
 		BaseDeDatos db = Sistema.getInstance().getBaseDeDatos();
@@ -74,7 +73,8 @@ public class ActivityEstablecimiento extends MapActivity implements
 
 	}
 
-	private void showLocation(int latitude, int longitude) {
+	private void showLocation(Establecimiento est) {
+		
 		// Getting Overlays of the map
 		List<Overlay> overlays = mapView.getOverlays();
 
@@ -85,19 +85,19 @@ public class ActivityEstablecimiento extends MapActivity implements
 
 		// Creating an ItemizedOverlay
 		LocalizacionActualOverlay locationOverlay = new LocalizacionActualOverlay(
-				drawable, h);
+				drawable, h,this);
 
 		// Getting the MapController
 		MapController mc = mapView.getController();
 
 		// Creating an instance of GeoPoint, to display in Google Map
-		GeoPoint p = new GeoPoint(latitude, longitude);
+		GeoPoint p = new GeoPoint((int) (est.getDireccion().getLatitud() * 1e6), (int) (est.getDireccion().getLongitud() * 1e6));
 
 		// Locating the point in the Google Map
 		mc.animateTo(p);
 
 		// Creating an OverlayItem to mark the point
-		OverlayItem overlayItem = new OverlayItem(p, "Item", "Item");
+		OverlayItem overlayItem = new OverlayItem(p, est.getNombre(), est.getDireccion().getCalle());
 
 		// Adding the OverlayItem in the LocationOverlay
 		locationOverlay.agregarPuntos(overlayItem);
