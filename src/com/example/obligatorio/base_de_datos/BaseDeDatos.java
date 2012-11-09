@@ -278,4 +278,30 @@ public class BaseDeDatos extends SQLiteOpenHelper {
 		db.close(); // Closing database connection
 	}
 
+	public List<Establecimiento> getAllEstablecimientos() {
+		List<Establecimiento> establecimientos = new ArrayList<Establecimiento>();
+		// Select All Query
+		String selectQuery = "SELECT * FROM " + TABLE_ESTABLECIMIENTO;
+
+		SQLiteDatabase db = this.getWritableDatabase();
+		Cursor cursor = db.rawQuery(selectQuery, null);
+
+		// looping through all rows and adding to list
+		if (cursor.moveToFirst()) {
+			do {
+				Establecimiento est = new Establecimiento();
+				est.setId(cursor.getLong(0)); // Integer.parseInt(cursor.getString(0)));
+				est.setNombre(cursor.getString(1));
+				Direccion dir = new Direccion();
+				dir.setLatLong(cursor.getDouble(3), cursor.getDouble(2));
+				est.setDireccion(dir);
+				establecimientos.add(est);
+			} while (cursor.moveToNext());
+		}
+		cursor.close();
+		db.close();
+		// return Product list
+		return establecimientos;
+	}
+
 }

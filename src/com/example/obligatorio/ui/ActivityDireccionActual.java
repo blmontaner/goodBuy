@@ -115,8 +115,9 @@ public class ActivityDireccionActual extends MapActivity implements
 		List<Overlay> overlays = mapView.getOverlays();
 
 		// Getting Drawable object corresponding to a resource image
+		//para los iconos http://mapicons.nicolasmollet.com/
 		Drawable drawable = getResources().getDrawable(
-				R.drawable.marcador_google_maps);
+				R.drawable.home);
 
 		// Creating an ItemizedOverlay
 		LocalizacionActualOverlay locationOverlay = new LocalizacionActualOverlay(

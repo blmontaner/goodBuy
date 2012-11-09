@@ -23,14 +23,15 @@ public final class R {
         public static final int create_list_hover=0x7f020009;
         public static final int history=0x7f02000a;
         public static final int history_hover=0x7f02000b;
-        public static final int ic_action_search=0x7f02000c;
-        public static final int ic_launcher=0x7f02000d;
-        public static final int logo=0x7f02000e;
-        public static final int map=0x7f02000f;
-        public static final int map_hover=0x7f020010;
-        public static final int marcador_google_maps=0x7f020011;
+        public static final int home=0x7f02000c;
+        public static final int ic_action_search=0x7f02000d;
+        public static final int ic_launcher=0x7f02000e;
+        public static final int logo=0x7f02000f;
+        public static final int map=0x7f020010;
+        public static final int map_hover=0x7f020011;
         public static final int store=0x7f020012;
         public static final int store_hover=0x7f020013;
+        public static final int supermarket=0x7f020014;
     }
     public static final class id {
         public static final int LblDireccionRES=0x7f070013;
