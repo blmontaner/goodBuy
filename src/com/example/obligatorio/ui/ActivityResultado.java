@@ -2,14 +2,18 @@ package com.example.obligatorio.ui;
 
 import java.util.List;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
+
 import com.example.obligatorio.adapters.ResultadoAdaptador;
 import com.example.obligatorio.servicio.ListaResultado;
 import com.example.obligatorio.sistema.Sistema;
-
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.os.Bundle;
-import android.widget.ListView;
 
 public class ActivityResultado extends Activity {
 
@@ -20,52 +24,43 @@ public class ActivityResultado extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_resultado);
-		System.out.println("RESUTLADOOOOOOOOO");
-		// Find the list view component in your layout.
-
-//		dialog = new ProgressDialog(this);
-//		dialog.setMessage("Se estan bucando los datos...");
-//		dialog.setTitle("Procesando");
-//		dialog.setCancelable(false);
-//		// dialog.show();
-//
-//		dialog.setProgress(0);
-//		dialog.setMax(100);
-//		dialog.show(); // Mostramos el diálogo antes de comenzar
-//
-//		for (int i = 0; i < 250; i++) {
-//			// Simulamos cierto retraso
-//			try {
-//				Thread.sleep(1000);
-//			} catch (InterruptedException e) {
-//			}
-//
-//			int p = Math.round(i / 250f);
-//			dialog.setProgress(p);
-//		}
-//		dialog.dismiss();
-
-		// obtain data
-		List<ListaResultado> data = Sistema.getInstance().getListaResultados();
-		System.out.println("RESUTLADOOOOOOOOO");
-
-		// use a list adapter to render your list item in your list view!!
-		// The item is rendered using the list_item.xml layout.
-		// Here you can have any layout, with image and text as in your pic.
+		final List<ListaResultado> data = Sistema.getInstance().getListaResultados();
 
 		final ResultadoAdaptador adaptador = new ResultadoAdaptador(this, data);
 
-		ListView list = (ListView) findViewById(R.id.listaResultados);
+		final ListView list = (ListView) findViewById(R.id.listaResultados);
 
 		list.setAdapter(adaptador);
 
-		// list.setOnItemClickListener(new OnItemClickListener() {
-		//
-		// public void onItemClick(AdapterView<?> arg0, View rowView,
-		// int index, long arg3) {
-		// }
-		//
-		// });
+		list.setOnItemClickListener(new OnItemClickListener() {
+
+			public void onItemClick(AdapterView<?> arg0, View rowView,
+					int index, long arg3) {
+
+				mostrarPedidoPrecios(data.get(index));
+			}
+		});
+
+		
+		
+	}
+	public void mostrarPedidoPrecios(ListaResultado lres){
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	
+		String[] mensaje= new String[lres.getProductosPrecios().size()+1]; 
+		int i = 0;
+		for(ListaResultado.ProductoCantidadPrecio pcp : lres.getProductosPrecios()){
+			mensaje[i]= pcp.getProdCantidad().getCantidad()+" "+pcp.getProdCantidad().getProducto().GetNombre()+" $"+pcp.getPrecioProducto();
+			i++;
+		}
+		mensaje[i]="Total: "+lres.getTotal();
+		
+		builder.setItems(mensaje,null)
+		       .setTitle("Lista Pedido");
+	
+		AlertDialog dialog = builder.create();
+		dialog.show(); 
+	
 	}
 
 }

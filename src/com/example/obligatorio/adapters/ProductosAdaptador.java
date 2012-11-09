@@ -127,7 +127,6 @@ public class ProductosAdaptador extends ArrayAdapter<Producto> implements
 	}
 
 	// SECTIONINDEXER
-	@Override
 	public int getPositionForSection(int section) {
 		// If there is no item for current section, previous section will be
 		// selected
@@ -150,12 +149,10 @@ public class ProductosAdaptador extends ArrayAdapter<Producto> implements
 		return 0;
 	}
 
-	@Override
 	public int getSectionForPosition(int position) {
 		return 0;
 	}
 
-	@Override
 	public Object[] getSections() {
 		String[] sections = new String[mSections.length()];
 		for (int i = 0; i < mSections.length(); i++)

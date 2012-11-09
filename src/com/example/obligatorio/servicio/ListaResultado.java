@@ -1,6 +1,7 @@
 package com.example.obligatorio.servicio;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,12 +39,13 @@ public class ListaResultado implements Serializable{
 		this.est = est;
 	}
 
-	public double getTotal() {
+	public String getTotal() {
 		double ret = 0;
+		DecimalFormat oneDigit = new DecimalFormat("#,##0.0");
 		for(ProductoCantidadPrecio p : getProductosPrecios()){
 			ret+=p.getPrecioProducto();
 		}
-		return ret;
+		return oneDigit.format(ret);
 	}
 
 	public void setTotal(double total) {

@@ -58,17 +58,17 @@ public class ActivityCrearLista extends Activity {
 	private static final int MENU_VERLISTA = Menu.FIRST + 1;
 	ListaPedido lp;
 	private ArrayList<Producto> productos = new ArrayList<Producto>();
-	//public ProgressDialog dialog;
+	public ProgressDialog dialog;
 
-	//public Handler responseHandler;
+	public Handler responseHandler;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_productos);
-		//dialog = new ProgressDialog(this);
+		dialog = new ProgressDialog(this);
 		lp = new ListaPedido();
-		//responseHandler = new Handler();
+		responseHandler = new Handler();
 
 		BaseDeDatos base = Sistema.getInstance().getBaseDeDatos();
 		productos = (ArrayList<Producto>) base.getAllProducts();
@@ -163,83 +163,83 @@ public class ActivityCrearLista extends Activity {
 			return true;
 		case MENU_TERMINAR:
 
-//			dialog.setMessage("Se estan bucando los datos...");
-//			dialog.setTitle("Procesando");
-//			dialog.setCancelable(false);
-//			dialog.show();
-//			final Thread thread = new Thread(new Runnable() {
-//				public void run() {
-//					WebServiceInteractionObtenerResultado.work();
-//					responseHandler.sendEmptyMessage(0);
-//				}
-//			});
-//
-//			thread.start();
-//
-//			final Intent in = new Intent(this, ActivityResultado.class);
-//			responseHandler = new Handler() {
-//				public void handleMessage(Message msg) {
-//					super.handleMessage(msg);
-//					try {
-//						dialog.dismiss();
-//
-//						startActivity(in);
-//					} catch (Exception e) {
-//						e.printStackTrace();
-//					}
-//				}
-//			};
-			final ProgressDialog pd = ProgressDialog.show(this,"Procesando","Se estan bucando los datos...",true, false);
-			final Intent in = new Intent(this, ActivityResultado.class);
-			new Thread(new Runnable(){
-				public void run(){
-					TraerEstablecimientos();
-					startActivity(in);
-				pd.dismiss();
+			dialog.setMessage("Se estan bucando los datos...");
+			dialog.setTitle("Procesando");
+			dialog.setCancelable(false);
+			dialog.show();
+			final Thread thread = new Thread(new Runnable() {
+				public void run() {
+					WebServiceInteractionObtenerResultado.work();
+					responseHandler.sendEmptyMessage(0);
 				}
+			});
 
-				private void TraerEstablecimientos() {
-					ListaResultado listaRes;
-					List<ListaResultado> res = null;
+			thread.start();
 
+			final Intent in = new Intent(this, ActivityResultado.class);
+			responseHandler = new Handler() {
+				public void handleMessage(Message msg) {
+					super.handleMessage(msg);
 					try {
-						HttpClient httpClient = new DefaultHttpClient();
-						HttpPost post = new HttpPost(Sistema.URL_PEDIDO_RESULTADO);
-						post.setHeader("Content-type", "application/json");
-						Gson gson = new GsonBuilder()
-								.excludeFieldsWithoutExposeAnnotation().create();
+						dialog.dismiss();
 
-						ListaPedido lp = Sistema.getInstance().getListaPedActual();
-						//Direccion dir = new Direccion();
-						// /"latitud":,"longitud":
-						//dir.setLatLong(-34.9079606, -56.157705);
-						lp.setDir(Sistema.getInstance().getCurrentDir());
-						StringEntity request = new StringEntity(new Gson().toJson(lp),
-								HTTP.UTF_8);
-						System.out.println("==================");
-						System.out.println(new Gson().toJson(lp));
-						System.out.println("==================");
-						post.setEntity(request);
-
-						HttpResponse resp = httpClient.execute(post);
-
-						String respString = EntityUtils.toString(resp.getEntity());
-						System.out.println("==================");
-						System.out.println(respString);
-						System.out.println("==================");
-						Type type = new TypeToken<List<ListaResultado>>() {
-						}.getType();
-						res = new Gson().fromJson(respString, type);
-						Sistema.getInstance().setListaResultados(res);
-						System.out.println("==========>>>>Resutls Size "
-								+ Sistema.getInstance().getListaResultados().size());
-						System.out.println("==================END");
-						
+						startActivity(in);
 					} catch (Exception e) {
-						Log.e("error", e.getMessage());
+						e.printStackTrace();
 					}
 				}
-				}).start(); 
+			};
+//			final ProgressDialog pd = ProgressDialog.show(this,"Procesando","Se estan bucando los datos...",true, false);
+//			final Intent in = new Intent(this, ActivityResultado.class);
+//			new Thread(new Runnable(){
+//				public void run(){
+//					TraerEstablecimientos();
+//					startActivity(in);
+//				pd.dismiss();
+//				}
+//
+//				private void TraerEstablecimientos() {
+//					ListaResultado listaRes;
+//					List<ListaResultado> res = null;
+//
+//					try {
+//						HttpClient httpClient = new DefaultHttpClient();
+//						HttpPost post = new HttpPost(Sistema.URL_PEDIDO_RESULTADO);
+//						post.setHeader("Content-type", "application/json");
+//						Gson gson = new GsonBuilder()
+//								.excludeFieldsWithoutExposeAnnotation().create();
+//
+//						ListaPedido lp = Sistema.getInstance().getListaPedActual();
+//						//Direccion dir = new Direccion();
+//						// /"latitud":,"longitud":
+//						//dir.setLatLong(-34.9079606, -56.157705);
+//						lp.setDir(Sistema.getInstance().getCurrentDir());
+//						StringEntity request = new StringEntity(new Gson().toJson(lp),
+//								HTTP.UTF_8);
+//						System.out.println("==================");
+//						System.out.println(new Gson().toJson(lp));
+//						System.out.println("==================");
+//						post.setEntity(request);
+//
+//						HttpResponse resp = httpClient.execute(post);
+//
+//						String respString = EntityUtils.toString(resp.getEntity());
+//						System.out.println("==================");
+//						System.out.println(respString);
+//						System.out.println("==================");
+//						Type type = new TypeToken<List<ListaResultado>>() {
+//						}.getType();
+//						res = new Gson().fromJson(respString, type);
+//						Sistema.getInstance().setListaResultados(res);
+//						System.out.println("==========>>>>Resutls Size "
+//								+ Sistema.getInstance().getListaResultados().size());
+//						System.out.println("==================END");
+//						
+//					} catch (Exception e) {
+//						Log.e("error", e.getMessage());
+//					}
+//				}
+//				}).start(); 
 			return true;
 		}
 		return false;

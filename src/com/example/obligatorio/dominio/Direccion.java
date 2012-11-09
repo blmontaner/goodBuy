@@ -45,7 +45,7 @@ public class Direccion implements Serializable{
 		this.ciudad = ciudad;
 	}
 	public String getCalle() {
-		return calle;
+		return calle.replace('+', ' ' ).replace(",uruguay", "");
 	}
 
 	public void setCalle(String calle) {
@@ -71,7 +71,7 @@ public class Direccion implements Serializable{
 		this.latitud = lat;
 	}
 	public String getDireccionDeBusqueda(){
-		return (this.calle.replace("N�","").replace("Bvar.", "Boulevard").replace("Avda.", "Avenida").replace("Gral.", "General").replace("Dr.", "Doctor").replace("Ma.", "Maria").replace("A.", "Alverto").replace("Mcal.", "Mariscal")+","+this.ciudad+","+this.departamento+","+PAIS).replace(' ', '+').replace("+de+", "+");
+		return (this.calle.replace("N�","")+", "+this.ciudad+", "+this.departamento);
 	}
 	
 	public void setDireccionDeBusqueda(String val){
