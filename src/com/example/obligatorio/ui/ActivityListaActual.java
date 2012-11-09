@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.example.obligatorio.adapters.ProductosAdaptadorCantidad;
 import com.example.obligatorio.dominio.Producto;
+import com.example.obligatorio.servicio.ListaPedido;
 import com.example.obligatorio.servicio.ListaPedido.ProductoCantidad;
 import com.example.obligatorio.sistema.Sistema;
 
@@ -43,6 +44,10 @@ public class ActivityListaActual extends Activity {
 		TextView valor = (TextView) vwParentRow.getChildAt(3);
 		int suma = Integer.parseInt(valor.getText().toString()) + 1;
 		valor.setText(suma + "");
+
+		ProductoCantidad pro = (ProductoCantidad) valor.getTag();
+		pro.setCantidad(suma);
+
 		// http://androidforbeginners.blogspot.com/2010/03/clicking-buttons-in-listview-row.html
 
 		// TextView child = (TextView)vwParentRow.getChildAt(2);
@@ -61,18 +66,21 @@ public class ActivityListaActual extends Activity {
 			resta--;
 		}
 		valor.setText(resta + "");
+
+		ProductoCantidad pro = (ProductoCantidad) valor.getTag();
+
 		if (resta == 0) {
-			// forma chancha agregar el id en la activity lista actual y de ahi
-			// buscarlo en sistema y despues borrarlo. =/
-			Toast.makeText(
-					this,
-					"Quitado--Aun no puedo obtener el item seleccionado por lo que no lo estoy borrando...",
-					Toast.LENGTH_SHORT).show();
-			Animation animation = AnimationUtils.loadAnimation(
-					ActivityListaActual.this, android.R.anim.fade_in);
-			animation.setDuration(2500);
-			vwParentRow.startAnimation(animation);
-			vwParentRow.removeAllViews();
+			pro.getProducto().setEnListaActual(false);
+			Sistema.getInstance().getListaPedActual()
+					.eliminarProducto(pro.getProducto());
+			Toast.makeText(this, "Quitado", Toast.LENGTH_SHORT).show();
+//			Animation animation = AnimationUtils.loadAnimation(
+//					ActivityListaActual.this, android.R.anim.fade_in);
+//			animation.setDuration(2500);
+//			vwParentRow.startAnimation(animation);
+			adaptador.notifyDataSetChanged();
+		} else {
+			pro.setCantidad(resta);
 		}
 	}
 

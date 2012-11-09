@@ -61,6 +61,7 @@ public class ActivityCrearLista extends Activity {
 	public ProgressDialog dialog;
 
 	public Handler responseHandler;
+	public ProductosAdaptador adaptador;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -73,8 +74,7 @@ public class ActivityCrearLista extends Activity {
 		BaseDeDatos base = Sistema.getInstance().getBaseDeDatos();
 		productos = (ArrayList<Producto>) base.getAllProducts();
 
-		final ProductosAdaptador adaptador = new ProductosAdaptador(this,
-				productos);
+		adaptador = new ProductosAdaptador(this, productos);
 
 		final IndexableListView lstOpciones = (IndexableListView) findViewById(R.id.listView1);
 
@@ -142,6 +142,13 @@ public class ActivityCrearLista extends Activity {
 	}
 
 	@Override
+	public void onResume() { // After a pause OR at startup
+		super.onResume();
+		// Refresh your stuff here
+		adaptador.notifyDataSetChanged();
+	}
+
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, MENU_VERLISTA, 0, "Ver Lista");
 		menu.add(0, MENU_TERMINAR, 0, "Terminar");
@@ -189,57 +196,59 @@ public class ActivityCrearLista extends Activity {
 					}
 				}
 			};
-//			final ProgressDialog pd = ProgressDialog.show(this,"Procesando","Se estan bucando los datos...",true, false);
-//			final Intent in = new Intent(this, ActivityResultado.class);
-//			new Thread(new Runnable(){
-//				public void run(){
-//					TraerEstablecimientos();
-//					startActivity(in);
-//				pd.dismiss();
-//				}
-//
-//				private void TraerEstablecimientos() {
-//					ListaResultado listaRes;
-//					List<ListaResultado> res = null;
-//
-//					try {
-//						HttpClient httpClient = new DefaultHttpClient();
-//						HttpPost post = new HttpPost(Sistema.URL_PEDIDO_RESULTADO);
-//						post.setHeader("Content-type", "application/json");
-//						Gson gson = new GsonBuilder()
-//								.excludeFieldsWithoutExposeAnnotation().create();
-//
-//						ListaPedido lp = Sistema.getInstance().getListaPedActual();
-//						//Direccion dir = new Direccion();
-//						// /"latitud":,"longitud":
-//						//dir.setLatLong(-34.9079606, -56.157705);
-//						lp.setDir(Sistema.getInstance().getCurrentDir());
-//						StringEntity request = new StringEntity(new Gson().toJson(lp),
-//								HTTP.UTF_8);
-//						System.out.println("==================");
-//						System.out.println(new Gson().toJson(lp));
-//						System.out.println("==================");
-//						post.setEntity(request);
-//
-//						HttpResponse resp = httpClient.execute(post);
-//
-//						String respString = EntityUtils.toString(resp.getEntity());
-//						System.out.println("==================");
-//						System.out.println(respString);
-//						System.out.println("==================");
-//						Type type = new TypeToken<List<ListaResultado>>() {
-//						}.getType();
-//						res = new Gson().fromJson(respString, type);
-//						Sistema.getInstance().setListaResultados(res);
-//						System.out.println("==========>>>>Resutls Size "
-//								+ Sistema.getInstance().getListaResultados().size());
-//						System.out.println("==================END");
-//						
-//					} catch (Exception e) {
-//						Log.e("error", e.getMessage());
-//					}
-//				}
-//				}).start(); 
+			// final ProgressDialog pd =
+			// ProgressDialog.show(this,"Procesando","Se estan bucando los datos...",true,
+			// false);
+			// final Intent in = new Intent(this, ActivityResultado.class);
+			// new Thread(new Runnable(){
+			// public void run(){
+			// TraerEstablecimientos();
+			// startActivity(in);
+			// pd.dismiss();
+			// }
+			//
+			// private void TraerEstablecimientos() {
+			// ListaResultado listaRes;
+			// List<ListaResultado> res = null;
+			//
+			// try {
+			// HttpClient httpClient = new DefaultHttpClient();
+			// HttpPost post = new HttpPost(Sistema.URL_PEDIDO_RESULTADO);
+			// post.setHeader("Content-type", "application/json");
+			// Gson gson = new GsonBuilder()
+			// .excludeFieldsWithoutExposeAnnotation().create();
+			//
+			// ListaPedido lp = Sistema.getInstance().getListaPedActual();
+			// //Direccion dir = new Direccion();
+			// // /"latitud":,"longitud":
+			// //dir.setLatLong(-34.9079606, -56.157705);
+			// lp.setDir(Sistema.getInstance().getCurrentDir());
+			// StringEntity request = new StringEntity(new Gson().toJson(lp),
+			// HTTP.UTF_8);
+			// System.out.println("==================");
+			// System.out.println(new Gson().toJson(lp));
+			// System.out.println("==================");
+			// post.setEntity(request);
+			//
+			// HttpResponse resp = httpClient.execute(post);
+			//
+			// String respString = EntityUtils.toString(resp.getEntity());
+			// System.out.println("==================");
+			// System.out.println(respString);
+			// System.out.println("==================");
+			// Type type = new TypeToken<List<ListaResultado>>() {
+			// }.getType();
+			// res = new Gson().fromJson(respString, type);
+			// Sistema.getInstance().setListaResultados(res);
+			// System.out.println("==========>>>>Resutls Size "
+			// + Sistema.getInstance().getListaResultados().size());
+			// System.out.println("==================END");
+			//
+			// } catch (Exception e) {
+			// Log.e("error", e.getMessage());
+			// }
+			// }
+			// }).start();
 			return true;
 		}
 		return false;
@@ -266,5 +275,5 @@ public class ActivityCrearLista extends Activity {
 		}
 
 	}
-	
+
 }

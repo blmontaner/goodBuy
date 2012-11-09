@@ -66,6 +66,7 @@ public class ProductosAdaptadorCantidad extends ArrayAdapter<ProductoCantidad> {
 				.getProducto().GetEspecificacion());
 		holder.cantidadTextView.setText(productos.get(position).getCantidad()
 				+ "");
+		holder.cantidadTextView.setTag(productos.get(position));//////////////////////////////////////////////
 
 		int colorPos = position % colors.length;
 		item.setBackgroundColor(colors[colorPos]);
