@@ -93,9 +93,9 @@ public class Sistema {
 	
 	public int[] getCurrentLocation(){
 		int[] currentDir = new int[2];
-		Direccion dir = base.getDireccionActual();
-		currentDir[0] = (int) (dir.getLatitud() * 1e6);
-		currentDir[1] = (int) (dir.getLongitud() * 1e6);
+		Direccion dir = getCurrentDir();
+		currentDir[0] = Util.getIntDirFormDouble(dir.getLatitud());
+		currentDir[1] = Util.getIntDirFormDouble(dir.getLongitud());
 		return currentDir;
 	}
 	

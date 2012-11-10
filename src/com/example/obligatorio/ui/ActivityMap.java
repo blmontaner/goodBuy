@@ -1,38 +1,25 @@
 package com.example.obligatorio.ui;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
+
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
+import android.widget.FrameLayout.LayoutParams;
 
 import com.example.obligatorio.adapters.BalloonOverlayView;
-import com.example.obligatorio.base_de_datos.BaseDeDatos;
-import com.example.obligatorio.dominio.Direccion;
 import com.example.obligatorio.dominio.Establecimiento;
 import com.example.obligatorio.maps.LocalizacionActualOverlay;
 import com.example.obligatorio.servicio.ListaResultado;
 import com.example.obligatorio.sistema.Sistema;
 import com.google.android.maps.GeoPoint;
-import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
-
-import android.app.Activity;
-import android.content.Context;
-import android.graphics.Point;
-import android.graphics.drawable.Drawable;
-import android.location.Address;
-import android.location.Criteria;
-import android.location.Geocoder;
-import android.location.LocationManager;
-import android.os.Bundle;
-import android.os.Handler;
-import android.view.View;
-import android.widget.FrameLayout.LayoutParams;
-import android.widget.Toast;
 
 public class ActivityMap extends MapActivity {
 
@@ -45,15 +32,6 @@ public class ActivityMap extends MapActivity {
 	    setContentView(R.layout.activity_direccion_actual);
 
 		mapView = (MapView) findViewById(R.id.mapview);
-
-		// map.getController().setCenter(getPoint(-34.903819, -56.190463));
-		// map.setBuiltInZoomControls(true);
-		
-		//Drawable drawable = this.getResources().getDrawable(R.drawable.map_pin);
-	//	SitesOverlay itemizedoverlay = new SitesOverlay(drawable, this);
-		
-		List<Establecimiento> establecimientos = Sistema.getInstance()
-				.getBaseDeDatos().getAllEstablecimientos();
 		
 		int[] currentDir = new int[2];
 		Bundle bundle = getIntent().getExtras();
@@ -65,8 +43,6 @@ public class ActivityMap extends MapActivity {
         else{
         	currentDir = Sistema.getInstance().getCurrentLocation();	
         }
-		
-		
 				
 		int lat=currentDir[0];
 		int lon=currentDir[1];
@@ -99,7 +75,7 @@ public class ActivityMap extends MapActivity {
 		Drawable drawable = getResources().getDrawable(
 				R.drawable.home);
 		
-		BalloonOverlayView bov = new BalloonOverlayView(this, 20);
+		BalloonOverlayView bov = new BalloonOverlayView(this, 55);
         bov.setData(lr);
         
         GeoPoint point = new GeoPoint(((int)(lr.getEst().getDireccion().getLatitud() * 1E6)), ((int)(lr.getEst().getDireccion().getLongitud()* 1E6)));
@@ -142,9 +118,6 @@ public class ActivityMap extends MapActivity {
 		// Adding the OverlayItem in the LocationOverlay
 		locationOverlay.agregarPuntos(overlayItem);
 
-		// Clearing the overlays
-		// overlays.clear();
-
 		// Adding locationOverlay to the overlay
 		overlays.add(locationOverlay);
 
@@ -152,9 +125,6 @@ public class ActivityMap extends MapActivity {
 		mapView.invalidate();
 
 	}
-
-		
-	
 	
 	@Override
 	protected boolean isRouteDisplayed() {
@@ -162,28 +132,4 @@ public class ActivityMap extends MapActivity {
 		return false;
 	}
 	
-	private class SitesOverlay extends ItemizedOverlay<OverlayItem> {
-	    private List<OverlayItem> items=new ArrayList<OverlayItem>();
-	    
-	    public SitesOverlay(Drawable marker) {
-	      super(marker);
-	      
-	      boundCenterBottom(marker);
-
-	      populate();
-	    }
-
-		@Override
-		protected OverlayItem createItem(int arg0) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public int size() {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-	}
-
 }
