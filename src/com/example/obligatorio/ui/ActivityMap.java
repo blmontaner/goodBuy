@@ -3,10 +3,14 @@ package com.example.obligatorio.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.FrameLayout.LayoutParams;
 
 import com.example.obligatorio.adapters.BalloonOverlayView;
@@ -68,12 +72,6 @@ public class ActivityMap extends MapActivity {
 		mapView.setBuiltInZoomControls(true);
 
 		// Getting Overlays of the map
-		List<Overlay> overlays = mapView.getOverlays();
-
-		// Getting Drawable object corresponding to a resource image
-		//para los iconos http://mapicons.nicolasmollet.com/
-		Drawable drawable = getResources().getDrawable(
-				R.drawable.home);
 		
 		BalloonOverlayView bov = new BalloonOverlayView(this, 55);
         bov.setData(lr);
@@ -84,6 +82,13 @@ public class ActivityMap extends MapActivity {
 				MapView.LayoutParams.BOTTOM_CENTER);
 		params.mode = MapView.LayoutParams.MODE_MAP;
 		bov.setVisibility(View.VISIBLE);
+//		bov.setOnClickListener(new OnClickListener() {
+//			
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//		});
         mapView.addView(bov, params);
         showLocation(lr.getEst());
         
@@ -130,6 +135,32 @@ public class ActivityMap extends MapActivity {
 	protected boolean isRouteDisplayed() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	public void baloonClick(View v){
+		final Intent abrir = new Intent(this, Principal.class);
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		final ListaResultado lres =(ListaResultado)((LinearLayout )v).getTag();
+		String[] mensaje= new String[lres.getProductosPrecios().size()+1]; 
+		int i = 0;
+		for(ListaResultado.ProductoCantidadPrecio pcp : lres.getProductosPrecios()){
+			mensaje[i]= pcp.getProdCantidad().getCantidad()+" "+pcp.getProdCantidad().getProducto().GetNombre()+" $"+pcp.getPrecioProducto();
+			i++;
+		}
+		mensaje[i]="Total: "+lres.getTotal();
+		
+		builder.setItems(mensaje,null)
+		       .setTitle("Lista Pedido");
+		builder.setPositiveButton("Terminar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            	Sistema.getInstance().setListaResActual(lres);
+            	startActivity(abrir);
+
+            }
+        });
+		
+		AlertDialog dialog = builder.create();
+		dialog.show(); 
 	}
 	
 }
