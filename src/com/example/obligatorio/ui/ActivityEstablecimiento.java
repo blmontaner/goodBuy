@@ -1,6 +1,7 @@
 package com.example.obligatorio.ui;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -8,6 +9,8 @@ import com.example.obligatorio.base_de_datos.BaseDeDatos;
 import com.example.obligatorio.dominio.Direccion;
 import com.example.obligatorio.dominio.Establecimiento;
 import com.example.obligatorio.maps.LocalizacionActualOverlay;
+import com.example.obligatorio.servicio.ListaResultado;
+import com.example.obligatorio.servicio.WebServiceInteraction;
 import com.example.obligatorio.sistema.Sistema;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -26,9 +29,12 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 
 public class ActivityEstablecimiento extends MapActivity implements
 		LocationListener {
@@ -50,19 +56,18 @@ public class ActivityEstablecimiento extends MapActivity implements
 		List<Establecimiento> establecimientos = Sistema.getInstance()
 				.getBaseDeDatos().getAllEstablecimientos();
 		for (Establecimiento est : establecimientos) {
-			
+
 			showLocation(est);
 		}
 
-		
 		int[] currentDir = Sistema.getInstance().getCurrentLocation();
-		
-		lat=currentDir[0];
-		lon=currentDir[1];
-		
+
+		lat = currentDir[0];
+		lon = currentDir[1];
+
 		// 1 es todo el mapa , mas alto mas zoom
 		mapView.getController().setZoom(16);
-	
+
 		// Setting Zoom Controls
 		mapView.setBuiltInZoomControls(true);
 
@@ -71,30 +76,32 @@ public class ActivityEstablecimiento extends MapActivity implements
 	}
 
 	private void showLocation(Establecimiento est) {
-		
+
 		// Getting Overlays of the map
 		List<Overlay> overlays = mapView.getOverlays();
 
 		// Getting Drawable object corresponding to a resource image
-		//para los iconos http://mapicons.nicolasmollet.com/
-		Drawable drawable = getResources().getDrawable(
-				R.drawable.supermarket);
+		// para los iconos http://mapicons.nicolasmollet.com/
+		Drawable drawable = getResources().getDrawable(R.drawable.supermarket);
 
 		// Creating an ItemizedOverlay
 		LocalizacionActualOverlay locationOverlay = new LocalizacionActualOverlay(
-				drawable, h,this);
+				drawable, h, this);
 
 		// Getting the MapController
 		MapController mc = mapView.getController();
 
 		// Creating an instance of GeoPoint, to display in Google Map
-		GeoPoint p = new GeoPoint((int) (est.getDireccion().getLatitud() * 1e6), (int) (est.getDireccion().getLongitud() * 1e6));
+		GeoPoint p = new GeoPoint(
+				(int) (est.getDireccion().getLatitud() * 1e6), (int) (est
+						.getDireccion().getLongitud() * 1e6));
 
 		// Locating the point in the Google Map
 		mc.animateTo(p);
 
 		// Creating an OverlayItem to mark the point
-		OverlayItem overlayItem = new OverlayItem(p, est.getNombre(), est.getDireccion().getCalle());
+		OverlayItem overlayItem = new OverlayItem(p, est.getNombre(), est
+				.getDireccion().getCalle());
 
 		// Adding the OverlayItem in the LocationOverlay
 		locationOverlay.agregarPuntos(overlayItem);

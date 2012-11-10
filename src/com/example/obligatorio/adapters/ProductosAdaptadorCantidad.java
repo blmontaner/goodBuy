@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.example.obligatorio.dominio.Producto;
 import com.example.obligatorio.servicio.ListaPedido.ProductoCantidad;
+import com.example.obligatorio.sistema.Util;
 import com.example.obligatorio.ui.R;
 
 import android.app.Activity;
@@ -33,7 +34,6 @@ public class ProductosAdaptadorCantidad extends ArrayAdapter<ProductoCantidad> {
 		TextView cantidadTextView;
 	}
 
-	private int[] colors = new int[] { 0x30FF0000, 0x300000FF };
 
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View item = convertView;
@@ -68,8 +68,8 @@ public class ProductosAdaptadorCantidad extends ArrayAdapter<ProductoCantidad> {
 				+ "");
 		holder.cantidadTextView.setTag(productos.get(position));//////////////////////////////////////////////
 
-		int colorPos = position % colors.length;
-		item.setBackgroundColor(colors[colorPos]);
+		int colorPos = position % Util.getColoresItems().length;
+		item.setBackgroundColor(Util.getColoresItems()[colorPos]);
 		return item;
 	}
 
