@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.obligatorio.servicio.ListaResultado;
+import com.example.obligatorio.sistema.Util;
 import com.example.obligatorio.ui.R;
 
 public class ResultadoAdaptador extends ArrayAdapter<ListaResultado> {
@@ -56,6 +57,8 @@ public class ResultadoAdaptador extends ArrayAdapter<ListaResultado> {
 		holder.direccionTextView.setText(listaResultados.get(position).getEst().getDireccion().getCalle());
 		holder.totalTextView.setText("$ "+listaResultados.get(position).getTotal());
 
+		int colorPos = position % Util.getColoresItems().length;
+		item.setBackgroundColor(Util.getColoresItems()[colorPos]);
 		return item;
 	}
 

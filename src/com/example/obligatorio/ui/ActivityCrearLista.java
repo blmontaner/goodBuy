@@ -33,7 +33,7 @@ import com.woozzu.android.widget.IndexableListView;
 public class ActivityCrearLista extends Activity {
 
 	private static final int MENU_TERMINAR = Menu.FIRST;
-	private static final int MENU_VERLISTA = Menu.FIRST + 1;
+	private static final int MENU_VERLISTA = Menu.FIRST+1;
 	ListaPedido lp;
 	private ArrayList<Producto> productos = new ArrayList<Producto>();
 	public ProgressDialog dialog;
@@ -129,7 +129,7 @@ public class ActivityCrearLista extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, MENU_VERLISTA, 0, "Ver Lista");
-		menu.add(0, MENU_TERMINAR, 0, "Terminar");
+		menu.add(0, MENU_TERMINAR, 0, "Calcular");
 		return true;
 	}
 

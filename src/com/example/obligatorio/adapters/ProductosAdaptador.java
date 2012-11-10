@@ -3,9 +3,12 @@ package com.example.obligatorio.adapters;
 import java.util.ArrayList;
 
 import com.example.obligatorio.dominio.Producto;
+import com.example.obligatorio.sistema.Util;
 import com.example.obligatorio.ui.R;
 
+import android.R.color;
 import android.app.Activity;
+import android.graphics.Color;
 
 import android.view.LayoutInflater;
 
@@ -56,7 +59,7 @@ public class ProductosAdaptador extends ArrayAdapter<Producto> implements
 		return productos.get(arg0);
 	}
 
-	private int[] colors = new int[] { 0x30FF0000, 0x300000FF };
+	
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -91,8 +94,8 @@ public class ProductosAdaptador extends ArrayAdapter<Producto> implements
 		// http://www.sgoliver.net/blog/?p=1431
 
 		// http://eureka.ykyuen.info/2010/03/15/android-%E2%80%93-applying-alternate-row-color-in-listview-with-simpleadapter/
-		int colorPos = position % colors.length;
-		item.setBackgroundColor(colors[colorPos]);
+		int colorPos = position % Util.getColoresItems().length;
+		item.setBackgroundColor(Util.getColoresItems()[colorPos]);
 		return item;
 
 	}

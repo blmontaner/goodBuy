@@ -33,11 +33,13 @@
         </activity>
         <activity
             android:name="ActivityCrearLista"
-            android:label="Productos" >
+            android:label="Productos"
+            android:theme="@android:style/Theme.Light" >
         </activity>
         <activity
             android:name="ActivityListaActual"
-            android:label="Lista Actual" >
+            android:label="Lista Actual"
+            android:theme="@android:style/Theme.Light" >
         </activity>
         <activity
             android:name="ActivityEstablecimiento"
@@ -46,13 +48,18 @@
         </activity>
         <activity
             android:name="ActivityHistorial"
-            android:label="Historial de compras" >
+            android:label="Historial de compras"
+            android:theme="@android:style/Theme.Light" >
         </activity>
         <activity
             android:name="ActivityResultado"
-            android:label="Resultado" >
+            android:label="Resultado"
+            android:theme="@android:style/Theme.Light" >
         </activity>
-        <activity android:name="ActivityMap"></activity>
+        <activity
+            android:name="ActivityMap"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
     </application>
 
 </manifest>
