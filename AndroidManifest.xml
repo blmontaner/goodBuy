@@ -52,6 +52,7 @@
             android:name="ActivityResultado"
             android:label="Resultado" >
         </activity>
+        <activity android:name="ActivityMap"></activity>
     </application>
 
 </manifest>

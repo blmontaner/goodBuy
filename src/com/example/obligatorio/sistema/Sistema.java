@@ -82,4 +82,17 @@ public class Sistema {
 		base.addDireccion(currentDir);
 	}
 	
+	public int[] getCurrentLocation(){
+		int[] currentDir = new int[2];
+		if (base.isDireccionActualSeted()) {
+			Direccion dir = base.getDireccionActual();
+			currentDir[0] = (int) (dir.getLatitud() * 1e6);
+			currentDir[1] = (int) (dir.getLongitud() * 1e6);
+		} else {
+			currentDir[0] = -34903819;// ORT
+			currentDir[1] = -56190463;
+		}
+		return currentDir;
+	}
+	
 }

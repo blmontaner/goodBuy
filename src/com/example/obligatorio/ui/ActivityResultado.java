@@ -5,6 +5,8 @@ import java.util.List;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,6 +16,7 @@ import android.widget.ListView;
 import com.example.obligatorio.adapters.ResultadoAdaptador;
 import com.example.obligatorio.servicio.ListaResultado;
 import com.example.obligatorio.sistema.Sistema;
+import com.example.obligatorio.sistema.Util;
 
 public class ActivityResultado extends Activity {
 
@@ -44,9 +47,9 @@ public class ActivityResultado extends Activity {
 		
 		
 	}
-	public void mostrarPedidoPrecios(ListaResultado lres){
+	public void mostrarPedidoPrecios(final ListaResultado lres){
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-	
+		final Intent abrir = new Intent(this, ActivityMap.class);
 		String[] mensaje= new String[lres.getProductosPrecios().size()+1]; 
 		int i = 0;
 		for(ListaResultado.ProductoCantidadPrecio pcp : lres.getProductosPrecios()){
@@ -57,7 +60,19 @@ public class ActivityResultado extends Activity {
 		
 		builder.setItems(mensaje,null)
 		       .setTitle("Lista Pedido");
-	
+		builder.setPositiveButton("Ver en mapa", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            	
+            	int[] latLon = new int[2];
+            	latLon[0] = Util.getIntDirFormDouble(lres.getEst().getDireccion().getLatitud());
+            	latLon[1] = Util.getIntDirFormDouble(lres.getEst().getDireccion().getLongitud());
+            	
+    			abrir.putExtra("latLong", latLon);
+    			startActivity(abrir);
+
+            }
+        });
+		
 		AlertDialog dialog = builder.create();
 		dialog.show(); 
 	

@@ -54,15 +54,12 @@ public class ActivityEstablecimiento extends MapActivity implements
 			showLocation(est);
 		}
 
-		BaseDeDatos db = Sistema.getInstance().getBaseDeDatos();
-		if (db.isDireccionActualSeted()) {
-			Direccion dir = db.getDireccionActual();
-			lat = (int) (dir.getLatitud() * 1e6);
-			lon = (int) (dir.getLongitud() * 1e6);
-		} else {
-			lat = -34903819;// ORT
-			lon = -56190463;
-		}
+		
+		int[] currentDir = Sistema.getInstance().getCurrentLocation();
+		
+		lat=currentDir[0];
+		lon=currentDir[1];
+		
 		// 1 es todo el mapa , mas alto mas zoom
 		mapView.getController().setZoom(16);
 	
@@ -133,7 +130,6 @@ public class ActivityEstablecimiento extends MapActivity implements
 
 	}
 
-	@Override
 	public void onLocationChanged(Location location) {
 		// TODO Auto-generated method stub
 
