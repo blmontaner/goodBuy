@@ -2,10 +2,19 @@ package com.example.obligatorio.servicio;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -15,6 +24,9 @@ import com.example.obligatorio.dominio.Direccion;
 import com.example.obligatorio.dominio.Establecimiento;
 import com.example.obligatorio.dominio.Producto;
 import com.example.obligatorio.sistema.Sistema;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 public class WebServiceInteraction {
 
@@ -121,6 +133,45 @@ public class WebServiceInteraction {
 			Log.e("error", e.getMessage());
 		}
 		return productos;
+	}
+	
+	public static void buscarResultadosListaActual() {
+
+		List<ListaResultado> res = null;
+
+		try {
+			HttpClient httpClient = new DefaultHttpClient();
+			HttpPost post = new HttpPost(Sistema.URL_PEDIDO_RESULTADO);
+			post.setHeader("Content-type", "application/json");
+
+			ListaPedido lp = Sistema.getInstance().getListaPedActual();
+			
+			lp.setDir(Sistema.getInstance().getCurrentDir());
+			StringEntity request = new StringEntity(new Gson().toJson(lp),
+					HTTP.UTF_8);
+			System.out.println("==================");
+			System.out.println(new Gson().toJson(lp));
+			System.out.println("==================");
+			post.setEntity(request);
+
+			HttpResponse resp = httpClient.execute(post);
+
+			String respString = EntityUtils.toString(resp.getEntity());
+			System.out.println("==================");
+			System.out.println(respString);
+			System.out.println("==================");
+			Type type = new TypeToken<List<ListaResultado>>() {
+			}.getType();
+			res = new Gson().fromJson(respString, type);
+			Sistema.getInstance().setListaResultados(res);
+			System.out.println("==========>>>>Resutls Size "
+					+ Sistema.getInstance().getListaResultados().size());
+			System.out.println("==================END");
+
+		} catch (Exception e) {
+			Log.e("error", e.getMessage());
+		}
+
 	}
 
 }

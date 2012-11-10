@@ -73,7 +73,16 @@ public class Sistema {
 	}
 
 	public Direccion getCurrentDir() {
-		return base.getDireccionActual();
+		Direccion res ;
+		if (base.isDireccionActualSeted()) {
+			res= base.getDireccionActual();
+		}else{
+			res = new Direccion();
+			//ORT
+			res.setLatLong(-34.903819, -56.190463);
+			return res;
+		}
+		return res;
 	}
 
 	public void setCurrentDir(Direccion currentDir) {
@@ -84,14 +93,9 @@ public class Sistema {
 	
 	public int[] getCurrentLocation(){
 		int[] currentDir = new int[2];
-		if (base.isDireccionActualSeted()) {
-			Direccion dir = base.getDireccionActual();
-			currentDir[0] = (int) (dir.getLatitud() * 1e6);
-			currentDir[1] = (int) (dir.getLongitud() * 1e6);
-		} else {
-			currentDir[0] = -34903819;// ORT
-			currentDir[1] = -56190463;
-		}
+		Direccion dir = base.getDireccionActual();
+		currentDir[0] = (int) (dir.getLatitud() * 1e6);
+		currentDir[1] = (int) (dir.getLongitud() * 1e6);
 		return currentDir;
 	}
 	
