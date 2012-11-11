@@ -63,6 +63,7 @@ public class ListaResultado implements Serializable{
 	public static class ProductoCantidadPrecio implements Serializable{
 		private ListaPedido.ProductoCantidad prodCantidad;
 		private double precioProducto;
+		private boolean esPromedio;
 				
 		public ProductoCantidadPrecio(ListaPedido.ProductoCantidad pc, double precio){
 			this.prodCantidad = pc;
@@ -80,6 +81,13 @@ public class ListaResultado implements Serializable{
 		}
 		public void setPrecioProducto(double precioProducto) {
 			this.precioProducto = precioProducto;
+		}
+		public boolean isEsPromedio() {
+			return esPromedio;
+		}
+
+		public void setEsPromedio(boolean esPromedio) {
+			this.esPromedio = esPromedio;
 		}
 
 		@Override

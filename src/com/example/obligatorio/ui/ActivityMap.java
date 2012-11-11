@@ -155,8 +155,10 @@ public class ActivityMap extends MapActivity {
 		final ListaResultado lres =(ListaResultado)((LinearLayout )v).getTag();
 		String[] mensaje= new String[lres.getProductosPrecios().size()+1]; 
 		int i = 0;
+		String promedio ="";
 		for(ListaResultado.ProductoCantidadPrecio pcp : lres.getProductosPrecios()){
-			mensaje[i]= pcp.getProdCantidad().getCantidad()+" "+pcp.getProdCantidad().getProducto().GetNombre()+" $"+pcp.getPrecioProducto();
+			promedio = pcp.isEsPromedio()?"*":"";
+			mensaje[i]= pcp.getProdCantidad().getCantidad()+" "+pcp.getProdCantidad().getProducto().GetNombre()+promedio+" $"+pcp.getPrecioProducto();
 			i++;
 		}
 		mensaje[i]="Total: "+lres.getTotal();
