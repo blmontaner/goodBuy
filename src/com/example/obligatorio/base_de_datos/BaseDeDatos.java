@@ -6,6 +6,9 @@ import java.util.List;
 import com.example.obligatorio.dominio.Direccion;
 import com.example.obligatorio.dominio.Establecimiento;
 import com.example.obligatorio.dominio.Producto;
+import com.example.obligatorio.servicio.ListaPedido;
+import com.example.obligatorio.servicio.ListaResultado;
+import com.example.obligatorio.servicio.ListaResultado.ProductoCantidadPrecio;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -16,7 +19,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class BaseDeDatos extends SQLiteOpenHelper {
 
 	// Database Version
-	private static final int DATABASE_VERSION = 15;
+	private static final int DATABASE_VERSION = 16;
 
 	// Database Name
 	private static final String DATABASE_NAME = "GoodBuy";
@@ -43,8 +46,23 @@ public class BaseDeDatos extends SQLiteOpenHelper {
 	// Columnas establecimiento
 	private static final String KEY_DEPARTAMENTO = "departamento";
 	private static final String KEY_CIUDAD = "ciudad";
-	private static final String KEY_CALLE= "calle";
-	
+	private static final String KEY_CALLE = "calle";
+
+	// Tabla historial
+	private static final String TABLE_HISTORIAL = "historial";
+
+	// Columnas historial
+	private static final String KEY_IDESTABLECIMIENTO = "idEst";
+	private static final String KEY_IDPRODUCTOCANTIDAD = "idProCan";
+
+	// Tabla ProductoCantidad
+	private static final String TABLE_PRODUCTOCANTIDAD = "ProductoCantidad";
+
+	// Columnas ProductoCantidad
+	private static final String KEY_CANTIDAD = "Cantidad";
+	private static final String KEY_IDPRODUCTO = "idProducto";
+	private static final String KEY_PRECIO = "Precio";
+
 	public BaseDeDatos(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
@@ -68,9 +86,25 @@ public class BaseDeDatos extends SQLiteOpenHelper {
 		String CREATE_ESTABLECIMIENTO_TABLE = "CREATE TABLE if not exists "
 				+ TABLE_ESTABLECIMIENTO + " (" + KEY_ID + " LONG PRIMARY KEY,"
 				+ KEY_NOMBRE + " TEXT, " + KEY_LON + " DOUBLE ," + KEY_LAT
-				+ " DOUBLE ,"+ KEY_DEPARTAMENTO + " TEXT,"+ KEY_CIUDAD + " TEXT,"+ KEY_CALLE + " TEXT)";
-	
+				+ " DOUBLE ," + KEY_DEPARTAMENTO + " TEXT," + KEY_CIUDAD
+				+ " TEXT," + KEY_CALLE + " TEXT)";
+
 		db.execSQL(CREATE_ESTABLECIMIENTO_TABLE);
+
+		String CREATE_PRODUCTOCANTIDAD_TABLE = "CREATE TABLE if not exists "
+				+ TABLE_PRODUCTOCANTIDAD + " (" + KEY_IDPRODUCTO
+				+ " INTEGER PRIMARY KEY  ," + KEY_PRECIO + " DOUBLE ,"
+				+ KEY_CANTIDAD + " INTEGER ," + KEY_ID + "INTEGER,"
+				+ KEY_IDESTABLECIMIENTO + " LONG)";
+
+		db.execSQL(CREATE_PRODUCTOCANTIDAD_TABLE);
+
+		// String CREATE_HISTORIAL_TABLE = "CREATE TABLE if not exists "
+		// + TABLE_HISTORIAL + " (" + KEY_ID
+		// + "INTEGER PRIMARY KEY autoincrement," + KEY_IDESTABLECIMIENTO
+		// + " LONG)";
+		//
+		// db.execSQL(CREATE_HISTORIAL_TABLE);
 
 	}
 
@@ -81,6 +115,8 @@ public class BaseDeDatos extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCTS);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_DIR);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_ESTABLECIMIENTO);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCTOCANTIDAD);
+		// db.execSQL("DROP TABLE IF EXISTS " + TABLE_HISTORIAL);
 		// Create tables again
 		onCreate(db);
 	}
@@ -308,5 +344,36 @@ public class BaseDeDatos extends SQLiteOpenHelper {
 		// return Product list
 		return establecimientos;
 	}
+
+	public void addHistorialListaResultado(ListaResultado historial) {
+		SQLiteDatabase db = this.getWritableDatabase();
+
+		// Inserting Row
+
+		String claveHistoria = "";
+		for (ProductoCantidadPrecio proCant : historial.getProductosPrecios()) {
+			ContentValues values = new ContentValues();
+
+			values.put(KEY_IDPRODUCTO, proCant.getProdCantidad().getProducto()
+					.getId());
+			values.put(KEY_PRECIO, proCant.getPrecioProducto());
+			values.put(KEY_CANTIDAD, proCant.getProdCantidad().getCantidad());
+			values.put(KEY_ID, claveHistoria);
+
+			values.put(KEY_IDESTABLECIMIENTO, historial.getEst().getId());
+
+			// Inserting Row
+			db.insert(TABLE_PRODUCTOCANTIDAD, null, values);
+		}
+
+		db.close(); // Closing database connection
+	}
+	/*
+	String CREATE_PRODUCTOCANTIDAD_TABLE = "CREATE TABLE if not exists "
+				+ TABLE_PRODUCTOCANTIDAD + " (" + KEY_IDPRODUCTO
+				+ " INTEGER PRIMARY KEY  ," + KEY_PRECIO + " DOUBLE ,"
+				+ KEY_CANTIDAD + " INTEGER ," + KEY_ID + "INTEGER,"
+				+ KEY_IDESTABLECIMIENTO + " LONG)";
+	 */
 
 }
