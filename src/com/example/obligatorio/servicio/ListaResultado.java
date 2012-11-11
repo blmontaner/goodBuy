@@ -18,6 +18,7 @@ public class ListaResultado implements Serializable{
 	private List<ProductoCantidadPrecio> productosPrecios;	
 	private double total;
 	private Establecimiento est;
+	private String fecha;
 	
 	public ListaResultado(){
 		productosPrecios = new ArrayList<ProductoCantidadPrecio>();
@@ -58,6 +59,14 @@ public class ListaResultado implements Serializable{
 	
 	public void addProductoCantidadPrecio(ListaPedido.ProductoCantidad pp,double precio){
 		this.productosPrecios.add(new ListaResultado.ProductoCantidadPrecio(pp, precio));
+	}
+
+	public String getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
 	}
 
 	public static class ProductoCantidadPrecio implements Serializable{

@@ -143,36 +143,39 @@ public class ActivityMap extends MapActivity {
 		switch (item.getItemId()) {
 
 		case MENU_TERMINAR:
-			System.out.println("terminar...");
+			Sistema.getInstance().getBaseDeDatos().addHistorialListaResultado(Sistema.getInstance().getListaResActual());
+			System.out.println("terminar...ESTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOSEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE VAAAAAAAAAAAA");
 
 			return true;
 		}
 		return false;
 	}
-	public void baloonClick(View v){
-		final Intent abrir = new Intent(this, Principal.class);
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		final ListaResultado lres =(ListaResultado)((LinearLayout )v).getTag();
-		String[] mensaje= new String[lres.getProductosPrecios().size()+1]; 
-		int i = 0;
-		for(ListaResultado.ProductoCantidadPrecio pcp : lres.getProductosPrecios()){
-			mensaje[i]= pcp.getProdCantidad().getCantidad()+" "+pcp.getProdCantidad().getProducto().GetNombre()+" $"+pcp.getPrecioProducto();
-			i++;
-		}
-		mensaje[i]="Total: "+lres.getTotal();
-		
-		builder.setItems(mensaje,null)
-		       .setTitle("Lista Pedido");
-		builder.setPositiveButton("Terminar", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-            	Sistema.getInstance().setListaResActual(lres);
-            	startActivity(abrir);
-
-            }
-        });
-		
-		AlertDialog dialog = builder.create();
-		dialog.show(); 
-	}
+//	public void baloonClick(View v){
+//		final Intent abrir = new Intent(this, Principal.class);
+//		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//		final ListaResultado lres =(ListaResultado)((LinearLayout )v).getTag();
+//		String[] mensaje= new String[lres.getProductosPrecios().size()+1]; 
+//		int i = 0;
+//		for(ListaResultado.ProductoCantidadPrecio pcp : lres.getProductosPrecios()){
+//			mensaje[i]= pcp.getProdCantidad().getCantidad()+" "+pcp.getProdCantidad().getProducto().GetNombre()+" $"+pcp.getPrecioProducto();
+//			i++;
+//		}
+//		mensaje[i]="Total: "+lres.getTotal();
+//		
+//		builder.setItems(mensaje,null)
+//		       .setTitle("Lista Pedido");
+//		builder.setPositiveButton("Terminar", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int id) {
+//            	Sistema.getInstance().setListaResActual(lres);
+//            	Sistema.getInstance().getBaseDeDatos().addHistorialListaResultado(lres);
+//            	System.out.println("BORRARRRRRRRR TODO ESTOOOOOOOOOOO");
+//            	startActivity(abrir);
+//
+//            }
+//        });
+//		
+//		AlertDialog dialog = builder.create();
+//		dialog.show(); 
+//	}
 	
 }
