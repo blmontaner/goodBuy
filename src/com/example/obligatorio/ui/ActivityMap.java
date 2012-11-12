@@ -1,6 +1,5 @@
 package com.example.obligatorio.ui;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.app.AlertDialog;
@@ -9,11 +8,9 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.FrameLayout.LayoutParams;
+import android.widget.LinearLayout;
 
 import com.example.obligatorio.adapters.BalloonOverlayView;
 import com.example.obligatorio.dominio.Establecimiento;
@@ -22,14 +19,11 @@ import com.example.obligatorio.servicio.ListaResultado;
 import com.example.obligatorio.sistema.Sistema;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
-import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 
 public class ActivityMap extends MapActivity {
-	private static final int MENU_TERMINAR = Menu.FIRST;
-	private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
 	private MapView mapView;
 
 	/** Called when the activity is first created. */
@@ -103,9 +97,6 @@ public class ActivityMap extends MapActivity {
 		LocalizacionActualOverlay locationOverlay = new LocalizacionActualOverlay(
 				drawable, h, this);
 
-		// Getting the MapController
-		MapController mc = mapView.getController();
-
 		// Creating an instance of GeoPoint, to display in Google Map
 		GeoPoint p = new GeoPoint(
 				(int) (est.getDireccion().getLatitud() * 1e6), (int) (est
@@ -132,24 +123,6 @@ public class ActivityMap extends MapActivity {
 		return false;
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, MENU_TERMINAR, 0, "Terminar");
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-
-		case MENU_TERMINAR:
-			Sistema.getInstance().getBaseDeDatos().addHistorialListaResultado(Sistema.getInstance().getListaResActual());
-			System.out.println("terminar...ESTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOSEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE VAAAAAAAAAAAA");
-
-			return true;
-		}
-		return false;
-	}
 	public void baloonClick(View v){
 		final Intent abrir = new Intent(this, Principal.class);
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -169,10 +142,8 @@ public class ActivityMap extends MapActivity {
 		builder.setPositiveButton("Terminar", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
             	Sistema.getInstance().setListaResActual(lres);
-//            	Sistema.getInstance().getBaseDeDatos().addHistorialListaResultado(lres);
-//            	System.out.println("BORRARRRRRRRR TODO ESTOOOOOOOOOOO");
+            	Sistema.getInstance().getBaseDeDatos().addHistorialListaResultado(lres);
             	startActivity(abrir);
-
             }
         });
 		
