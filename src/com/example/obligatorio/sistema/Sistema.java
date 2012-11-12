@@ -98,5 +98,8 @@ public class Sistema {
 		currentDir[1] = Util.getIntDirFormDouble(dir.getLongitud());
 		return currentDir;
 	}
+	public List<ListaResultado> getHistorial(){
+		return base.getAllListaResultado();
+	}
 	
 }

@@ -126,7 +126,7 @@ public class WebServiceInteraction {
 				pro.SetEspecificacion(subAux[1].substring(0,
 						subAux[1].length() - 1));
 				productos.add(pro);
-				System.out.println(pro.toString());
+				//System.out.println(pro.toString());
 			}
 
 		} catch (Exception e) {

@@ -6,6 +6,10 @@ import java.util.List;
 import com.example.obligatorio.dominio.Direccion;
 import com.example.obligatorio.dominio.Establecimiento;
 import com.example.obligatorio.dominio.Producto;
+import com.example.obligatorio.servicio.ListaPedido;
+import com.example.obligatorio.servicio.ListaPedido.ProductoCantidad;
+import com.example.obligatorio.servicio.ListaResultado;
+import com.example.obligatorio.servicio.ListaResultado.ProductoCantidadPrecio;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -16,7 +20,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class BaseDeDatos extends SQLiteOpenHelper {
 
 	// Database Version
-	private static final int DATABASE_VERSION = 15;
+	private static final int DATABASE_VERSION = 28;
 
 	// Database Name
 	private static final String DATABASE_NAME = "GoodBuy";
@@ -43,8 +47,24 @@ public class BaseDeDatos extends SQLiteOpenHelper {
 	// Columnas establecimiento
 	private static final String KEY_DEPARTAMENTO = "departamento";
 	private static final String KEY_CIUDAD = "ciudad";
-	private static final String KEY_CALLE= "calle";
-	
+	private static final String KEY_CALLE = "calle";
+
+	// Tabla historial
+	private static final String TABLE_HISTORIAL = "historial";
+
+	// Columnas historial
+	private static final String KEY_IDESTABLECIMIENTO = "idEst";
+
+	// Tabla ProductoCantidad
+	private static final String TABLE_PRODUCTOCANTIDAD = "ProductoCantidad";
+
+	// Columnas ProductoCantidad
+	private static final String KEY_CANTIDAD = "Cantidad";
+	private static final String KEY_IDPRODUCTO = "idProducto";
+	private static final String KEY_PRECIO = "Precio";
+
+	private static final String KEY_FECHA = "fechaYHora";
+
 	public BaseDeDatos(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
@@ -68,9 +88,24 @@ public class BaseDeDatos extends SQLiteOpenHelper {
 		String CREATE_ESTABLECIMIENTO_TABLE = "CREATE TABLE if not exists "
 				+ TABLE_ESTABLECIMIENTO + " (" + KEY_ID + " LONG PRIMARY KEY,"
 				+ KEY_NOMBRE + " TEXT, " + KEY_LON + " DOUBLE ," + KEY_LAT
-				+ " DOUBLE ,"+ KEY_DEPARTAMENTO + " TEXT,"+ KEY_CIUDAD + " TEXT,"+ KEY_CALLE + " TEXT)";
-	
+				+ " DOUBLE ," + KEY_DEPARTAMENTO + " TEXT," + KEY_CIUDAD
+				+ " TEXT," + KEY_CALLE + " TEXT)";
+
 		db.execSQL(CREATE_ESTABLECIMIENTO_TABLE);
+
+		String CREATE_PRODUCTOCANTIDAD_TABLE = "CREATE TABLE if not exists "
+				+ TABLE_PRODUCTOCANTIDAD + " (" + KEY_IDPRODUCTO + " INTEGER ,"
+				+ KEY_PRECIO + " DOUBLE ," + KEY_CANTIDAD + " INTEGER,"
+				+ KEY_ID + " INTEGER)";
+
+		db.execSQL(CREATE_PRODUCTOCANTIDAD_TABLE);
+
+		String CREATE_HISTORIAL_TABLE = "CREATE TABLE if not exists "
+				+ TABLE_HISTORIAL + " (" + KEY_ID
+				+ " INTEGER PRIMARY KEY autoincrement," + KEY_IDESTABLECIMIENTO
+				+ " LONG , " + KEY_FECHA + " TEXT)";
+
+		db.execSQL(CREATE_HISTORIAL_TABLE);
 
 	}
 
@@ -81,6 +116,8 @@ public class BaseDeDatos extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCTS);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_DIR);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_ESTABLECIMIENTO);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCTOCANTIDAD);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_HISTORIAL);
 		// Create tables again
 		onCreate(db);
 	}
@@ -305,8 +342,120 @@ public class BaseDeDatos extends SQLiteOpenHelper {
 		}
 		cursor.close();
 		db.close();
-		// return Product list
 		return establecimientos;
 	}
 
+	public void addHistorialListaResultado(ListaResultado historial) {
+
+		SQLiteDatabase db = this.getWritableDatabase();
+
+		ContentValues values = new ContentValues();
+		values.put(KEY_IDESTABLECIMIENTO, historial.getEst().getId());
+		values.put(KEY_FECHA, historial.getFecha());
+		db.insert(TABLE_HISTORIAL, null, values);
+
+		String selectQuery = "SELECT " + KEY_ID + " FROM " + TABLE_HISTORIAL
+				+ " order by " + KEY_ID + " asc";
+		Cursor cursor = db.rawQuery(selectQuery, null);
+		int idHistorial = 1;
+		// looping through all rows and adding to list
+		if (cursor.moveToFirst()) {
+			while (cursor.moveToNext()) {
+				idHistorial = cursor.getInt(0);
+			}
+		}
+		cursor.close();
+		// System.out.println(idHistorial);
+
+		for (ProductoCantidadPrecio proCant : historial.getProductosPrecios()) {
+			values = new ContentValues();
+
+			values.put(KEY_ID, idHistorial);
+			values.put(KEY_IDPRODUCTO, proCant.getProdCantidad().getProducto()
+					.getId());
+			values.put(KEY_PRECIO, proCant.getPrecioProducto());
+			values.put(KEY_CANTIDAD, proCant.getProdCantidad().getCantidad());
+			// Inserting Row
+			db.insert(TABLE_PRODUCTOCANTIDAD, null, values);
+		}
+
+		db.close(); // Closing database connection
+	}
+
+	public List<ListaResultado> getAllListaResultado() {
+		List<ListaResultado> historiales = new ArrayList<ListaResultado>();
+		String selectQuery = "SELECT establecimiento.id , nombre, longitud,latitud, departamento,ciudad, calle, historial.id, fechaYHora "
+				+ "FROM historial,establecimiento where historial.idEst == establecimiento.id";
+		SQLiteDatabase db = this.getWritableDatabase();
+		Cursor cursor = db.rawQuery(selectQuery, null);
+
+		if (cursor.moveToFirst()) {
+			do {
+				ListaResultado historial = new ListaResultado();
+
+				Establecimiento est = new Establecimiento();
+				est.setId(cursor.getLong(0)); // Integer.parseInt(cursor.getString(0)));
+				est.setNombre(cursor.getString(1));
+				Direccion dir = new Direccion();
+				dir.setLatLong(cursor.getDouble(3), cursor.getDouble(2));
+				dir.setDepartamento(cursor.getString(4));
+				dir.setCiudad(cursor.getString(5));
+				dir.setCalle(cursor.getString(6));
+				est.setDireccion(dir);
+				historial.setEst(est);
+
+				int idHistorial = cursor.getInt(7);
+				historial.setFecha(cursor.getString(8));
+
+				List<ProductoCantidadPrecio> productosCantidadPrecio = new ArrayList<ProductoCantidadPrecio>();
+
+				selectQuery = "select * from " + TABLE_PRODUCTOCANTIDAD
+						+ " where " + KEY_ID + "==" + idHistorial;
+				Cursor cursorProductoCantidad = db.rawQuery(selectQuery, null);
+
+				if (cursorProductoCantidad.moveToFirst()) {
+					do {
+						ProductoCantidad proCantidad = new ProductoCantidad();
+						ProductoCantidadPrecio productosPrecios = new ProductoCantidadPrecio(
+								proCantidad,
+								cursorProductoCantidad.getDouble(1));
+						proCantidad.setCantidad(cursorProductoCantidad
+								.getInt(2));
+
+						selectQuery = "select * from " + TABLE_PRODUCTS
+								+ " where " + KEY_ID + "=="
+								+ cursorProductoCantidad.getInt(0);
+						Cursor cursorProducto = db.rawQuery(selectQuery, null);
+
+						Producto pro = null;
+						if (cursorProducto.moveToFirst()) {
+							do {
+								pro = new Producto();
+								pro.setId(cursorProducto.getInt(0)); // Integer.parseInt(cursor.getString(0)));
+								pro.SetNombre(cursorProducto.getString(1));
+								pro.SetMarca(cursorProducto.getString(2));
+								pro.SetEspecificacion(cursorProducto
+										.getString(3));
+
+							} while (cursorProducto.moveToNext());
+						}
+						cursorProducto.close();
+
+						proCantidad.setProducto(pro);
+
+						productosCantidadPrecio.add(productosPrecios);
+
+					} while (cursorProductoCantidad.moveToNext());
+				}
+				cursorProductoCantidad.close();
+
+				historial.setProductosPrecios(productosCantidadPrecio);
+
+				historiales.add(historial);
+			} while (cursor.moveToNext());
+		}
+		cursor.close();
+		db.close();
+		return historiales;
+	}
 }

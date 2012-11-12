@@ -1,5 +1,10 @@
 package com.example.obligatorio.adapters;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+import org.w3c.dom.ls.LSResourceResolver;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -62,7 +67,12 @@ public class BalloonOverlayView extends FrameLayout {
 				       .setTitle("Lista Pedido");
 				builder.setPositiveButton("Terminar", new DialogInterface.OnClickListener() {
 		            public void onClick(DialogInterface dialog, int id) {
+		            	SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		        		lres.setFecha(dateFormat.format(Calendar.getInstance().getTime()).toString());
+		        		
 		            	Sistema.getInstance().setListaResActual(lres);
+		            	Sistema.getInstance().getBaseDeDatos().addHistorialListaResultado(lres);
+		            	//System.out.println("BORRARRRRRRRR TODO ESTOOOOOOOOOOO");
 		            	getContext().startActivity(abrir);
 
 		            }

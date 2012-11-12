@@ -143,7 +143,8 @@ public class ActivityMap extends MapActivity {
 		switch (item.getItemId()) {
 
 		case MENU_TERMINAR:
-			System.out.println("terminar...");
+			Sistema.getInstance().getBaseDeDatos().addHistorialListaResultado(Sistema.getInstance().getListaResActual());
+			System.out.println("terminar...ESTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOSEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE VAAAAAAAAAAAA");
 
 			return true;
 		}
@@ -168,6 +169,8 @@ public class ActivityMap extends MapActivity {
 		builder.setPositiveButton("Terminar", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
             	Sistema.getInstance().setListaResActual(lres);
+//            	Sistema.getInstance().getBaseDeDatos().addHistorialListaResultado(lres);
+//            	System.out.println("BORRARRRRRRRR TODO ESTOOOOOOOOOOO");
             	startActivity(abrir);
 
             }
