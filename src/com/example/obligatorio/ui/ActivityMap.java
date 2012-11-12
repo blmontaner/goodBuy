@@ -17,8 +17,10 @@ import com.example.obligatorio.dominio.Establecimiento;
 import com.example.obligatorio.maps.LocalizacionActualOverlay;
 import com.example.obligatorio.servicio.ListaResultado;
 import com.example.obligatorio.sistema.Sistema;
+import com.example.obligatorio.sistema.Util;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
@@ -56,8 +58,27 @@ public class ActivityMap extends MapActivity {
 			showEstablecimientoLocation(lr);
 		}
 
+		
+		showHome();
+
 		mapView.getController().animateTo(new GeoPoint(lat, lon));
 
+	}
+
+	private void showHome() {
+		Drawable drawable = getResources().getDrawable(R.drawable.home);
+		LocalizacionActualOverlay locationOverlay = new LocalizacionActualOverlay(
+				drawable, h, this);
+
+		GeoPoint puntoCASA = new GeoPoint(Util.getIntDirFormDouble(Sistema
+				.getInstance().getCurrentDir().getLatitud()),
+				Util.getIntDirFormDouble(Sistema.getInstance().getCurrentDir()
+						.getLongitud()));
+		OverlayItem overlayItem = new OverlayItem(puntoCASA,
+				"Dirección Actual", null);
+		locationOverlay.agregarPuntos(overlayItem);
+		mapView.getOverlays().add(locationOverlay);
+		mapView.invalidate();
 	}
 
 	private void showEstablecimientoLocation(ListaResultado lr) {
@@ -65,7 +86,7 @@ public class ActivityMap extends MapActivity {
 		mapView.setBuiltInZoomControls(true);
 
 		// Getting Overlays of the map
-		
+
 		BalloonOverlayView bov = new BalloonOverlayView(this, 60);
 		bov.setData(lr);
 
@@ -123,32 +144,37 @@ public class ActivityMap extends MapActivity {
 		return false;
 	}
 
-	public void baloonClick(View v){
+	public void baloonClick(View v) {
 		final Intent abrir = new Intent(this, Principal.class);
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		final ListaResultado lres =(ListaResultado)((LinearLayout )v).getTag();
-		String[] mensaje= new String[lres.getProductosPrecios().size()+1]; 
+		final ListaResultado lres = (ListaResultado) ((LinearLayout) v)
+				.getTag();
+		String[] mensaje = new String[lres.getProductosPrecios().size() + 1];
 		int i = 0;
-		String promedio ="";
-		for(ListaResultado.ProductoCantidadPrecio pcp : lres.getProductosPrecios()){
-			promedio = pcp.isEsPromedio()?"*":"";
-			mensaje[i]= pcp.getProdCantidad().getCantidad()+" "+pcp.getProdCantidad().getProducto().GetNombre()+promedio+" $"+pcp.getPrecioProducto();
+		String promedio = "";
+		for (ListaResultado.ProductoCantidadPrecio pcp : lres
+				.getProductosPrecios()) {
+			promedio = pcp.isEsPromedio() ? "*" : "";
+			mensaje[i] = pcp.getProdCantidad().getCantidad() + " "
+					+ pcp.getProdCantidad().getProducto().GetNombre()
+					+ promedio + " $" + pcp.getPrecioProducto();
 			i++;
 		}
-		mensaje[i]="Total: "+lres.getTotal();
-		
-		builder.setItems(mensaje,null)
-		       .setTitle(lres.getEst().getNombre());
-		builder.setPositiveButton("Terminar", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-            	Sistema.getInstance().setListaResActual(lres);
-            	Sistema.getInstance().getBaseDeDatos().addHistorialListaResultado(lres);
-            	startActivity(abrir);
-            }
-        });
-		
+		mensaje[i] = "Total: " + lres.getTotal();
+
+		builder.setItems(mensaje, null).setTitle(lres.getEst().getNombre());
+		builder.setPositiveButton("Terminar",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						Sistema.getInstance().setListaResActual(lres);
+						Sistema.getInstance().getBaseDeDatos()
+								.addHistorialListaResultado(lres);
+						startActivity(abrir);
+					}
+				});
+
 		AlertDialog dialog = builder.create();
-		dialog.show(); 
+		dialog.show();
 	}
-	
+
 }
