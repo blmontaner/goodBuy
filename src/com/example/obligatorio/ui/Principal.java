@@ -1,9 +1,12 @@
 package com.example.obligatorio.ui;
 
+import javax.security.auth.Destroyable;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -112,7 +115,7 @@ public class Principal extends Activity implements OnClickListener {
 		// base.addProducto(pro);
 		// }
 		// }
-		
+
 		final Boolean sinEstablecimientos = base.getEstablecimientoCount() == 0;
 		final Boolean sinProductos = base.getProductCount() == 0;
 
@@ -144,4 +147,14 @@ public class Principal extends Activity implements OnClickListener {
 	public void onClick(View arg0) {
 		// TODO Auto-generated method stub
 	}
+
+	@Override
+	public void onBackPressed() {
+		//System.exit(0);
+		moveTaskToBack(true);
+//		finish();
+//		android.os.Process.killProcess(android.os.Process.myPid());
+//		super.onDestroy();
+	}
+
 }
