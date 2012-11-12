@@ -20,8 +20,9 @@ import com.example.obligatorio.sistema.Util;
 
 public class ActivityResultado extends Activity {
 
-	private ProgressDialog dialog;
-
+	//private ProgressDialog dialog;
+	private int indexAux;
+	private AlertDialog dialog = null;
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,7 @@ public class ActivityResultado extends Activity {
 			public void onItemClick(AdapterView<?> arg0, View rowView,
 					int index, long arg3) {
 
+				indexAux = index;
 				mostrarPedidoPrecios(data.get(index));
 			}
 		});
@@ -75,9 +77,33 @@ public class ActivityResultado extends Activity {
             }
         });
 		
-		AlertDialog dialog = builder.create();
+		dialog = builder.create();
 		dialog.show(); 
 	
+	}
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		// cuando giro guardo todo
+		super.onSaveInstanceState(outState);
+		if (dialog != null && dialog.isShowing()) {
+			dialog.dismiss();
+			outState.putInt("LRESINDEX", indexAux);
+		}else{
+			outState.putInt("LRESINDEX", -1);
+		}
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		// cuando "termina de girar" restablesco todo
+		super.onRestoreInstanceState(savedInstanceState);
+		
+		indexAux = savedInstanceState.getInt("LRESINDEX");
+		if (indexAux != -1) {
+			mostrarPedidoPrecios(Sistema.getInstance().getListaResultados()
+					.get(indexAux));
+		}
 	}
 
 }

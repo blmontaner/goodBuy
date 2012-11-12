@@ -27,8 +27,8 @@ import com.google.android.maps.OverlayItem;
 
 public class ActivityMap extends MapActivity {
 	private MapView mapView;
-
-	/** Called when the activity is first created. */
+	private AlertDialog dialog = null;
+//	private static ListaResultado lresSeleccionada;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -144,37 +144,68 @@ public class ActivityMap extends MapActivity {
 		return false;
 	}
 
-	public void baloonClick(View v) {
-		final Intent abrir = new Intent(this, Principal.class);
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		final ListaResultado lres = (ListaResultado) ((LinearLayout) v)
-				.getTag();
-		String[] mensaje = new String[lres.getProductosPrecios().size() + 1];
-		int i = 0;
-		String promedio = "";
-		for (ListaResultado.ProductoCantidadPrecio pcp : lres
-				.getProductosPrecios()) {
-			promedio = pcp.isEsPromedio() ? "*" : "";
-			mensaje[i] = pcp.getProdCantidad().getCantidad() + " "
-					+ pcp.getProdCantidad().getProducto().GetNombre()
-					+ promedio + " $" + pcp.getPrecioProducto();
-			i++;
+//	public void baloonClick(View v) {
+//		final ListaResultado lres = (ListaResultado) ((LinearLayout) v)
+//		.getTag();
+//		//lresSeleccionada = lres;
+//		Sistema.getInstance().setListaResActual(lres);
+//		MostrarListaResultado(lres);
+//	}
+//
+//	private void MostrarListaResultado(final ListaResultado lres) {
+//		final Intent abrir = new Intent(this, Principal.class);
+//		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//		String[] mensaje = new String[lres.getProductosPrecios().size() + 1];
+//		int i = 0;
+//		String promedio = "";
+//		for (ListaResultado.ProductoCantidadPrecio pcp : lres
+//				.getProductosPrecios()) {
+//			promedio = pcp.isEsPromedio() ? "*" : "";
+//			mensaje[i] = pcp.getProdCantidad().getCantidad() + " "
+//					+ pcp.getProdCantidad().getProducto().GetNombre()
+//					+ promedio + " $" + pcp.getPrecioProducto();
+//			i++;
+//		}
+//		mensaje[i] = "Total: " + lres.getTotal();
+//
+//		builder.setItems(mensaje, null).setTitle(lres.getEst().getNombre());
+//		builder.setPositiveButton("Terminar",
+//				new DialogInterface.OnClickListener() {
+//					public void onClick(DialogInterface dialog, int id) {
+//						Sistema.getInstance().setListaResActual(lres);
+//						Sistema.getInstance().getBaseDeDatos()
+//								.addHistorialListaResultado(lres);
+//						startActivity(abrir);
+//					}
+//				});
+//
+//		dialog = builder.create();
+//		dialog.show();
+//	}
+
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		// cuando giro guardo todo
+		super.onSaveInstanceState(outState);
+		if (dialog != null && dialog.isShowing()) {
+			dialog.dismiss();
+			outState.putBoolean("dialogMostrado", true);
+		}else{
+			outState.putBoolean("dialogMostrado", false);
 		}
-		mensaje[i] = "Total: " + lres.getTotal();
-
-		builder.setItems(mensaje, null).setTitle(lres.getEst().getNombre());
-		builder.setPositiveButton("Terminar",
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						Sistema.getInstance().setListaResActual(lres);
-						Sistema.getInstance().getBaseDeDatos()
-								.addHistorialListaResultado(lres);
-						startActivity(abrir);
-					}
-				});
-
-		AlertDialog dialog = builder.create();
-		dialog.show();
 	}
 
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		// cuando "termina de girar" restablesco todo
+		super.onRestoreInstanceState(savedInstanceState);
+		
+		if (savedInstanceState.getBoolean("dialogMostrado")) {
+			//MostrarListaResultado(Sistema.getInstance().getListaResActual());
+		}
+	}
+	
+	
+	
 }
