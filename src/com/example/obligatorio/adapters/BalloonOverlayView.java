@@ -28,7 +28,7 @@ public class BalloonOverlayView extends FrameLayout {
 
 	private LinearLayout layout;
 	private TextView nombreEst;
-	private TextView direccion;
+	private TextView precio;
 	private ListaResultado listRes;
 
 	public BalloonOverlayView(Context context, int balloonBottomOffset) {
@@ -41,7 +41,7 @@ public class BalloonOverlayView extends FrameLayout {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View v = inflater.inflate(R.layout.balloon_overlay, layout);
 		nombreEst = (TextView) v.findViewById(R.id.balloon_item_title);
-		direccion = (TextView) v.findViewById(R.id.balloon_item_snippet);
+		precio = (TextView) v.findViewById(R.id.balloon_item_snippet);
 
 		
 
@@ -64,7 +64,7 @@ public class BalloonOverlayView extends FrameLayout {
 				mensaje[i]="Total: "+lres.getTotal();
 				
 				builder.setItems(mensaje,null)
-				       .setTitle("Lista Pedido");
+				       .setTitle(lres.getEst().getNombre());
 				builder.setPositiveButton("Terminar", new DialogInterface.OnClickListener() {
 		            public void onClick(DialogInterface dialog, int id) {
 		            	SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -91,8 +91,8 @@ public class BalloonOverlayView extends FrameLayout {
 		layout.setVisibility(VISIBLE);
 		nombreEst.setVisibility(VISIBLE);
 		nombreEst.setText(item.getTitle());
-		direccion.setVisibility(VISIBLE);
-		direccion.setText(item.getSnippet());
+		precio.setVisibility(VISIBLE);
+		precio.setText(item.getSnippet());
 
 	}
 	public void setData(ListaResultado item) {
@@ -101,8 +101,8 @@ public class BalloonOverlayView extends FrameLayout {
 		nombreEst.setVisibility(VISIBLE);
 		nombreEst.setText(item.getEst().getNombre());
 		layout.setTag(item);
-		direccion.setVisibility(VISIBLE);
-		direccion.setText(item.getEst().getDireccion().getCalle());
+		precio.setVisibility(VISIBLE);
+		precio.setText("$"+item.getTotal());
 		listRes = item;
 
 	}

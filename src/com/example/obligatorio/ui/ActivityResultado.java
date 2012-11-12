@@ -61,7 +61,7 @@ public class ActivityResultado extends Activity {
 		mensaje[i]="Total: "+lres.getTotal();
 		
 		builder.setItems(mensaje,null)
-		       .setTitle("Lista Pedido");
+		       .setTitle(lres.getEst().getNombre());
 		builder.setPositiveButton("Ver en mapa", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
             	

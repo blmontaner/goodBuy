@@ -47,7 +47,7 @@ public class ActivityMap extends MapActivity {
 		int lon = currentDir[1];
 
 		// 1 es todo el mapa , mas alto mas zoom
-		mapView.getController().setZoom(16);
+		mapView.getController().setZoom(17);
 
 		// Setting Zoom Controls
 		mapView.setBuiltInZoomControls(true);
@@ -66,7 +66,7 @@ public class ActivityMap extends MapActivity {
 
 		// Getting Overlays of the map
 		
-		BalloonOverlayView bov = new BalloonOverlayView(this, 55);
+		BalloonOverlayView bov = new BalloonOverlayView(this, 60);
 		bov.setData(lr);
 
 		GeoPoint point = new GeoPoint(((int) (lr.getEst().getDireccion()
@@ -138,7 +138,7 @@ public class ActivityMap extends MapActivity {
 		mensaje[i]="Total: "+lres.getTotal();
 		
 		builder.setItems(mensaje,null)
-		       .setTitle("Lista Pedido");
+		       .setTitle(lres.getEst().getNombre());
 		builder.setPositiveButton("Terminar", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
             	Sistema.getInstance().setListaResActual(lres);
