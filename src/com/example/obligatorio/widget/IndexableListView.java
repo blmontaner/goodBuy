@@ -1,4 +1,4 @@
-package com.woozzu.android.widget;
+package com.example.obligatorio.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;

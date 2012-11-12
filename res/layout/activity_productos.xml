@@ -21,7 +21,7 @@
 
             <requestFocus />
         </EditText>
-<com.woozzu.android.widget.IndexableListView
+<com.example.obligatorio.widget.IndexableListView
 	    android:layout_width="fill_parent" 
 	    android:layout_height="fill_parent" 
 	    android:id="@+id/listView1" />
