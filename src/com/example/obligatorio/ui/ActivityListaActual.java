@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -36,6 +38,18 @@ public class ActivityListaActual extends Activity {
 		ListView lstOpciones = (ListView) findViewById(R.id.listaPorCantidad);
 
 		lstOpciones.setAdapter(adaptador);
+		
+		
+//		lstOpciones.setOnItemClickListener(new OnItemClickListener() {
+//
+//			@Override
+//			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+//					long arg3) {
+//				
+//			}
+//		});
+			
+			
 
 	}
 
@@ -70,15 +84,19 @@ public class ActivityListaActual extends Activity {
 		ProductoCantidad pro = (ProductoCantidad) valor.getTag();
 
 		if (resta == 0) {
+			
+			
 			pro.getProducto().setEnListaActual(false);
-			Sistema.getInstance().getListaPedActual()
+			int pos = Sistema.getInstance().getListaPedActual()
 					.eliminarProducto(pro.getProducto());
+			System.out.println(pos + "   posssss");
+			Integer borreEL = Sistema.getInstance().getItemsChecked().remove(pos);
+			System.out.println(borreEL + "   borreEL");
+			
 			Toast.makeText(this, "Quitado", Toast.LENGTH_SHORT).show();
-//			Animation animation = AnimationUtils.loadAnimation(
-//					ActivityListaActual.this, android.R.anim.fade_in);
-//			animation.setDuration(2500);
-//			vwParentRow.startAnimation(animation);
 			adaptador.notifyDataSetChanged();
+			
+			//Sistema.getInstance().setYaGiro(false);
 		} else {
 			pro.setCantidad(resta);
 		}

@@ -45,8 +45,13 @@ public class ListaPedido implements Serializable{
 		return ret;
 		
 	}
-	public void eliminarProducto(Producto pro){
-		this.productos.remove(new ProductoCantidad(pro,1));
+	public int eliminarProducto(Producto pro){
+		ProductoCantidad aEliminar = new ProductoCantidad(pro,1);
+		
+		//System.out.println(this.productos.indexOf(aEliminar)+ " wwwwwwwwwwwwwwwwwwwwwwwww");
+		int retorno = this.productos.indexOf(aEliminar);
+		this.productos.remove(aEliminar);
+		return retorno;
 	}
 	
 
