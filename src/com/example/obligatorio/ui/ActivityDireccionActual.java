@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.Toast;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
@@ -33,7 +34,7 @@ public class ActivityDireccionActual extends MapActivity implements
 	// http://wptrafficanalyzer.in/blog/add-marker-on-touched-location-using-google-map-in-android-example/
 	private MapView mapView;
 	// private TextView tvLocation;
-
+	private Boolean yaGiro = Sistema.getInstance().getYaGiro();
 	// Handles Taps on the Google Map
 	Handler h = new Handler() {
 
@@ -59,7 +60,13 @@ public class ActivityDireccionActual extends MapActivity implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_direccion_actual);
-
+		
+		yaGiro = !(yaGiro==null);
+//		if(yaGiro==null){
+//			yaGiro = false;
+//		}//sino es true cambiarlo despeus
+	//	System.out.println("valor oncreate " + yaGiro);
+		
 		mapView = (MapView) findViewById(R.id.mapview);
 
 		// map.getController().setCenter(getPoint(-34.903819, -56.190463));
@@ -76,8 +83,6 @@ public class ActivityDireccionActual extends MapActivity implements
 
 		// Getting the name of the best provider
 		String provider = locationManager.getBestProvider(criteria, true);
-
-		
 
 		if (provider != null) {// tengo gps
 			// Getting Current Location
@@ -97,14 +102,17 @@ public class ActivityDireccionActual extends MapActivity implements
 
 	private void LoadLocation() {
 		BaseDeDatos db = Sistema.getInstance().getBaseDeDatos();
-		if (db.isDireccionActualSeted()) {
-			Direccion dir = db.getDireccionActual();
-			showLocation( (int)(dir.getLatitud()* 1e6), (int)(dir.getLongitud()* 1e6));
-		} else {
-			int latitudeORT = -34903819;
-			int longitudeORT = -56190463;
-			showLocation(latitudeORT, longitudeORT);
-		}
+		//if (!yaGiro) {//si no giro.
+			if (db.isDireccionActualSeted()) {
+				Direccion dir = db.getDireccionActual();
+				showLocation((int) (dir.getLatitud() * 1e6),
+						(int) (dir.getLongitud() * 1e6));
+			} else {
+				int latitudeORT = -34903819;
+				int longitudeORT = -56190463;
+				showLocation(latitudeORT, longitudeORT);
+			}
+		//}
 	}
 
 	private void showLocation(int latitude, int longitude) {
@@ -115,13 +123,12 @@ public class ActivityDireccionActual extends MapActivity implements
 		List<Overlay> overlays = mapView.getOverlays();
 
 		// Getting Drawable object corresponding to a resource image
-		//para los iconos http://mapicons.nicolasmollet.com/
-		Drawable drawable = getResources().getDrawable(
-				R.drawable.home);
+		// para los iconos http://mapicons.nicolasmollet.com/
+		Drawable drawable = getResources().getDrawable(R.drawable.home);
 
 		// Creating an ItemizedOverlay
 		LocalizacionActualOverlay locationOverlay = new LocalizacionActualOverlay(
-				drawable, h,this);
+				drawable, h, this);
 
 		// Getting the MapController
 		MapController mc = mapView.getController();
@@ -129,8 +136,10 @@ public class ActivityDireccionActual extends MapActivity implements
 		// Creating an instance of GeoPoint, to display in Google Map
 		GeoPoint p = new GeoPoint(latitude, longitude);
 
-		// Locating the point in the Google Map
-		mc.animateTo(p);
+		if (!yaGiro) {
+			//Locating the point in the Google Map
+			mc.animateTo(p);
+		}
 
 		// Creating an OverlayItem to mark the point
 		OverlayItem overlayItem = new OverlayItem(p, "Dirección Actual", null);
@@ -177,14 +186,9 @@ public class ActivityDireccionActual extends MapActivity implements
 		return false;
 	}
 
-	public void onLocationChanged(Location localizacion) {//es para el gps
-		// TODO Auto-generated method stub
+	public void onLocationChanged(Location localizacion) {// es para el gps
 		showLocation((int) (localizacion.getLatitude() * 1E6),
 				(int) (localizacion.getLongitude() * 1E6));
-	//	Direccion dir = new Direccion();
-	//	dir.setLatLong(localizacion.getLongitude(), localizacion.getLatitude());
-	//	Sistema.getInstance().setCurrentDir(dir);
-		// (int)(latitude * 1E6), (int)(longitude*1E6));
 	}
 
 	public void onProviderDisabled(String provider) {
@@ -200,6 +204,36 @@ public class ActivityDireccionActual extends MapActivity implements
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		// cuando giro guardo todo
+		super.onSaveInstanceState(outState);
+		// GeoPoint center = mapView.getMapCenter();
+		// outState.putInt("lat", center.getLatitudeE6());
+		// outState.putInt("lon", center.getLongitudeE6());
+		 outState.putInt("zoom", mapView.getZoomLevel());
+		//outState.putBoolean("giro", true);
+		//System.out.println("GIROOOO");
+		Sistema.getInstance().setYaGiro(true);
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		// cuando "termina de girar" restablesco todo
+		super.onRestoreInstanceState(savedInstanceState);
+		//yaGiro = savedInstanceState.getBoolean("giro");
+		//System.out.println("valor giro " + yaGiro);
+		// GeoPoint punto = new
+		// GeoPoint(savedInstanceState.getInt("lat"),savedInstanceState.getInt("lon"));
+		// mapView.getController().setCenter(punto);
+		 mapView.getController().setZoom(savedInstanceState.getInt("zoom"));
+	}
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		Sistema.getInstance().setYaGiro(null);
 	}
 
 }

@@ -21,7 +21,7 @@ public class Sistema {
 	public final static String URL_ESTABLECIMIENTOS = "https://kitchensink-nspace.rhcloud.com/rest/productos/establecimientos";
 	public static final String URL_PRODUCTOS = "https://kitchensink-nspace.rhcloud.com/rest/productos/catalogoProductos";
 	private BaseDeDatos base;
-	
+	private Boolean yaGiro; //para los mapas , fue la unica forma que se me ocurrio
 	
 	public BaseDeDatos getBaseDeDatos() {
 		return base;
@@ -100,6 +100,14 @@ public class Sistema {
 	}
 	public List<ListaResultado> getHistorial(){
 		return base.getAllListaResultado();
+	}
+
+	public Boolean getYaGiro() {
+		return yaGiro;
+	}
+
+	public void setYaGiro(Boolean yaGiro) {
+		this.yaGiro = yaGiro;
 	}
 	
 }

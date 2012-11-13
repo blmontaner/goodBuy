@@ -40,6 +40,8 @@ public class ActivityEstablecimiento extends MapActivity implements
 		LocationListener {
 
 	private MapView mapView;
+	private Boolean yaGiro = Sistema.getInstance().getYaGiro();
+
 	// Handles Taps on the Google Map
 	Handler h = new Handler();
 
@@ -47,6 +49,8 @@ public class ActivityEstablecimiento extends MapActivity implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_direccion_actual);
+
+		yaGiro = !(yaGiro == null);
 
 		mapView = (MapView) findViewById(R.id.mapview);
 
@@ -71,7 +75,9 @@ public class ActivityEstablecimiento extends MapActivity implements
 		// Setting Zoom Controls
 		mapView.setBuiltInZoomControls(true);
 
-		mapView.getController().animateTo(new GeoPoint(lat, lon));
+		if (!yaGiro) {
+			mapView.getController().animateTo(new GeoPoint(lat, lon));
+		}
 
 	}
 
@@ -88,16 +94,10 @@ public class ActivityEstablecimiento extends MapActivity implements
 		LocalizacionActualOverlay locationOverlay = new LocalizacionActualOverlay(
 				drawable, h, this);
 
-		// Getting the MapController
-		MapController mc = mapView.getController();
-
 		// Creating an instance of GeoPoint, to display in Google Map
 		GeoPoint p = new GeoPoint(
 				(int) (est.getDireccion().getLatitud() * 1e6), (int) (est
 						.getDireccion().getLongitud() * 1e6));
-
-		// Locating the point in the Google Map
-		mc.animateTo(p);
 
 		// Creating an OverlayItem to mark the point
 		OverlayItem overlayItem = new OverlayItem(p, est.getNombre(), est
@@ -142,4 +142,23 @@ public class ActivityEstablecimiento extends MapActivity implements
 
 	}
 
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		// cuando giro guardo todo
+		super.onSaveInstanceState(outState);
+		outState.putInt("zoom", mapView.getZoomLevel());
+		Sistema.getInstance().setYaGiro(true);
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		// cuando "termina de girar" restablesco todo
+		super.onRestoreInstanceState(savedInstanceState);
+		mapView.getController().setZoom(savedInstanceState.getInt("zoom"));
+	}
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		Sistema.getInstance().setYaGiro(null);
+	}
 }
