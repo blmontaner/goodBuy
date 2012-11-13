@@ -1,5 +1,7 @@
 package com.example.obligatorio.ui;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import android.app.AlertDialog;
@@ -144,44 +146,38 @@ public class ActivityMap extends MapActivity {
 		return false;
 	}
 
-//	public void baloonClick(View v) {
-//		final ListaResultado lres = (ListaResultado) ((LinearLayout) v)
-//		.getTag();
-//		//lresSeleccionada = lres;
-//		Sistema.getInstance().setListaResActual(lres);
-//		MostrarListaResultado(lres);
-//	}
-//
-//	private void MostrarListaResultado(final ListaResultado lres) {
-//		final Intent abrir = new Intent(this, Principal.class);
-//		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//		String[] mensaje = new String[lres.getProductosPrecios().size() + 1];
-//		int i = 0;
-//		String promedio = "";
-//		for (ListaResultado.ProductoCantidadPrecio pcp : lres
-//				.getProductosPrecios()) {
-//			promedio = pcp.isEsPromedio() ? "*" : "";
-//			mensaje[i] = pcp.getProdCantidad().getCantidad() + " "
-//					+ pcp.getProdCantidad().getProducto().GetNombre()
-//					+ promedio + " $" + pcp.getPrecioProducto();
-//			i++;
-//		}
-//		mensaje[i] = "Total: " + lres.getTotal();
-//
-//		builder.setItems(mensaje, null).setTitle(lres.getEst().getNombre());
-//		builder.setPositiveButton("Terminar",
-//				new DialogInterface.OnClickListener() {
-//					public void onClick(DialogInterface dialog, int id) {
-//						Sistema.getInstance().setListaResActual(lres);
-//						Sistema.getInstance().getBaseDeDatos()
-//								.addHistorialListaResultado(lres);
-//						startActivity(abrir);
-//					}
-//				});
-//
-//		dialog = builder.create();
-//		dialog.show();
-//	}
+	public void baloonClick(View v) {
+		final ListaResultado lres = (ListaResultado) ((LinearLayout) v)
+		.getTag();
+		Sistema.getInstance().setListaResActual(lres);
+		MostrarListaResultado(lres);
+	}
+
+	private void MostrarListaResultado(final ListaResultado lres) {
+		final Intent abrir = new Intent(this, Principal.class);
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		String[] mensaje= new String[lres.getProductosPrecios().size()+1]; 
+		int i = 0;
+		for(ListaResultado.ProductoCantidadPrecio pcp : lres.getProductosPrecios()){
+			mensaje[i]= pcp.getProdCantidad().getCantidad()+" "+pcp.getProdCantidad().getProducto().GetNombre()+" $"+pcp.getPrecioProducto();
+			i++;
+		}
+		mensaje[i]="Total: "+lres.getTotal();
+		
+		builder.setItems(mensaje,null)
+		       .setTitle(lres.getEst().getNombre());
+		builder.setPositiveButton("Terminar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            	SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        		lres.setFecha(dateFormat.format(Calendar.getInstance().getTime()).toString());
+            	Sistema.getInstance().setListaResActual(lres);
+            	Sistema.getInstance().getBaseDeDatos().addHistorialListaResultado(lres);
+            	startActivity(abrir);
+            }
+        });
+		dialog = builder.create();
+		dialog.show(); 
+	}
 
 	
 	@Override
@@ -202,7 +198,7 @@ public class ActivityMap extends MapActivity {
 		super.onRestoreInstanceState(savedInstanceState);
 		
 		if (savedInstanceState.getBoolean("dialogMostrado")) {
-			//MostrarListaResultado(Sistema.getInstance().getListaResActual());
+			MostrarListaResultado(Sistema.getInstance().getListaResActual());
 		}
 	}
 	

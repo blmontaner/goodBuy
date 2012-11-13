@@ -30,6 +30,8 @@ public class BalloonOverlayView extends FrameLayout {
 	private TextView nombreEst;
 	private TextView precio;
 	private ListaResultado listRes;
+	
+	private LinearLayout layoutTAG;
 
 	public BalloonOverlayView(Context context, int balloonBottomOffset) {
 		super(context);
@@ -43,47 +45,46 @@ public class BalloonOverlayView extends FrameLayout {
 		nombreEst = (TextView) v.findViewById(R.id.balloon_item_title);
 		precio = (TextView) v.findViewById(R.id.balloon_item_snippet);
 
-		
+		layoutTAG = (LinearLayout) v.findViewById(R.id.balloon_inner_layout);
 
 		FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		params.gravity = Gravity.NO_GRAVITY;
 
 		addView(layout, params);
-		layout.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				final Intent abrir = new Intent(getContext(), Principal.class);
-				AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-				final ListaResultado lres =(ListaResultado)((LinearLayout )v).getTag();
-				String[] mensaje= new String[lres.getProductosPrecios().size()+1]; 
-				int i = 0;
-				for(ListaResultado.ProductoCantidadPrecio pcp : lres.getProductosPrecios()){
-					mensaje[i]= pcp.getProdCantidad().getCantidad()+" "+pcp.getProdCantidad().getProducto().GetNombre()+" $"+pcp.getPrecioProducto();
-					i++;
-				}
-				mensaje[i]="Total: "+lres.getTotal();
-				
-				builder.setItems(mensaje,null)
-				       .setTitle(lres.getEst().getNombre());
-				builder.setPositiveButton("Terminar", new DialogInterface.OnClickListener() {
-		            public void onClick(DialogInterface dialog, int id) {
-		            	SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-		        		lres.setFecha(dateFormat.format(Calendar.getInstance().getTime()).toString());
-		        		
-		            	Sistema.getInstance().setListaResActual(lres);
-		            	Sistema.getInstance().getBaseDeDatos().addHistorialListaResultado(lres);
-		            	//System.out.println("BORRARRRRRRRR TODO ESTOOOOOOOOOOO");
-		            	getContext().startActivity(abrir);
-
-		            }
-		        });
-				
-				AlertDialog dialog = builder.create();
-				dialog.show(); 
-			}
-			
-			});
-		// TODO Auto-generated constructor stub
+//		layout.setOnClickListener(new OnClickListener() {
+//			public void onClick(View v) {
+//				final Intent abrir = new Intent(getContext(), Principal.class);
+//				AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+//				final ListaResultado lres =(ListaResultado)((LinearLayout )v).getTag();
+//				String[] mensaje= new String[lres.getProductosPrecios().size()+1]; 
+//				int i = 0;
+//				for(ListaResultado.ProductoCantidadPrecio pcp : lres.getProductosPrecios()){
+//					mensaje[i]= pcp.getProdCantidad().getCantidad()+" "+pcp.getProdCantidad().getProducto().GetNombre()+" $"+pcp.getPrecioProducto();
+//					i++;
+//				}
+//				mensaje[i]="Total: "+lres.getTotal();
+//				
+//				builder.setItems(mensaje,null)
+//				       .setTitle(lres.getEst().getNombre());
+//				builder.setPositiveButton("Terminar", new DialogInterface.OnClickListener() {
+//		            public void onClick(DialogInterface dialog, int id) {
+//		            	SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+//		        		lres.setFecha(dateFormat.format(Calendar.getInstance().getTime()).toString());
+//		        		
+//		            	Sistema.getInstance().setListaResActual(lres);
+//		            	Sistema.getInstance().getBaseDeDatos().addHistorialListaResultado(lres);
+//		            	//System.out.println("BORRARRRRRRRR TODO ESTOOOOOOOOOOO");
+//		            	getContext().startActivity(abrir);
+//
+//		            }
+//		        });
+//				
+//				AlertDialog dialog = builder.create();
+//				dialog.show(); 
+//			}
+//			
+//			});
 	}
 
 	public void setData(OverlayItem item) {
@@ -100,7 +101,8 @@ public class BalloonOverlayView extends FrameLayout {
 		layout.setVisibility(VISIBLE);
 		nombreEst.setVisibility(VISIBLE);
 		nombreEst.setText(item.getEst().getNombre());
-		layout.setTag(item);
+		//layout.setTag(item);//////
+		layoutTAG.setTag(item);
 		precio.setVisibility(VISIBLE);
 		precio.setText("$"+item.getTotal());
 		listRes = item;
