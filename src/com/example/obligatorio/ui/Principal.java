@@ -34,7 +34,7 @@ public class Principal extends Activity implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dashboard_layout);
-		final Button btn_crearlista = (Button) findViewById(R.id.btn_create_list);
+		Button btn_crearlista = (Button) findViewById(R.id.btn_create_list);
 		Button btn_chklista = (Button) findViewById(R.id.btn_check_list);
 		Button btn_elegirestab = (Button) findViewById(R.id.btn_store);
 		Button btn_historial = (Button) findViewById(R.id.btn_history);
@@ -43,8 +43,6 @@ public class Principal extends Activity implements OnClickListener {
 
 			public void onClick(View view) {
 				// Launching News Feed Screen
-				btn_crearlista
-						.setBackgroundResource(R.drawable.create_list_hover);
 				Intent i = new Intent(getApplicationContext(),
 						ActivityCrearLista.class);
 				startActivity(i);
