@@ -70,9 +70,9 @@ public class ActivityListaActual extends Activity {
 			pro.getProducto().setEnListaActual(false);
 			int pos = Sistema.getInstance().getListaPedActual()
 					.eliminarProducto(pro.getProducto());
-			System.out.println(pos + "   posssss");
+			//System.out.println(pos + "   posssss");
 			Integer borreEL = Sistema.getInstance().getItemsChecked().remove(pos);
-			System.out.println(borreEL + "   borreEL");
+			//System.out.println(borreEL + "   borreEL");
 			
 			Toast.makeText(this, "Quitado", Toast.LENGTH_SHORT).show();
 			adaptador.notifyDataSetChanged();

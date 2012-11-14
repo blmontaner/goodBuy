@@ -182,7 +182,6 @@ public class ActivityCrearLista extends Activity {
 			pro.setEnListaActual(false);
 		}
 		for (Integer indexxx : Sistema.getInstance().getItemsChecked()) {
-			System.out.println("indexxx " + indexxx);
 			productos.get(indexxx).setEnListaActual(true);
 		}
 		adaptador.notifyDataSetChanged();
@@ -196,13 +195,18 @@ public class ActivityCrearLista extends Activity {
 				pro.setEnListaActual(false);
 			}
 			for (Integer indexxx : Sistema.getInstance().getItemsChecked()) {
-				System.out.println("indexxx " + indexxx);
 				productos.get(indexxx).setEnListaActual(true);
 			}
 		}
 
 		adaptador.notifyDataSetChanged();
 
+	}
+	@Override
+	public void onDestroy(){
+		super.onDestroy();
+		Sistema.getInstance().setItemsChecked(new ArrayList<Integer>());
+		Sistema.getInstance().setListaPedActual(new ListaPedido());
 	}
 
 }
