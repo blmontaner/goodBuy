@@ -55,7 +55,7 @@ public class ActivityListaActual extends Activity {
 
 	public void Suma(View v) {
 		LinearLayout vwParentRow = (LinearLayout) v.getParent();
-		TextView valor = (TextView) vwParentRow.getChildAt(3);
+		TextView valor = (TextView) vwParentRow.getChildAt(1);
 		int suma = Integer.parseInt(valor.getText().toString()) + 1;
 		valor.setText(suma + "");
 
@@ -74,7 +74,7 @@ public class ActivityListaActual extends Activity {
 
 	public void Resta(View v) {
 		LinearLayout vwParentRow = (LinearLayout) v.getParent();
-		TextView valor = (TextView) vwParentRow.getChildAt(3);
+		TextView valor = (TextView) vwParentRow.getChildAt(1);
 		int resta = Integer.parseInt(valor.getText().toString());
 		if (resta > 0) {
 			resta--;

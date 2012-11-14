@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:layout_weight="1"
-    android:background="#f8f9fe" >
+    android:background="#ffffff" >
     <!--  News Feed Button -->
 
     <Button
