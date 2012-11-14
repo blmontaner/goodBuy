@@ -1,7 +1,6 @@
 package com.example.obligatorio.ui;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -26,7 +25,6 @@ import com.example.obligatorio.base_de_datos.BaseDeDatos;
 import com.example.obligatorio.dominio.Producto;
 import com.example.obligatorio.servicio.ListaPedido;
 import com.example.obligatorio.servicio.ListaPedido.ProductoCantidad;
-import com.example.obligatorio.servicio.ListaResultado;
 import com.example.obligatorio.servicio.WebServiceInteraction;
 import com.example.obligatorio.sistema.Sistema;
 import com.example.obligatorio.widget.IndexableListView;
@@ -137,7 +135,6 @@ public class ActivityCrearLista extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Sistema.getInstance().setListaPedActual(lp);
-		final List<ListaResultado> ppp = new ArrayList<ListaResultado>();
 		switch (item.getItemId()) {
 		case MENU_VERLISTA:
 			Intent abrir = new Intent(this, ActivityListaActual.class);
@@ -145,21 +142,24 @@ public class ActivityCrearLista extends Activity {
 			// http://www.bogotobogo.com/Android/android10Menus.php
 			return true;
 		case MENU_TERMINAR:
-			final Intent in = new Intent(this, ActivityResultado.class);
-			dialog.setMessage("Se estan bucando los datos...");
-			dialog.setTitle("Procesando");
-			dialog.setCancelable(false);
-			dialog.show();
-			final Thread thread = new Thread(new Runnable() {
-				public void run() {
-					WebServiceInteraction.buscarResultadosListaActual();
-					dialog.dismiss();
-					startActivity(in);
-				}
-			});
+			if(lp.getProductos().size()==0){
+				Toast.makeText(this, "No tiene productos seleccionados en la lista", Toast.LENGTH_LONG).show();
+			}else{
+				final Intent in = new Intent(this, ActivityResultado.class);
+				dialog.setMessage("Se estan bucando los datos...");
+				dialog.setTitle("Procesando");
+				dialog.setCancelable(false);
+				dialog.show();
+				final Thread thread = new Thread(new Runnable() {
+					public void run() {
+						WebServiceInteraction.buscarResultadosListaActual();
+						dialog.dismiss();
+						startActivity(in);
+					}
+				});
 
-			thread.start();
-
+				thread.start();
+			}
 			return true;
 		}
 		return false;
