@@ -38,18 +38,6 @@ public class ActivityListaActual extends Activity {
 		ListView lstOpciones = (ListView) findViewById(R.id.listaPorCantidad);
 
 		lstOpciones.setAdapter(adaptador);
-		
-		
-//		lstOpciones.setOnItemClickListener(new OnItemClickListener() {
-//
-//			@Override
-//			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-//					long arg3) {
-//				
-//			}
-//		});
-			
-			
 
 	}
 
@@ -63,12 +51,6 @@ public class ActivityListaActual extends Activity {
 		pro.setCantidad(suma);
 
 		// http://androidforbeginners.blogspot.com/2010/03/clicking-buttons-in-listview-row.html
-
-		// TextView child = (TextView)vwParentRow.getChildAt(2);
-		// int c = Color.BLUE;
-
-		// vwParentRow.setBackgroundColor(c);
-		// vwParentRow.refreshDrawableState();
 
 	}
 
@@ -85,7 +67,6 @@ public class ActivityListaActual extends Activity {
 
 		if (resta == 0) {
 			
-			
 			pro.getProducto().setEnListaActual(false);
 			int pos = Sistema.getInstance().getListaPedActual()
 					.eliminarProducto(pro.getProducto());
@@ -96,7 +77,6 @@ public class ActivityListaActual extends Activity {
 			Toast.makeText(this, "Quitado", Toast.LENGTH_SHORT).show();
 			adaptador.notifyDataSetChanged();
 			
-			//Sistema.getInstance().setYaGiro(false);
 		} else {
 			pro.setCantidad(resta);
 		}
