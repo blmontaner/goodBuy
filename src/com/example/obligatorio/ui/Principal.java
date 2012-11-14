@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,11 +30,16 @@ public class Principal extends Activity implements OnClickListener {
 	// + " producto (id integer primary key"// autoincrement, "
 	// +
 	// " nombre text not null, marca text not null , especificacion text not null);";
-
+	long to = 0;
+	long tf = 0;
+	long td = 0;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dashboard_layout);
+		
+		to=System.nanoTime();
 		Button btn_crearlista = (Button) findViewById(R.id.btn_create_list);
 		Button btn_chklista = (Button) findViewById(R.id.btn_check_list);
 		Button btn_elegirestab = (Button) findViewById(R.id.btn_store);
@@ -134,12 +140,18 @@ public class Principal extends Activity implements OnClickListener {
 							base.addProducto(pro);
 						}
 					}
-
+					tf=System.nanoTime();
+					td = tf - to;
+					System.out.println("=====================================================");
+					System.out.println("================================TIEMPO PRINCIPAL:"+td);
+					System.out.println("=====================================================");
+					Log.w("goodBUY", "TIEMPO PRINCIPAL:"+td/WebServiceInteraction.nanoDiv);
 					pd.dismiss();
 				}
 
 			}).start();
 		}
+		
 	}
 
 	public void onClick(View arg0) {
