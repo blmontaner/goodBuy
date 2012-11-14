@@ -3,70 +3,76 @@
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:orientation="horizontal" >
-
+
     <LinearLayout
-        android:layout_width="185dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
         <TextView
             android:id="@+id/tvNombre"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Nombre"
             android:textSize="20dp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tvMarca"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Marca"
-            android:textSize="12dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/tvEspecificacion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Especificacion"
-            android:textSize="12dp" />
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
 
-    <CheckBox
-        android:id="@+id/checkBox2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <LinearLayout
-        android:layout_width="96dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:gravity="end" >
+                <TextView
+                    android:id="@+id/tvMarca"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Marca"
+                    android:textSize="12dp" />
 
-        <TextView
-            android:id="@+id/button1"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="34dp"
-            android:layout_height="34dp"
-            android:background="@drawable/prev"
-            android:onClick="Resta" />
+                <TextView
+                    android:id="@+id/tvEspecificacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Especificacion"
+                    android:textSize="12dp" />
+            </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvCantidad"
-            android:layout_width="34dp"
-            android:layout_height="35dp"
-            android:background="@drawable/caja"
-            android:gravity="center"
-            android:text="C"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:gravity="bottom|end" >
 
-        <TextView
-            android:id="@+id/button2"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="34dp"
-            android:layout_height="34dp"
-            android:background="@drawable/next"
-            android:onClick="Suma" />
+                <TextView
+                    android:id="@+id/button1"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/prev"
+                    android:onClick="Resta" />
+
+                <TextView
+                    android:id="@+id/tvCantidad"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/caja"
+                    android:gravity="center"
+                    android:text="C"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <TextView
+                    android:id="@+id/button2"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/next"
+                    android:onClick="Suma" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
