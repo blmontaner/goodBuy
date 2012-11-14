@@ -3,7 +3,6 @@ package com.example.obligatorio.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.R.bool;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -14,6 +13,7 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -133,7 +133,8 @@ public class ActivityCrearLista extends Activity {
 				}
 			}
 		});
-
+		//con esta linea le cerramos el teclado cuando abre la aplicacion, de forma que solo se muetre cuando toca la pantalla en el editText
+		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 	}
 
 	@Override
