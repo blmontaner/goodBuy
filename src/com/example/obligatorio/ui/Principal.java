@@ -1,5 +1,7 @@
 package com.example.obligatorio.ui;
 
+import java.util.ArrayList;
+
 import javax.security.auth.Destroyable;
 
 import android.app.Activity;
@@ -148,11 +150,12 @@ public class Principal extends Activity implements OnClickListener {
 
 	@Override
 	public void onBackPressed() {
-		//System.exit(0);
+		// System.exit(0);
+		Sistema.getInstance().setItemsChecked(new ArrayList<Integer>());
 		moveTaskToBack(true);
-//		finish();
-//		android.os.Process.killProcess(android.os.Process.myPid());
-//		super.onDestroy();
+		// finish();
+		// android.os.Process.killProcess(android.os.Process.myPid());
+		// super.onDestroy();
 	}
 
 }
