@@ -22,7 +22,6 @@ public class Sistema {
 	public static final String URL_PRODUCTOS = "https://kitchensink-nspace.rhcloud.com/rest/productos/catalogoProductos";
 	private BaseDeDatos base;
 	private Boolean yaGiro; //para los mapas , fue la unica forma que se me ocurrio
-	private Boolean yaElimino;
 	private List<Integer> itemsChecked;//auxiliar para el crear lista y lista actual
 	
 	public BaseDeDatos getBaseDeDatos() {
@@ -111,14 +110,6 @@ public class Sistema {
 
 	public void setYaGiro(Boolean yaGiro) {
 		this.yaGiro = yaGiro;
-	}
-
-	public Boolean getYaElimino() {
-		return yaElimino;
-	}
-
-	public void setYaEliminio(Boolean yaMarco) {
-		this.yaElimino = yaMarco;
 	}
 
 	public List<Integer> getItemsChecked() {
