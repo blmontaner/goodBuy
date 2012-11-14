@@ -63,7 +63,7 @@ public class Principal extends Activity implements OnClickListener {
 			public void onClick(View view) {
 				// Launching News Feed Screen
 				Intent i = new Intent(getApplicationContext(),
-						ActivityListaActual.class);
+						ActivityListaActualHistorial.class);
 				startActivity(i);
 			}
 		});

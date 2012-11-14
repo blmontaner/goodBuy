@@ -19,12 +19,23 @@ public class ProductosAdaptadorCantidad extends ArrayAdapter<ProductoCantidad> {
 
 	private Activity context;
 	private List<ProductoCantidad> productos;
+	private int layoutInt;
+	
+//	public ProductosAdaptadorCantidad(Activity context,
+//			List<ProductoCantidad> pros) {
+//		super(context, R.layout.activity_actual_items, pros);
+//		this.context = context;
+//		this.productos = pros;
+//		this.layoutInt = R.layout.activity_actual_items;
+//	}
 
 	public ProductosAdaptadorCantidad(Activity context,
-			List<ProductoCantidad> pros) {
-		super(context, R.layout.activity_actual_items, pros);
+			List<ProductoCantidad> pros, int activityActualItems) {
+		super(context, activityActualItems, pros);
 		this.context = context;
 		this.productos = pros;
+		this.layoutInt = activityActualItems;
+		// TODO Auto-generated constructor stub
 	}
 
 	static class ProductoCantidadViewHolder {
@@ -34,7 +45,6 @@ public class ProductosAdaptadorCantidad extends ArrayAdapter<ProductoCantidad> {
 		TextView cantidadTextView;
 	}
 
-
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View item = convertView;
 		ProductoCantidadViewHolder holder;
@@ -42,7 +52,7 @@ public class ProductosAdaptadorCantidad extends ArrayAdapter<ProductoCantidad> {
 		if (convertView == null) {
 
 			LayoutInflater inflater = context.getLayoutInflater();
-			item = inflater.inflate(R.layout.activity_actual_items, null);
+			item = inflater.inflate(layoutInt, null);
 
 			holder = new ProductoCantidadViewHolder();
 			holder.nombreTextView = (TextView) item.findViewById(R.id.tvNombre);
@@ -66,7 +76,7 @@ public class ProductosAdaptadorCantidad extends ArrayAdapter<ProductoCantidad> {
 				.getProducto().GetEspecificacion());
 		holder.cantidadTextView.setText(productos.get(position).getCantidad()
 				+ "");
-		holder.cantidadTextView.setTag(productos.get(position));//////////////////////////////////////////////
+		holder.cantidadTextView.setTag(productos.get(position));// ////////////////////////////////////////////
 
 		int colorPos = position % Util.getColoresItems().length;
 		item.setBackgroundColor(Util.getColoresItems()[colorPos]);

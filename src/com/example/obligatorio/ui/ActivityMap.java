@@ -1,6 +1,7 @@
 package com.example.obligatorio.ui;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import android.widget.LinearLayout;
 import com.example.obligatorio.adapters.BalloonOverlayView;
 import com.example.obligatorio.dominio.Establecimiento;
 import com.example.obligatorio.maps.LocalizacionActualOverlay;
+import com.example.obligatorio.servicio.ListaPedido;
 import com.example.obligatorio.servicio.ListaResultado;
 import com.example.obligatorio.sistema.Sistema;
 import com.example.obligatorio.sistema.Util;
@@ -179,9 +181,11 @@ public class ActivityMap extends MapActivity {
 								"dd/MM/yyyy HH:mm:ss");
 						lres.setFecha(dateFormat.format(
 								Calendar.getInstance().getTime()).toString());
-						Sistema.getInstance().setListaResActual(lres);
+						//Sistema.getInstance().setListaResActual(lres);
 						Sistema.getInstance().getBaseDeDatos()
 								.addHistorialListaResultado(lres);
+						Sistema.getInstance().setItemsChecked(new ArrayList<Integer>());
+						Sistema.getInstance().setListaPedActual(new ListaPedido());
 						startActivity(abrir);
 					}
 				});

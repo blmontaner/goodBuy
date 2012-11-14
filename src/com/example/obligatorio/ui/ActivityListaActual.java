@@ -9,7 +9,10 @@ import com.example.obligatorio.servicio.ListaPedido.ProductoCantidad;
 import com.example.obligatorio.sistema.Sistema;
 
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.SoundEffectConstants;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -33,7 +36,7 @@ public class ActivityListaActual extends Activity {
 		setContentView(R.layout.activity_actual);
 
 		adaptador = new ProductosAdaptadorCantidad(this, Sistema.getInstance()
-				.getListaPedActual().getProductos());
+				.getListaPedActual().getProductos(),R.layout.activity_actual_items);
 
 		ListView lstOpciones = (ListView) findViewById(R.id.listaPorCantidad);
 
@@ -51,6 +54,24 @@ public class ActivityListaActual extends Activity {
 		pro.setCantidad(suma);
 
 		// http://androidforbeginners.blogspot.com/2010/03/clicking-buttons-in-listview-row.html
+		
+	//	v.playSoundEffect(SoundEffectConstants.CLICK);
+	//	valor.playSoundEffect(0);
+		
+//		valor.setOnTouchListener(new OnTouchListener() {
+//			
+//			@Override
+//			public boolean onTouch(View v, MotionEvent event) {
+//				// TODO Auto-generated method stub
+//				 if (event.getAction() == MotionEvent.ACTION_DOWN)
+//	                { 
+//					 Suma(v);
+//					 System.out.println("TOCO y sumo");
+//	                }
+//				System.out.println("TOCO");
+//				return false;
+//			}
+//		});
 
 	}
 

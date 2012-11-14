@@ -41,6 +41,11 @@
             android:label="Lista Actual"
             android:theme="@android:style/Theme.Light" >
         </activity>
+         <activity
+            android:name="ActivityListaActualHistorial"
+            android:label="Ultima lista"
+            android:theme="@android:style/Theme.Light" >
+        </activity>
         <activity
             android:name="ActivityEstablecimiento"
             android:label="Establecimientos disponibles"
