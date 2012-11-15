@@ -1,34 +1,21 @@
 package com.example.obligatorio.ui;
 
-import java.util.List;
-
-import com.example.obligatorio.adapters.ProductosAdaptadorCantidad;
-import com.example.obligatorio.dominio.Producto;
-import com.example.obligatorio.servicio.ListaPedido;
-import com.example.obligatorio.servicio.WebServiceInteraction;
-import com.example.obligatorio.servicio.ListaPedido.ProductoCantidad;
-import com.example.obligatorio.sistema.Sistema;
-
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.SoundEffectConstants;
 import android.view.View;
-import android.view.View.OnTouchListener;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.R.integer;
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Intent;
+
+import com.example.obligatorio.adapters.ProductosAdaptadorCantidad;
+import com.example.obligatorio.servicio.ListaPedido.ProductoCantidad;
+import com.example.obligatorio.servicio.WebServiceInteraction;
+import com.example.obligatorio.sistema.Sistema;
 
 public class ActivityListaActual extends Activity {
 
