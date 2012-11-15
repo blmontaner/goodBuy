@@ -50,36 +50,20 @@ public class ActivityResultado extends Activity {
 		
 	}
 	public void mostrarPedidoPrecios(final ListaResultado lres){
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		final Intent abrir = new Intent(this, ActivityMap.class);
-		String[] mensaje= new String[lres.getProductosPrecios().size()+1]; 
-		int i = 0;
-		String promedio ="";
-		for(ListaResultado.ProductoCantidadPrecio pcp : lres.getProductosPrecios()){
-			promedio = pcp.isEsPromedio()?"*":"";
-			mensaje[i]= pcp.getProdCantidad().getCantidad()+" "+pcp.getProdCantidad().getProducto().GetNombre()+promedio+" $"+pcp.getPrecioProducto();
-			i++;
-		}
-		mensaje[i]="Total: "+lres.getTotal();
-		
-		builder.setItems(mensaje,null)
-		       .setTitle(lres.getEst().getNombre());
+		AlertDialog.Builder builder = Util.getDialogListaResultado(lres,this);
 		builder.setPositiveButton("Ver en mapa", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-            	
             	int[] latLon = new int[2];
             	latLon[0] = Util.getIntDirFormDouble(lres.getEst().getDireccion().getLatitud());
             	latLon[1] = Util.getIntDirFormDouble(lres.getEst().getDireccion().getLongitud());
             	
     			abrir.putExtra("latLong", latLon);
     			startActivity(abrir);
-
             }
         });
-		
 		dialog = builder.create();
 		dialog.show(); 
-	
 	}
 	
 	@Override

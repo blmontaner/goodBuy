@@ -59,21 +59,7 @@ public class ActivityHistorial extends Activity {
 	}
 
 	public void mostrarPedidoPrecios(final ListaResultado lres) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		// final Intent abrir = new Intent(this, ActivityMap.class);
-		String[] mensaje = new String[lres.getProductosPrecios().size() + 1];
-		int i = 0;
-		for (ListaResultado.ProductoCantidadPrecio pcp : lres
-				.getProductosPrecios()) {
-			mensaje[i] = pcp.getProdCantidad().getCantidad() + " "
-					+ pcp.getProdCantidad().getProducto().GetNombre() + " $"
-					+ pcp.getPrecioProducto();
-			i++;
-		}
-		mensaje[i] = "Total: " + lres.getTotal();
-
-		builder.setItems(mensaje, null).setTitle(lres.getEst().getNombre());
-
+		AlertDialog.Builder builder = Util.getDialogListaResultado(lres,this);
 		dialog = builder.create();
 		dialog.show();
 

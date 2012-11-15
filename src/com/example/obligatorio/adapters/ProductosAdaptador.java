@@ -100,20 +100,6 @@ public class ProductosAdaptador extends ArrayAdapter<Producto> implements
 
 	}
 
-	// public int getIndiceLetra(String letra) {
-	// int index = 0;
-	//
-	// for (Producto pro : productosOriginales) {
-	//
-	// if (pro.GetNombre().startsWith(letra)) {
-	// return index;
-	// }
-	//
-	// index++;
-	// }
-	// return -1;
-	//
-	// }
 
 	public void FiltrarProductos(CharSequence s) {
 		productos.clear();

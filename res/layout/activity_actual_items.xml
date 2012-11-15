@@ -40,11 +40,11 @@
                     android:text="Especificacion"
                     android:textSize="12dp" />
             </LinearLayout>
-
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="end"
+                android:layout_gravity="end|bottom"
                 android:gravity="bottom|end" >
 
                 <TextView
@@ -54,12 +54,12 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/button_prev"
                     android:onClick="Resta" />
-
+
                 <TextView
                     android:id="@+id/tvCantidad"
-                    android:layout_width="wrap_content"
+                    android:layout_width="33dp"
                     android:layout_height="match_parent"
-                    android:background="@drawable/box"
+                    android:background="@drawable/box_grey"
                     android:gravity="center"
                     android:text="C"
                     android:textAppearance="?android:attr/textAppearanceLarge" />

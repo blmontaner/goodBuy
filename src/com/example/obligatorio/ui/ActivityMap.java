@@ -161,20 +161,8 @@ public class ActivityMap extends MapActivity {
 
 	private void MostrarListaResultado(final ListaResultado lres) {
 		final Intent abrir = new Intent(this, Principal.class);
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		String[] mensaje = new String[lres.getProductosPrecios().size() + 1];
-		int i = 0;
-		for (ListaResultado.ProductoCantidadPrecio pcp : lres
-				.getProductosPrecios()) {
-			mensaje[i] = pcp.getProdCantidad().getCantidad() + " "
-					+ pcp.getProdCantidad().getProducto().GetNombre() + " $"
-					+ pcp.getPrecioProducto();
-			i++;
-		}
-		mensaje[i] = "Total: " + lres.getTotal();
-
-		builder.setItems(mensaje, null).setTitle(lres.getEst().getNombre());
-		builder.setPositiveButton("Terminar",
+		AlertDialog.Builder builder = Util.getDialogListaResultado(lres,this);
+		builder.setPositiveButton("Elegir",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						SimpleDateFormat dateFormat = new SimpleDateFormat(

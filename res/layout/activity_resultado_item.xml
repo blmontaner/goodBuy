@@ -29,11 +29,12 @@
 	         android:textSize="12dp" />
 
 	</LinearLayout>
-
+
 	<TextView
 	    android:id="@+id/LblTotalRES"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
+	    android:layout_gravity="end"
 	    android:paddingLeft="7px"
 	    android:paddingTop="21px"
 	    android:text="Total"
