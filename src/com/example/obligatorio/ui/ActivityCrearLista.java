@@ -39,7 +39,6 @@ public class ActivityCrearLista extends Activity {
 
 	public Handler responseHandler;
 	public ProductosAdaptador adaptador;
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -170,6 +169,8 @@ public class ActivityCrearLista extends Activity {
 		// cuando giro guardo todo
 		super.onSaveInstanceState(outState);
 		Sistema.getInstance().setListaPedActual(lp);
+		
+		Sistema.getInstance().setYaGiro(true);
 	}
 
 	@Override
@@ -185,6 +186,9 @@ public class ActivityCrearLista extends Activity {
 			productos.get(indexxx).setEnListaActual(true);
 		}
 		adaptador.notifyDataSetChanged();
+		
+		Sistema.getInstance().setYaGiro(false);
+		
 	}
 
 	@Override
@@ -205,8 +209,11 @@ public class ActivityCrearLista extends Activity {
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
-		Sistema.getInstance().setItemsChecked(new ArrayList<Integer>());
-		Sistema.getInstance().setListaPedActual(new ListaPedido());
+		if(Sistema.getInstance().getYaGiro()!=null & !Sistema.getInstance().getYaGiro()){
+			Sistema.getInstance().setItemsChecked(new ArrayList<Integer>());
+			Sistema.getInstance().setListaPedActual(new ListaPedido());
+			Sistema.getInstance().setYaGiro(null);
+		}
 	}
 
 }
