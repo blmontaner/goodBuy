@@ -17,9 +17,9 @@ public class Sistema {
 	private ListaPedido listaPedActual;
 	private List<ListaResultado> listaResultados;
 	private Direccion currentDir;
-	public final static String URL_PEDIDO_RESULTADO = "https://kitchensink-nspace.rhcloud.com/rest/productos/pedidoLista";
-	public final static String URL_ESTABLECIMIENTOS = "https://kitchensink-nspace.rhcloud.com/rest/productos/establecimientos";
-	public static final String URL_PRODUCTOS = "https://kitchensink-nspace.rhcloud.com/rest/productos/catalogoProductos";
+	public final static String URL_PEDIDO_RESULTADO = "https://goodbuyserver-nspace.rhcloud.com/rest/productos/pedidoLista";
+	public final static String URL_ESTABLECIMIENTOS = "https://goodbuyserver-nspace.rhcloud.com/rest/productos/establecimientos";
+	public static final String URL_PRODUCTOS = "https://goodbuyserver-nspace.rhcloud.com/rest/productos/catalogoProductos";
 	private BaseDeDatos base;
 	private Boolean yaGiro; //para los mapas , fue la unica forma que se me ocurrio
 	private List<Integer> itemsChecked;//auxiliar para el crear lista y lista actual

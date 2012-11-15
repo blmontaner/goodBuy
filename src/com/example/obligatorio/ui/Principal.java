@@ -105,22 +105,6 @@ public class Principal extends Activity implements OnClickListener {
 		Sistema.getInstance().setContextoBaseDeDatos(this);
 		// esto solo lo hago una vez en el codigo.
 		final BaseDeDatos base = Sistema.getInstance().getBaseDeDatos();
-		// ArrayList<Producto> productos = new ArrayList<Producto>();
-		// if (base.getProductCount() == 0) {
-		// try {
-		// productos = (new WebServiceInteractionObtenerProductos()
-		// .execute("https://kitchensink-nspace.rhcloud.com/rest/productos/catalogoProductos"))
-		// .get();
-		//
-		// } catch (InterruptedException e) {
-		// e.printStackTrace();
-		// } catch (ExecutionException e) {
-		// e.printStackTrace();
-		// }
-		// for (Producto pro : productos) {
-		// base.addProducto(pro);
-		// }
-		// }
 
 		final Boolean sinEstablecimientos = base.getEstablecimientoCount() == 0;
 		final Boolean sinProductos = base.getProductCount() == 0;
