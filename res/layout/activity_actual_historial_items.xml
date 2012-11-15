@@ -8,7 +8,7 @@
         android:id="@+id/tvCantidad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/caja"
+        android:background="@drawable/box"
         android:gravity="center"
         android:text="C"
         android:textAppearance="?android:attr/textAppearanceLarge" />
