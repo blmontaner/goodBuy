@@ -209,7 +209,7 @@ public class ActivityCrearLista extends Activity {
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
-		if(Sistema.getInstance().getYaGiro()!=null & !Sistema.getInstance().getYaGiro()){
+		if(Sistema.getInstance().getYaGiro() ==null || !Sistema.getInstance().getYaGiro()){
 			Sistema.getInstance().setItemsChecked(new ArrayList<Integer>());
 			Sistema.getInstance().setListaPedActual(new ListaPedido());
 			Sistema.getInstance().setYaGiro(null);
