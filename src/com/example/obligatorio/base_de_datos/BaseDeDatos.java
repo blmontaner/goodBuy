@@ -3,24 +3,23 @@ package com.example.obligatorio.base_de_datos;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.obligatorio.dominio.Direccion;
-import com.example.obligatorio.dominio.Establecimiento;
-import com.example.obligatorio.dominio.Producto;
-import com.example.obligatorio.servicio.ListaPedido;
-import com.example.obligatorio.servicio.ListaPedido.ProductoCantidad;
-import com.example.obligatorio.servicio.ListaResultado;
-import com.example.obligatorio.servicio.ListaResultado.ProductoCantidadPrecio;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.obligatorio.dominio.Direccion;
+import com.example.obligatorio.dominio.Establecimiento;
+import com.example.obligatorio.dominio.Producto;
+import com.example.obligatorio.servicio.ListaPedido.ProductoCantidad;
+import com.example.obligatorio.servicio.ListaResultado;
+import com.example.obligatorio.servicio.ListaResultado.ProductoCantidadPrecio;
+
 public class BaseDeDatos extends SQLiteOpenHelper {
 
 	// Database Version
-	private static final int DATABASE_VERSION = 28;
+	private static final int DATABASE_VERSION = 29;
 
 	// Database Name
 	private static final String DATABASE_NAME = "GoodBuy";
@@ -62,7 +61,7 @@ public class BaseDeDatos extends SQLiteOpenHelper {
 	private static final String KEY_CANTIDAD = "Cantidad";
 	private static final String KEY_IDPRODUCTO = "idProducto";
 	private static final String KEY_PRECIO = "Precio";
-
+	private static final String KEY_PROMEDIO = "promedio";
 	private static final String KEY_FECHA = "fechaYHora";
 
 	public BaseDeDatos(Context context) {
@@ -96,7 +95,7 @@ public class BaseDeDatos extends SQLiteOpenHelper {
 		String CREATE_PRODUCTOCANTIDAD_TABLE = "CREATE TABLE if not exists "
 				+ TABLE_PRODUCTOCANTIDAD + " (" + KEY_IDPRODUCTO + " INTEGER ,"
 				+ KEY_PRECIO + " DOUBLE ," + KEY_CANTIDAD + " INTEGER,"
-				+ KEY_ID + " INTEGER)";
+				+ KEY_ID + " INTEGER , " + KEY_PROMEDIO + " INTEGER)";
 
 		db.execSQL(CREATE_PRODUCTOCANTIDAD_TABLE);
 
@@ -366,7 +365,7 @@ public class BaseDeDatos extends SQLiteOpenHelper {
 		}
 		cursor.close();
 		// System.out.println(idHistorial);
-
+		int auxNum;
 		for (ProductoCantidadPrecio proCant : historial.getProductosPrecios()) {
 			values = new ContentValues();
 
@@ -375,6 +374,8 @@ public class BaseDeDatos extends SQLiteOpenHelper {
 					.getId());
 			values.put(KEY_PRECIO, proCant.getPrecioProducto());
 			values.put(KEY_CANTIDAD, proCant.getProdCantidad().getCantidad());
+			auxNum = proCant.isEsPromedio() ? 1 : 0;
+			values.put(KEY_PROMEDIO, auxNum);
 			// Inserting Row
 			db.insert(TABLE_PRODUCTOCANTIDAD, null, values);
 		}
@@ -421,7 +422,9 @@ public class BaseDeDatos extends SQLiteOpenHelper {
 								cursorProductoCantidad.getDouble(1));
 						proCantidad.setCantidad(cursorProductoCantidad
 								.getInt(2));
-
+						productosPrecios.setEsPromedio(cursorProductoCantidad
+								.getInt(4) == 1);
+						
 						selectQuery = "select * from " + TABLE_PRODUCTS
 								+ " where " + KEY_ID + "=="
 								+ cursorProductoCantidad.getInt(0);
