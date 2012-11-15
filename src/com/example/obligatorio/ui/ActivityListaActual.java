@@ -5,10 +5,13 @@ import java.util.List;
 import com.example.obligatorio.adapters.ProductosAdaptadorCantidad;
 import com.example.obligatorio.dominio.Producto;
 import com.example.obligatorio.servicio.ListaPedido;
+import com.example.obligatorio.servicio.WebServiceInteraction;
 import com.example.obligatorio.servicio.ListaPedido.ProductoCantidad;
 import com.example.obligatorio.sistema.Sistema;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.SoundEffectConstants;
 import android.view.View;
@@ -24,17 +27,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.R.integer;
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
 
 public class ActivityListaActual extends Activity {
 
 	// private ArrayList<Producto> productosSeleccionados;
 	private ProductosAdaptadorCantidad adaptador;
-
+	private static final int MENU_TERMINAR = Menu.FIRST;
+	public ProgressDialog dialog;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_actual);
-
+		
+		dialog = new ProgressDialog(this);
+		
 		adaptador = new ProductosAdaptadorCantidad(this, Sistema.getInstance()
 				.getListaPedActual().getProductos(),R.layout.activity_actual_items);
 
@@ -54,24 +62,6 @@ public class ActivityListaActual extends Activity {
 		pro.setCantidad(suma);
 
 		// http://androidforbeginners.blogspot.com/2010/03/clicking-buttons-in-listview-row.html
-		
-	//	v.playSoundEffect(SoundEffectConstants.CLICK);
-	//	valor.playSoundEffect(0);
-		
-//		valor.setOnTouchListener(new OnTouchListener() {
-//			
-//			@Override
-//			public boolean onTouch(View v, MotionEvent event) {
-//				// TODO Auto-generated method stub
-//				 if (event.getAction() == MotionEvent.ACTION_DOWN)
-//	                { 
-//					 Suma(v);
-//					 System.out.println("TOCO y sumo");
-//	                }
-//				System.out.println("TOCO");
-//				return false;
-//			}
-//		});
 
 	}
 
@@ -101,6 +91,38 @@ public class ActivityListaActual extends Activity {
 		} else {
 			pro.setCantidad(resta);
 		}
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, MENU_TERMINAR, 0, "Calcular");
+		return true;
+	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case MENU_TERMINAR:
+			if(Sistema.getInstance().getListaPedActual().getProductos().size()==0){
+				Toast.makeText(this, "No tiene productos seleccionados en la lista", Toast.LENGTH_LONG).show();
+			}else{
+				final Intent in = new Intent(this, ActivityResultado.class);
+				dialog.setMessage("Se estan bucando los datos...");
+				dialog.setTitle("Procesando");
+				dialog.setCancelable(false);
+				dialog.show();
+				final Thread thread = new Thread(new Runnable() {
+					public void run() {
+						WebServiceInteraction.buscarResultadosListaActual();
+						dialog.dismiss();
+						startActivity(in);
+					}
+				});
+
+				thread.start();
+			}
+			return true;
+		}
+		return false;
 	}
 
 }
